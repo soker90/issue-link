@@ -38,6 +38,6 @@ jobs:
         with:
           script: |
             const script = require('./.github/scripts/download.cjs')
-            await script({github, context, core, exec})
+            await script({github, context, core, exec, issue: github.event.issue})
           # echo "Issue title: ${{ github.event.issue.title }}"
           # echo "Issue body: ${{ github.event.issue.body }}"
