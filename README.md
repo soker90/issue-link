@@ -1,3 +1,4 @@
+![Proyecto top](https://img.shields.io/badge/Proyecto-molón-flat)
 # issue-link
 - La idea principal es generar una serie de ficheros en markdown con los enlaces que vaya poniendo.
 - Los enlaces serán introducidos mediante issues. Quiero algo rápido que poder usar desde el movil y no quiero preocuparme por donde se almacenan mis datos.
