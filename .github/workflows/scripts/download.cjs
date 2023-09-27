@@ -6,6 +6,6 @@ module.exports = async function download () {
     issue_number: context.issue.number
   })
 
-  core.info(data.body)
+  core.info(body)
 
 }
