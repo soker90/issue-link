@@ -1,7 +1,7 @@
 module.exports = async function download({ github, context, core, exec }) {
   core.info("Loading issue data");
 
-  core.info(JSON.stringify(github.event, null, 2));
+  core.info(JSON.stringify(github, null, 2));
   const { title, body } = github.event.issue;
 
   core.info(`Issue loaded: ${title}`);
