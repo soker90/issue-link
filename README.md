@@ -8,3 +8,8 @@
 - Puede que sea útil utilizar el sistema de comentarios para añadir notas
 - Todo esto se hará mediante github actions
 - Si se me va la pinza siempre puedo meter astro o alguna cosillas basica
+
+
+TODO:
+
+- Crear plantilla de issues con las secciones predefinidas que pueda tener
