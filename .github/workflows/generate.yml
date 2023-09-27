@@ -27,7 +27,9 @@ jobs:
       - uses: pnpm/action-setup@v2
         with:
           version: latest
-      - name: View issue information
+      - name: Download Issue
         run: |
-          echo "Issue title: ${{ github.event.issue.title }}"
-          echo "Issue body: ${{ github.event.issue.body }}"
+            const script = require('./.github/scripts/download.cjs')
+            await script({github, context, core, exec})
+          # echo "Issue title: ${{ github.event.issue.title }}"
+          # echo "Issue body: ${{ github.event.issue.body }}"
