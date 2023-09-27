@@ -21,7 +21,7 @@ const saveContent = ({ path, issue }) => {
   }
 
   markdown += "---\n";
-  writeToFile(markdown, path, issue.title, true);
+  writeToFile(markdown, path, issue.title);
   writeToFile(issue.body, path, issue.title);
 };
 
