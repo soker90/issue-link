@@ -19,16 +19,16 @@ const saveContent = ({ path, issue }) => {
       .map((label) => `  - ${label}\n`)
       .join(" ")}\n`;
   }
-  
+
   markdown += "---\n";
-  writeToFile(markdown, path, issue.title);
+  writeToFile(markdown, path, issue.title, true);
   writeToFile(issue.body, path, issue.title);
 };
 
-const writeToFile = (string, path, nameFile) =>
+const writeToFile = (string, path, nameFile, overwrite = false) =>
   fs.writeFileSync(`${path}/${toKebabCase(nameFile)}.md`, string, {
     encoding: "utf8",
-    overwrite: true,
+    overwrite,
   });
 
 /**
