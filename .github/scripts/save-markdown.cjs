@@ -10,7 +10,22 @@ const toKebabCase = (phrase) => {
   return words.join("-");
 };
 
-const saveReadmeContent = (string, path, nameFile) =>
+const saveContent = ({ path, issue }) => {
+  let markdown = "---\n";
+  markdown += `'title: ${issue.title}\n'`;
+
+  if (issue.labels?.length > 0) {
+    markdown += `labels:\n ${issue.labels
+      .map((label) => `  - ${label}\n`)
+      .join(" ")}\n`;
+  }
+  
+  markdown += "---\n";
+  writeToFile(markdown, path, issue.title);
+  writeToFile(issue.body, path, issue.title);
+};
+
+const writeToFile = (string, path, nameFile) =>
   fs.writeFileSync(`${path}/${toKebabCase(nameFile)}.md`, string, {
     encoding: "utf8",
     overwrite: true,
@@ -30,11 +45,11 @@ module.exports = async function download(
 ) {
   core.info("Loading issue data");
 
-  const { title, body } = issue;
+  const { title } = issue;
   core.info(`Issue loaded: ${title}`);
 
   core.info("Updating markdown file");
-  saveReadmeContent(body, path, title);
+  saveContent({ path, issue });
 
   core.info("Current markdown file updated");
 };

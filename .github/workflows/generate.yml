@@ -31,6 +31,7 @@ jobs:
         uses: actions/github-script@v5
         id: download-issue
         with:
+          github-token: 1
           script: |
             const issue = ${{toJSON(github.event.issue)}}
 
