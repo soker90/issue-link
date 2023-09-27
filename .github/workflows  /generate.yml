@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - source
+  issues:
+    types:
+      [
+        opened,
+        closed,
+        edited,
+        milestoned,
+        labeled,
+        unlabeled,
+        reopened,
+        demilestoned,
+      ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: pnpm/action-setup@v2
+        with:
+          version: latest
