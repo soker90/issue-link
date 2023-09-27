@@ -22,9 +22,6 @@ on:
 jobs:
   download:
     runs-on: ubuntu-latest
-    outputs:
-      title: ${{ steps.download-issue.outputs.title }}
-      body: ${{ steps.download-issue.outputs.body }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -39,7 +36,7 @@ jobs:
             const issue = ${{toJSON(github.event.issue)}}
 
             const script = require('./.github/scripts/save-markdown.cjs')
-            await script({github, context, core, exec, issue: ${{toJSON(github.event.issue)}} }, './src/content/link')
+            await script({github, context, core, exec, issue: ${{toJSON(github.event.issue)}} }, 'src/content/link')
 
   
       - name: Update markdown file
@@ -48,33 +45,7 @@ jobs:
           GITHUB_USER: soker90
           GITHUB_EMAIL: eduardo.parramazuecos@telefonica.com
         with:
-          add: 'README.md'
+          add: 'src/content/link'
           author_name: ${{ env.GITHUB_USER }}
           author_email: ${{ env.GITHUB_EMAIL }}
           message: 'Update issue file'
-
-
-  #           const a = require('./.github/scripts/download.cjs')
-  #           await a({github, context, core, exec, issue: ${{toJSON(github.event.issue)}} })
-  
-  # save:
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #       with:
-  #         fetch-depth: 0
-
-  #     - name: Save Issue to markdown
-  #       uses: actions/github-script@v5
-  #       id: save-issue
-  #       with:
-  #         github-token: 1
-  #         script: |
-  #           const script = require('./.github/scripts/save-markdown.cjs')
-  #           const needsObject = ${{ toJSON(needs) }}
-  #           await script(
-  #             {github, context, core, exec },
-  #             {title: needsObject.download-issue.outputs.title, body: needsObject.download-issue.outputs.body}
-  #           )
-  #         # echo "Issue title: ${{ github.event.issue.title }}"

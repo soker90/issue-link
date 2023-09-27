@@ -4,7 +4,9 @@ const path = require('path');
 const saveReadmeContent = (string, path, nameFile) =>
   fs.writeFileSync(`${path}/${nameFile}.md`, string, {
     encoding: 'utf8',
+    overwrite: true,
   });
+
 
 /**
  * @param {{
