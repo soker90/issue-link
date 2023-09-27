@@ -1,7 +1,6 @@
 const github = require("@actions/github");
 const fs = require("fs");
 const path = require("path");
-const { repoConfig, slogan, base } = require("../src/.vuepress/config");
 
 const { owner, repo } = repoConfig;
 const issueFile = path.resolve(__dirname, "./issues.json");
