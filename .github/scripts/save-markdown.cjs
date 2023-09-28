@@ -8,7 +8,7 @@ const formatBody = (body) => {
 
   while ((match = regex.exec(body)) !== null) {
     const section = match[1];
-    const content = match[2];
+    const content = match[2].trim();
 
     elements[section] = content;
   }
