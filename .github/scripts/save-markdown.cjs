@@ -14,10 +14,11 @@ const saveContent = ({ path, issue, core }) => {
   let markdown = "---\n";
   markdown += `title: ${issue.title}\n'`;
 
-  if (issue.labels?.length > 0) {
+  if (issue.labels && issue.labels.length > 0) {
+    core.info(`Labels: ${issue.labels}`);
     markdown += `labels:\n ${issue.labels
-      .map((label) => `  - ${label}\n`)
-      .join(" ")}\n`;
+      .map((label) => `  - ${label}`)
+      .join("\n")}`;
   }
 
   markdown += "---\n";
