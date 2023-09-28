@@ -1,21 +1,11 @@
 const fs = require("fs");
 const path = require("path");
 
-const toKebabCase = (phrase) => {
-  const words = phrase.split(" ");
-  for (let i = 0; i < words.length; i++) {
-    words[i] = words[i].toLowerCase();
-    words[i] = words[i].replace(/([a-z])([A-Z])/g, "$1-$2");
-  }
-  return words.join("-");
-};
-
 const saveContent = ({ path, issue, core }) => {
   let markdown = "---\n";
   markdown += `title: ${issue.title}\n'`;
 
   if (issue.labels && issue.labels.length > 0) {
-    core.info(`Labels: ${issue.labels}`);
     markdown += `labels:\n ${issue.labels
       .map((label) => `  - ${label}`)
       .join("\n")}`;
@@ -23,13 +13,14 @@ const saveContent = ({ path, issue, core }) => {
 
   markdown += "---\n";
   markdown += issue.body;
+
   core.info(`Markdown: ${markdown}`);
-  writeToFile(markdown, path, issue.title);
-  // writeToFile(issue.body, path, issue.title);
+
+  writeToFile(markdown, path, issue.number);
 };
 
 const writeToFile = (string, path, nameFile, overwrite = false) =>
-  fs.writeFileSync(`${path}/${toKebabCase(nameFile)}.md`, string, {
+  fs.writeFileSync(`${path}/${nameFile}.md`, string, {
     encoding: "utf8",
     overwrite,
   });
