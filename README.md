@@ -6,11 +6,12 @@
 - A los issues se podran enlazar otros relacionado, y añadir links externos como material de apoyo
 - Ademas de los links, se podrá añadir el texto e imagenes que se quiera
 - Habrá que definir que etiquetas se podrán poner y en función de eso organizar el contenido
-- Puede que sea útil utilizar el sistema de comentarios para añadir notas
+- Puede que sea útil utilizar el sistema de comentarios para añadir notas ✖️
 - Todo esto se hará mediante github actions
-- Si se me va la pinza siempre puedo meter astro o alguna cosillas basica
+- Si se me va la pinza siempre puedo meter astro o alguna cosillas basica 😆
+- Añadir buscador, algolia?
 
 
 TODO:
 
-- Crear plantilla de issues con las secciones predefinidas que pueda tener
+- Crear plantilla de issues con las secciones predefinidas que pueda tener ✔️
