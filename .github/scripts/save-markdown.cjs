@@ -43,7 +43,8 @@ module.exports = async function download(
   const { title } = issue;
   core.info(`Issue loaded: ${title}`);
 
-  core.info(JSON.stringify(issue, null, 2));
+  core.info(JSON.stringify(github, null, 2));
+  core.info(JSON.stringify(context, null, 2));
 
   core.info("Updating markdown file");
   saveContent({ path, issue, core });
