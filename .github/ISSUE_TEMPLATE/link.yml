@@ -1,0 +1,32 @@
+name: Enlaces
+description: Añade un enlace
+title: "[link]: "
+labels: ["in-review"]
+assignees:
+  - soker90
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Envío de enlace
+  - type: input
+    id: link
+    attributes:
+      label: Enlace
+      description: Introduce el enlace
+  - type: textarea
+    id: body
+    attributes:
+      label: Cuerpo
+      description: Texto que acompaña al enlace
+  - type: textarea
+    id: more
+    attributes:
+      label: Enlaces adicionales
+      description: Un enlace por línea, comenzando por guión y espacio
+  - type: textarea
+    id: internal
+    attributes:
+      label: Otros enlaces internos relacionados
+      description: Un enlace por línea, comenzando por guión y espacio
+  
