@@ -6,6 +6,8 @@ const saveContent = ({ path, issue, core }) => {
   markdown += `title: ${issue.title}\n'`;
 
   if (issue.labels && issue.labels.length > 0) {
+    core.info("Labels found");
+    core.info(`Labels: ${JSON.stringify(issue.labels)}`);
     markdown += `labels:\n ${issue.labels
       .map((label) => `  - ${label}`)
       .join("\n")}`;
