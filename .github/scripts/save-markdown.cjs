@@ -3,13 +3,13 @@ const path = require("path");
 
 const saveContent = ({ path, issue, core }) => {
   let markdown = "---\n";
-  markdown += `title: ${issue.title}\n'`;
+  markdown += `title: ${issue.title}\n`;
 
   if (issue.labels && issue.labels.length > 0) {
     core.info("Labels found");
     markdown += `labels:\n ${issue.labels
       .map((label) => `  - ${label.name}`)
-      .join("\n")}`;
+      .join("\n")}\n`;
   }
 
   markdown += "---\n";
