@@ -17,8 +17,13 @@ const formatBody = (body) => {
 };
 
 const saveContent = ({ path, issue, core }) => {
+  const formated = formatBody(issue.body);
+
   let markdown = "---\n";
   markdown += `title: ${issue.title}\n`;
+  markdown += `link: ${formated.Enlace}\n`;
+  markdown += `aditional:\n${formated["Enlaces adicionales"]}\n`;
+  markdown += `internal:\n${formated["Otros enlaces internos relacionados"]}\n`;
 
   if (issue.labels && issue.labels.length > 0) {
     core.info("Labels found");
@@ -30,9 +35,8 @@ const saveContent = ({ path, issue, core }) => {
   markdown += "---\n";
   // markdown += issue.body;
 
-  const formated = formatBody(issue.body);
   markdown += formated["Cuerpo"];
-  
+
   core.info(`Markdown: ${markdown}`);
 
   writeToFile(markdown, path, issue.number);
