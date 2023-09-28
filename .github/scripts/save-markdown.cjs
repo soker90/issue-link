@@ -7,7 +7,7 @@ const formatBody = (body) => {
   let match;
 
   while ((match = regex.exec(body)) !== null) {
-    const section = match[1];
+    const section = match[1].trim();
     const content = match[2].trim();
 
     elements[section] = content;
@@ -28,8 +28,11 @@ const saveContent = ({ path, issue, core }) => {
   }
 
   markdown += "---\n";
-  markdown += issue.body;
+  // markdown += issue.body;
 
+  const formated = formatBody(issue.body);
+  markdown += formated["Cuerpo"];
+  
   core.info(`Markdown: ${markdown}`);
 
   writeToFile(markdown, path, issue.number);
