@@ -27,6 +27,14 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Check Issue Title
+        id: check-issue-title
+        run: |
+          if [[ "${{ github.event.issue.title }}" != "[link]*" ]]; then
+            echo "The issue title does not start with [link]. Exiting workflow."
+            exit 0
+          fi
+
       - name: Download Issue
         uses: actions/github-script@v5
         id: download-issue

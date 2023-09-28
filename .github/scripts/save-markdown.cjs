@@ -16,11 +16,13 @@ const formatBody = (body) => {
   return elements;
 };
 
+const clearTitle = (title) => title.replace(/\[link\]: /, "");
+
 const saveContent = ({ path, issue, core }) => {
   const formated = formatBody(issue.body);
 
   let markdown = "---\n";
-  markdown += `title: ${issue.title}\n`;
+  markdown += `title: ${clearTitle(issue.title)}\n`;
   markdown += `link: ${formated.Enlace}\n`;
   markdown += `aditional:\n${formated["Enlaces adicionales"]}\n`;
   markdown += `internal:\n${formated["Otros enlaces internos relacionados"]}\n`;
