@@ -36,15 +36,12 @@ const saveContent = ({ path, issue, core }) => {
   }
 
   markdown += "---\n";
-  // markdown += issue.body;
 
   markdown += formated["Cuerpo"];
 
   core.info(`Markdown: ${markdown}`);
 
   writeToFile(markdown, path, issue.number);
-
-  core.info(JSON.stringify(formatBody(issue.body)));
 };
 
 const writeToFile = (string, path, nameFile, overwrite = false) =>
