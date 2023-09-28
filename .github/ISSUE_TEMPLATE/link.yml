@@ -19,7 +19,6 @@ body:
     attributes:
       label: <--> Cuerpo
       description: Texto que acompaña al enlace
-      render: Markdown
   - type: textarea
     id: more
     attributes:

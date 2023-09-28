@@ -1,6 +1,19 @@
 const fs = require("fs");
 const path = require("path");
 
+const formatBody = (body) => {
+  const elementos = {};
+  const regex = /### <--> ([^\n]+)\n([\s\S]*?)(?=(### <--> |$))/g;
+  let match;
+
+  while ((match = regex.exec(body)) !== null) {
+    const section = match[1];
+    const content = match[2];
+
+    elementos[section] = content;
+  }
+};
+
 const saveContent = ({ path, issue, core }) => {
   let markdown = "---\n";
   markdown += `title: ${issue.title}\n`;
@@ -18,6 +31,8 @@ const saveContent = ({ path, issue, core }) => {
   core.info(`Markdown: ${markdown}`);
 
   writeToFile(markdown, path, issue.number);
+
+  core.info(JSON.stringify(formatBody(issue.body)));
 };
 
 const writeToFile = (string, path, nameFile, overwrite = false) =>
