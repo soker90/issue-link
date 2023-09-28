@@ -23,6 +23,7 @@ const saveContent = ({ path, issue, core }) => {
 
   let markdown = "---\n";
   markdown += `title: ${clearTitle(issue.title)}\n`;
+  markdown += `publishDate: ${issue.updated_at}\n`;
   markdown += `link: ${formated.Enlace}\n`;
   markdown += `aditional:\n${formated["Enlaces adicionales"]}\n`;
   markdown += `internal:\n${formated["Otros enlaces internos relacionados"]}\n`;
