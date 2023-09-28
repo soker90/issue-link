@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 const formatBody = (body) => {
-  const elementos = {};
+  const elements = {};
   const regex = /### <--> ([^\n]+)\n([\s\S]*?)(?=(### <--> |$))/g;
   let match;
 
@@ -10,8 +10,10 @@ const formatBody = (body) => {
     const section = match[1];
     const content = match[2];
 
-    elementos[section] = content;
+    elements[section] = content;
   }
+
+  return elements;
 };
 
 const saveContent = ({ path, issue, core }) => {
@@ -58,8 +60,7 @@ module.exports = async function download(
   const { title } = issue;
   core.info(`Issue loaded: ${title}`);
 
-  core.info(JSON.stringify(github, null, 2));
-  core.info(JSON.stringify(context, null, 2));
+  core.info(JSON.stringify(issue, null, 2));
 
   core.info("Updating markdown file");
   saveContent({ path, issue, core });
