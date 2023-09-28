@@ -7,7 +7,7 @@ const saveContent = ({ path, issue, core }) => {
 
   if (issue.labels && issue.labels.length > 0) {
     core.info("Labels found");
-    markdown += `labels:\n ${issue.labels
+    markdown += `labels:\n${issue.labels
       .map((label) => `  - ${label.name}`)
       .join("\n")}\n`;
   }
