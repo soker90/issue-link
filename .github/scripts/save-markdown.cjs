@@ -25,12 +25,18 @@ const saveContent = ({ path, issue, core }) => {
   markdown += `title: ${clearTitle(issue.title)}\n`;
   markdown += `publishDate: ${issue.updated_at}\n`;
   markdown += `link: ${formated.Enlace}\n`;
-  markdown += `aditional:\n${formated["Enlaces adicionales"]}\n`;
-  markdown += `internal:\n${formated["Otros enlaces internos relacionados"]}\n`;
+
+  const aditional = formated["Enlaces adicionales"]
+  if(aditional)
+    markdown += `aditional:\n${aditional}\n`;
+
+  const internal = formated["Otros enlaces internos relacionados"]
+  if(internal)
+    markdown += `internal:\n${internal}\n`;
 
   if (issue.labels && issue.labels.length > 0) {
     core.info("Labels found");
-    markdown += `labels:\n${issue.labels
+    markdown += `tags:\n${issue.labels
       .map((label) => `  - ${label.name}`)
       .join("\n")}\n`;
   }
