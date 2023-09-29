@@ -18,6 +18,8 @@ const formatBody = (body) => {
 
 const clearTitle = (title) => title.replace(/\[link\]: /, "");
 
+const isFieldValid = (field) => field && field!=='_No response_';
+
 const saveContent = ({ path, issue, core }) => {
   const formated = formatBody(issue.body);
 
@@ -26,19 +28,19 @@ const saveContent = ({ path, issue, core }) => {
   markdown += `publishDate: ${issue.updated_at}\n`;
 
   const link = formated["Enlace"]
-  if(link)
+  if(isFieldValid(link))
     markdown += `link: ${link}\n`;
 
     const excerpt = formated["Descripción"]
-    if(excerpt)
+    if(isFieldValid(excerpt))
       markdown += `excerpt: ${excerpt}\n`;
 
   const aditional = formated["Enlaces adicionales"]
-  if(aditional)
+  if(isFieldValid(aditional))
     markdown += `aditional:\n${aditional}\n`;
 
   const internal = formated["Otros enlaces internos relacionados"]
-  if(internal)
+  if(isFieldValid(internal))
     markdown += `internal:\n${internal}\n`;
 
   if (issue.labels && issue.labels.length > 0) {
@@ -51,7 +53,7 @@ const saveContent = ({ path, issue, core }) => {
   markdown += "---\n";
 
   const body = formated["Cuerpo"];
-  if(body)
+  if(isFieldValid(body))
     markdown += body;
 
   core.info(`Markdown: ${markdown}`);
