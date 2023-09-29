@@ -44,7 +44,7 @@ jobs:
             const issue = ${{toJSON(github.event.issue)}}
 
             const script = require('./.github/scripts/save-markdown.cjs')
-            await script({github, context, core, exec, issue: ${{toJSON(github.event.issue)}} }, 'src/content/link')
+            await script({github, context, core, exec, issue: ${{toJSON(github.event.issue)}} }, 'src/content/post')
 
   
       - name: Update markdown file
