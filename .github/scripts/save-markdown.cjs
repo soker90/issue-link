@@ -24,7 +24,10 @@ const saveContent = ({ path, issue, core }) => {
   let markdown = "---\n";
   markdown += `title: ${clearTitle(issue.title)}\n`;
   markdown += `publishDate: ${issue.updated_at}\n`;
-  markdown += `link: ${formated.Enlace}\n`;
+
+  const link = formated["Enlace"]
+  if(link)
+    markdown += `link: ${link}\n`;
 
   const aditional = formated["Enlaces adicionales"]
   if(aditional)
@@ -43,7 +46,9 @@ const saveContent = ({ path, issue, core }) => {
 
   markdown += "---\n";
 
-  markdown += formated["Cuerpo"];
+  const body = formated["Cuerpo"];
+  if(body)
+    markdown += body;
 
   core.info(`Markdown: ${markdown}`);
 
