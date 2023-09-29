@@ -28,7 +28,4 @@ export const footerData = {
     { ariaLabel: 'RSS', icon: 'tabler:rss', href: getAsset('/rss.xml') },
     { ariaLabel: 'Github', icon: 'tabler:brand-github', href: 'https://github.com/soker90/issue-link' },
   ],
-  footNote: `
-    Edu(soker)
-  `,
 };
