@@ -29,6 +29,6 @@ export const footerData = {
     { ariaLabel: 'Github', icon: 'tabler:brand-github', href: 'https://github.com/soker90/issue-link' },
   ],
   footNote: `
-    Edu (@soker90)
+    Edu(soker)
   `,
 };

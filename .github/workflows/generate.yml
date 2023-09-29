@@ -8,7 +8,7 @@ on:
     types:
       [
         opened,
-        closed,
+        # closed,
         edited,
         milestoned,
         labeled,
@@ -16,8 +16,6 @@ on:
         reopened,
         demilestoned,
       ]
-
-  workflow_dispatch:
 
 jobs:
   download:
@@ -48,12 +46,7 @@ jobs:
 
   
       - name: Update markdown file
-        uses: EndBug/add-and-commit@v7
-        env:
-          GITHUB_USER: soker90
-          GITHUB_EMAIL: eduparra90@gmail.com
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          add: 'src/content/post'
-          author_name: ${{ env.GITHUB_USER }}
-          author_email: ${{ env.GITHUB_EMAIL }}
-          message: 'Update issue file'
+          file_pattern: 'src/content/post/*.md'
+          commit_message: 'Update issue file'

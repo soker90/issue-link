@@ -3,7 +3,7 @@ const path = require("path");
 
 const formatBody = (body) => {
   const elements = {};
-  const regex = /### <--> ([^\n]+)\n([\s\S]*?)(?=(### <--> |$))/g;
+  const regex = /### --> ([^\n]+)\n([\s\S]*?)(?=(### --> |$))/g;
   let match;
 
   while ((match = regex.exec(body)) !== null) {
@@ -28,6 +28,10 @@ const saveContent = ({ path, issue, core }) => {
   const link = formated["Enlace"]
   if(link)
     markdown += `link: ${link}\n`;
+
+    const excerpt = formated["Descripción"]
+    if(excerpt)
+      markdown += `excerpt: ${excerpt}\n`;
 
   const aditional = formated["Enlaces adicionales"]
   if(aditional)
