@@ -17,4 +17,4 @@ TODO:
 - Crear plantilla de issues con las secciones predefinidas que pueda tener ✔️
 - Convertir issues en archivos markdown ✔️ 🤔 ⁉️
 - Generar la vista de pressentación 🚿
-- Subir a github pages
+- Subir a github pages ✔️
