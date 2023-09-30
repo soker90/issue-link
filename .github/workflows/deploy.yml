@@ -33,3 +33,14 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
+
+  update-profile:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update personal readme
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.PAT }}
+          repository: soker90/soker90
+          event-type: update-links
