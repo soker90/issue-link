@@ -54,6 +54,9 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
     author,
     draft = false,
     metadata = {},
+    internal,
+    aditional,
+    link
   } = data;
 
   const slug = cleanSlug(rawSlug); // cleanSlug(rawSlug.split('/').pop());
@@ -77,6 +80,10 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
     category: category,
     tags: tags,
     author: author,
+    link,
+
+    internal,
+    aditional,
 
     draft: draft,
 

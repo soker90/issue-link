@@ -50,6 +50,7 @@ const postCollection = defineCollection({
     publishDate: z.date().optional(),
     updateDate: z.date().optional(),
     draft: z.boolean().optional(),
+    link: z.string().optional(),
 
     title: z.string(),
     excerpt: z.string().optional(),
@@ -58,6 +59,8 @@ const postCollection = defineCollection({
     category: z.string().optional(),
     tags: z.array(z.string()).optional(),
     author: z.string().optional(),
+    aditional: z.array(z.string()).optional(),
+    internal: z.array(z.string()).optional(),
 
     metadata: metadataDefinition(),
   }),
