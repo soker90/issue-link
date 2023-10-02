@@ -8,13 +8,14 @@
 - Habrá que definir que etiquetas se podrán poner y en función de eso organizar el contenido
 - Puede que sea útil utilizar el sistema de comentarios para añadir notas ✖️
 - Todo esto se hará mediante github actions
-- Si se me va la pinza siempre puedo meter astro o alguna cosillas basica 😆
-- Añadir buscador, algolia?
+- Siempre puedo meter astro o alguna cosillas basica 😆
 
 
 TODO:
 
 - Crear plantilla de issues con las secciones predefinidas que pueda tener ✔️
-- Convertir issues en archivos markdown ✔️ 🤔 ⁉️
-- Generar la vista de pressentación 🚿
+- Convertir issues en archivos markdown ✔️
+- Generar la vista de pressentación ✔️
 - Subir a github pages ✔️
+- Añadir buscador con algolia
+- Bloquear automaticamente issues creados por mi, o al menos que empiecen por [link]
