@@ -1,6 +1,6 @@
 site:
   name: EduLink
-  site: 'https://links.eduardoparra.es'
+  site: 'https://link.eduardoparra.es'
   base: '/'
   trailingSlash: false
 
