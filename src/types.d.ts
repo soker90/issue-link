@@ -30,6 +30,15 @@ export interface Post {
   /**  */
   author?: string;
   link?: string;
+  repo?: string;
+  docs?: string;
+  type?: string;
+  useCase?: string;
+  pricing?: string;
+  status?: string;
+  featured?: boolean;
+  aiGenerated?: boolean;
+  stack?: Array<string>;
 
   /**  */
   metadata?: MetaData;

@@ -56,7 +56,16 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
     metadata = {},
     internal,
     aditional,
-    link
+    link,
+    repo,
+    docs,
+    type,
+    useCase,
+    pricing,
+    status,
+    featured = false,
+    aiGenerated = false,
+    stack: rawStack = [],
   } = data;
 
   const slug = cleanSlug(rawSlug); // cleanSlug(rawSlug.split('/').pop());
@@ -64,6 +73,7 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
   const updateDate = rawUpdateDate ? new Date(rawUpdateDate) : undefined;
   const category = rawCategory ? cleanSlug(rawCategory) : undefined;
   const tags = rawTags.map((tag: string) => cleanSlug(tag));
+  const stack = rawStack.map((item: string) => cleanSlug(item));
 
   return {
     id: id,
@@ -81,6 +91,15 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
     tags: tags,
     author: author,
     link,
+    repo,
+    docs,
+    type: type ? cleanSlug(type) : undefined,
+    useCase,
+    pricing,
+    status,
+    featured,
+    aiGenerated,
+    stack,
 
     internal,
     aditional,
@@ -166,6 +185,45 @@ export const findLatestPosts = async ({ count }: { count?: number }): Promise<Ar
   const posts = await fetchPosts();
 
   return posts ? posts.slice(0, _count) : [];
+};
+
+export const findTags = async (): Promise<Array<{ tag: string; count: number }>> => {
+  const posts = await fetchPosts();
+  const tagCounts = new Map<string, number>();
+
+  posts.forEach((post) => {
+    post.tags?.forEach((tag) => tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1));
+  });
+
+  return Array.from(tagCounts, ([tag, count]) => ({ tag, count })).sort((a, b) =>
+    a.tag.localeCompare(b.tag)
+  );
+};
+
+export const findStacks = async (): Promise<Array<{ stack: string; count: number }>> => {
+  const posts = await fetchPosts();
+  const stackCounts = new Map<string, number>();
+
+  posts.forEach((post) => {
+    post.stack?.forEach((stack) => stackCounts.set(stack, (stackCounts.get(stack) || 0) + 1));
+  });
+
+  return Array.from(stackCounts, ([stack, count]) => ({ stack, count })).sort((a, b) =>
+    a.stack.localeCompare(b.stack)
+  );
+};
+
+export const findTypes = async (): Promise<Array<{ type: string; count: number }>> => {
+  const posts = await fetchPosts();
+  const typeCounts = new Map<string, number>();
+
+  posts.forEach((post) => {
+    if (post.type) typeCounts.set(post.type, (typeCounts.get(post.type) || 0) + 1);
+  });
+
+  return Array.from(typeCounts, ([type, count]) => ({ type, count })).sort((a, b) =>
+    a.type.localeCompare(b.type)
+  );
 };
 
 /** */

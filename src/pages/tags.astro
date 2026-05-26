@@ -1,7 +1,8 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import Headline from '~/components/blog/Headline.astro';
-import PostTags from '~/components/blog/Tags.astro';
+import { findTags } from '~/utils/blog';
+import { getPermalink } from '~/utils/permalinks';
 
 export const prerender = true;
 
@@ -12,14 +13,29 @@ const metadata = {
     follow: true,
   },
   openGraph: {
-    type: 'blog',
+    type: 'website',
   },
 };
+
+const tags = await findTags();
 ---
 
 <Layout metadata={metadata}>
-  <section class="px-6 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-4xl">
-    <Headline subtitle="Listado de etiquetas">Etiquetas</Headline>
-    <PostTags tags={['test']} />
+  <section class="px-6 py-16 sm:py-24 lg:py-32">
+    <div class="mx-auto max-w-5xl">
+      <Headline subtitle="Explora los recursos por necesidad, tecnologia o tipo de problema.">Etiquetas</Headline>
+      <div class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {tags.map(({ tag, count }) => (
+          <a
+            class="group rounded-md p-5 transition hover:opacity-80"
+            style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);"
+            href={getPermalink(tag, 'tag')}
+          >
+            <span class="block text-body-md-strong" style="color: var(--color-ink);">#{tag}</span>
+            <span class="mt-1 block text-caption" style="color: var(--color-mute);">{count} {count === 1 ? 'recurso' : 'recursos'}</span>
+          </a>
+        ))}
+      </div>
+    </div>
   </section>
 </Layout>

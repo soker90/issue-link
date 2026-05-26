@@ -1,7 +1,6 @@
 ---
 import { Icon } from 'astro-icon/components';
 import { getPermalink } from '~/utils/permalinks';
-import Button from '~/components/ui/Button.astro';
 
 export interface Props {
   prevUrl: string;
@@ -10,27 +9,29 @@ export interface Props {
   nextText?: string;
 }
 
-const { prevUrl, nextUrl, prevText = 'Newer posts', nextText = 'Older posts' } = Astro.props;
+const { prevUrl, nextUrl, prevText = 'Anterior', nextText = 'Siguiente' } = Astro.props;
 ---
 
 {
   (prevUrl || nextUrl) && (
-    <div class="container flex">
-      <div class="flex flex-row mx-auto container justify-between">
-        <Button
-          variant="tertiary"
-          class={`md:px-3 px-3 mr-2 ${!prevUrl ? 'invisible' : ''}`}
-          href={getPermalink(prevUrl)}
-        >
-          <Icon name="tabler:chevron-left" class="w-6 h-6" />
-          <p class="ml-2">{prevText}</p>
-        </Button>
+    <div class="mt-8 flex justify-between">
+      <a
+        class:list={['inline-flex items-center gap-2 rounded-sm px-4 py-2.5 text-body-sm font-medium transition hover:opacity-80', { invisible: !prevUrl }]}
+        style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline); color: var(--color-ink);"
+        href={getPermalink(prevUrl)}
+      >
+        <Icon name="tabler:chevron-left" class="w-4 h-4" />
+        {prevText}
+      </a>
 
-        <Button variant="tertiary" class={`md:px-3 px-3 ${!nextUrl ? 'invisible' : ''}`} href={getPermalink(nextUrl)}>
-          <span class="mr-2">{nextText}</span>
-          <Icon name="tabler:chevron-right" class="w-6 h-6" />
-        </Button>
-      </div>
+      <a
+        class:list={['inline-flex items-center gap-2 rounded-sm px-4 py-2.5 text-body-sm font-medium transition hover:opacity-80', { invisible: !nextUrl }]}
+        style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline); color: var(--color-ink);"
+        href={getPermalink(nextUrl)}
+      >
+        {nextText}
+        <Icon name="tabler:chevron-right" class="w-4 h-4" />
+      </a>
     </div>
   )
 }

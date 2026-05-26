@@ -9,12 +9,15 @@ export interface Props {
 const { posts } = Astro.props;
 ---
 
-<ul>
+<ul class="grid gap-4 md:grid-cols-2 lg:grid-cols-3" data-resource-list>
   {
     posts.map((post) => (
-      <li class="mb-12 md:mb-20">
+      <li>
         <Item post={post} />
       </li>
     ))
   }
 </ul>
+<p class="hidden rounded-md p-8 text-center text-body-md font-medium" style="color: var(--color-mute); border: 1px dashed var(--color-hairline);" data-empty-state>
+  No hay recursos que encajen con esos filtros.
+</p>

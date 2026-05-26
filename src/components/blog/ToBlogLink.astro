@@ -1,20 +1,14 @@
 ---
 import { Icon } from 'astro-icon/components';
-import { getBlogPermalink } from '~/utils/permalinks';
-import { I18N } from '~/utils/config';
-import Button from '~/components/ui/Button.astro';
-
-const { textDirection } = I18N;
+import { getHomePermalink } from '~/utils/permalinks';
 ---
 
-<div class="mx-auto px-6 sm:px-6 max-w-3xl pt-8 md:pt-4 pb-12 md:pb-20">
-  <Button variant="tertiary" class="px-3 md:px-3" href={getBlogPermalink()}>
-    {
-      textDirection === 'rtl' ? (
-        <Icon name="tabler:chevron-right" class="w-5 h-5 mr-1 -ml-1.5 rtl:-mr-1.5 rtl:ml-1" />
-      ) : (
-        <Icon name="tabler:chevron-left" class="w-5 h-5 mr-1 -ml-1.5 rtl:-mr-1.5 rtl:ml-1" />
-      )
-    } Ir a Inicio
-  </Button>
+<div class="mx-auto px-6 max-w-5xl pt-8 pb-12 md:pb-20">
+  <a
+    class="inline-flex items-center gap-2 rounded-sm px-4 py-2.5 text-body-sm font-medium transition hover:opacity-80"
+    style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline); color: var(--color-ink);"
+    href={getHomePermalink()}
+  >
+    <Icon name="tabler:chevron-left" class="w-4 h-4" /> Volver al directorio
+  </a>
 </div>

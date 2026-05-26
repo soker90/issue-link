@@ -3,7 +3,7 @@ import { getPermalink, getAsset } from './utils/permalinks';
 export const headerData = {
   links: [
     {
-      text: 'Inicio',
+      text: 'Directorio',
       href: getPermalink('/'),
     },
     {
@@ -11,11 +11,23 @@ export const headerData = {
       href: getPermalink('/tags'),
     },
     {
-      text: 'Etiquetas fijadas',
+      text: 'Explorar',
       links: [
         {
-          text: 'Test',
-          href: getPermalink('/tag/test'),
+          text: 'Frontend',
+          href: getPermalink('/tag/frontend'),
+        },
+        {
+          text: 'DevOps',
+          href: getPermalink('/tag/devops'),
+        },
+        {
+          text: 'Automatizacion',
+          href: getPermalink('/tag/automatizacion'),
+        },
+        {
+          text: 'Performance',
+          href: getPermalink('/tag/performance'),
         },
       ],
     },

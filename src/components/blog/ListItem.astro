@@ -1,83 +1,87 @@
 ---
-import type { ImageMetadata } from 'astro';
 import { Icon } from 'astro-icon/components';
-import Image from '~/components/common/Image.astro';
 import PostTags from '~/components/blog/Tags.astro';
 
-import { APP_BLOG } from '~/utils/config';
 import type { Post } from '~/types';
 
 import { getPermalink } from '~/utils/permalinks';
-import { findImage } from '~/utils/images';
-import { getFormattedDate } from '~/utils/utils';
 
 export interface Props {
   post: Post;
 }
 
 const { post } = Astro.props;
-const image = (await findImage(post.image)) as ImageMetadata | undefined;
+const internalLink = getPermalink(post.permalink, 'post');
+const externalLink = post.link || post.repo || post.docs;
+const search = [post.title, post.excerpt, post.useCase, post.type, ...(post.tags || []), ...(post.stack || [])]
+  .filter(Boolean)
+  .join(' ')
+  .toLowerCase();
 
-const link = APP_BLOG?.post?.isEnabled ? getPermalink(post.permalink, 'post') : '';
+const typeLabels: Record<string, string> = {
+  service: 'Servicio',
+  tool: 'Herramienta',
+  library: 'Libreria',
+  repository: 'Repositorio',
+  framework: 'Framework',
+  template: 'Template',
+  integration: 'Integracion',
+  'github-action': 'GitHub Action',
+  'desktop-app': 'App desktop',
+  'ai-tool': 'IA',
+  'component-library': 'Componentes',
+  'package-registry': 'Paquetes',
+};
+
+const typeLabel = post.type ? typeLabels[post.type] || post.type.replaceAll('-', ' ') : 'Recurso';
 ---
 
-<article class={`max-w-md mx-auto md:max-w-none grid gap-6 md:gap-8 ${image ? 'md:grid-cols-2' : ''}`}>
-  {
-    image && (
-      <a class="relative block group" href={link ?? 'javascript:void(0)'}>
-        <div class="relative h-0 pb-[56.25%] md:pb-[75%] md:h-72 lg:pb-[56.25%] overflow-hidden bg-gray-400 dark:bg-slate-700 rounded shadow-lg">
-          {image && (
-            <Image
-              src={image}
-              class="absolute inset-0 object-cover w-full h-full mb-6 rounded shadow-lg bg-gray-400 dark:bg-slate-700"
-              widths={[400, 900]}
-              width={900}
-              sizes="(max-width: 900px) 400px, 900px"
-              alt={post.title}
-              aspectRatio="16:9"
-              loading="lazy"
-              decoding="async"
-            />
-          )}
-        </div>
-      </a>
-    )
-  }
-  <div class="mt-2">
-    <header>
-      <div class="mb-1">
-        <span class="text-sm">
-          <Icon name="tabler:clock" class="w-3.5 h-3.5 inline-block -mt-0.5 dark:text-gray-400" />
-          <time datetime={String(post.publishDate)} class="inline-block">{getFormattedDate(post.publishDate)}</time>
-          {
-            post.category && (
-              <>
-                {' '}
-                ·{' '}
-                <a class="capitalize hover:underline" href={getPermalink(post.category, 'category')}>
-                  {post.category.replaceAll('-', ' ')}
-                </a>
-              </>
-            )
-          }
-        </span>
-      </div>
-      <h2 class="text-xl sm:text-2xl font-bold leading-tight mb-2 font-heading dark:text-slate-300">
-        {
-          link ? (
-            <a class="hover:text-primary dark:hover:text-blue-700 transition ease-in duration-200" href={link}>
-              {post.title}
-            </a>
-          ) : (
-            post.title
-          )
-        }
-      </h2>
-    </header>
+<article
+  class="group relative flex h-full flex-col rounded-md transition"
+  style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline); padding: 24px;"
+  data-resource-card
+  data-search={search}
+  data-type={post.type || ''}
+  data-tags={(post.tags || []).join(' ')}
+  data-stack={(post.stack || []).join(' ')}
+>
+  <div class="mb-4 flex items-start justify-between gap-3">
+    <span class="text-caption uppercase tracking-[0.18em] font-medium" style="color: var(--color-mute);">
+      {typeLabel}
+    </span>
+    {post.featured && <Icon name="tabler:sparkles" class="h-4 w-4" style="color: var(--color-primary);" />}
+  </div>
 
-    {post.excerpt && <p class="flex-grow text-muted dark:text-slate-400 text-lg">{post.excerpt}</p>}
-    <footer class="mt-5">
-      <PostTags tags={post.tags} />
-    </footer>
+  <h2 class="mb-3 text-display-sm" style="color: var(--color-ink);">
+    <a class="transition hover:opacity-80" href={internalLink}>{post.title}</a>
+  </h2>
+
+  {post.useCase && <p class="mb-4 text-body-sm font-medium" style="color: var(--color-body-strong);">{post.useCase}</p>}
+  {post.excerpt && <p class="mb-5 flex-grow text-body-sm" style="color: var(--color-body);">{post.excerpt}</p>}
+
+  {post.stack?.length ? (
+    <div class="mb-4 flex flex-wrap gap-2">
+      {post.stack.slice(0, 4).map((item) => (
+        <span class="rounded-xs px-2 py-1 text-caption font-medium" style="background-color: var(--color-canvas); color: var(--color-body);">{item}</span>
+      ))}
+    </div>
+  ) : null}
+
+  <PostTags tags={post.tags?.slice(0, 5)} class="mb-5 text-caption" />
+
+  <div class="mt-auto flex flex-wrap items-center gap-3" style="border-top: 1px solid var(--color-hairline); padding-top: 16px;">
+    {externalLink && (
+      <a
+        class="btn-primary rounded-sm text-caption font-medium"
+        href={externalLink}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Abrir <Icon name="tabler:external-link" class="h-3.5 w-3.5 ml-1" />
+      </a>
+    )}
+    <a class="text-caption font-medium transition hover:opacity-80" style="color: var(--color-mute);" href={internalLink}>
+      Ver ficha <Icon name="tabler:arrow-right" class="h-3.5 w-3.5 inline" />
+    </a>
   </div>
 </article>
