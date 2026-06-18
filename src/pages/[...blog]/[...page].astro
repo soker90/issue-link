@@ -66,7 +66,7 @@ const metadata = {
       </div>
 
       <div class="mt-12 rounded-md p-5" style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);">
-        <div class="grid gap-4 lg:grid-cols-[1fr_200px_200px]">
+        <div class="grid gap-4 lg:grid-cols-[1fr_180px_180px_180px]">
           <label class="relative block">
             <span class="sr-only">Buscar recursos</span>
             <input
@@ -92,6 +92,18 @@ const metadata = {
           >
             <option value="">Todos los stacks</option>
             {allStacks.map(({ stack, count }) => <option value={stack}>{stack} ({count})</option>)}
+          </select>
+          <select
+            data-resource-sort
+            class="rounded-sm px-4 py-3 text-body-sm font-medium outline-none"
+            style="background-color: var(--color-canvas); color: var(--color-ink); border: 1px solid var(--color-hairline);"
+          >
+            <option value="default">Ordenar: por defecto</option>
+            <option value="alpha-asc">Nombre A → Z</option>
+            <option value="alpha-desc">Nombre Z → A</option>
+            <option value="date-desc">Mas recientes</option>
+            <option value="date-asc">Mas antiguos</option>
+            <option value="featured">Destacados primero</option>
           </select>
         </div>
         <div class="mt-4 flex flex-wrap gap-2" data-tag-filter-list>
@@ -135,7 +147,29 @@ const metadata = {
           <p class="text-caption uppercase tracking-[0.2em] font-medium" style="color: var(--color-mute);">Explorar</p>
           <h2 class="mt-2 text-display-md" style="color: var(--color-ink);">Todos los recursos</h2>
         </div>
-        <p class="text-body-sm" style="color: var(--color-mute);"><span data-result-count>{page.data.length}</span> recursos</p>
+        <div class="flex items-center gap-4">
+          <p class="text-body-sm" style="color: var(--color-mute);"><span data-result-count>{page.data.length}</span> recursos</p>
+          <div class="flex gap-1 rounded-sm p-1" style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);">
+            <button
+              data-view-toggle="grid"
+              aria-label="Vista en cuadricula"
+              class="rounded-xs px-2 py-1 transition"
+              style="background-color: var(--color-canvas); color: var(--color-ink);"
+              title="Vista cuadricula"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            </button>
+            <button
+              data-view-toggle="list"
+              aria-label="Vista en lista"
+              class="rounded-xs px-2 py-1 transition"
+              style="color: var(--color-mute);"
+              title="Vista lista"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
       </div>
       <BlogList posts={page.data} />
       <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
@@ -143,15 +177,89 @@ const metadata = {
   </section>
 
   <script>
-    const searchInput = document.querySelector('[data-resource-search]');
-    const typeSelect = document.querySelector('[data-resource-type]');
-    const stackSelect = document.querySelector('[data-resource-stack]');
-    const tagButtons = Array.from(document.querySelectorAll('[data-resource-tag]'));
-    const cards = Array.from(document.querySelectorAll('[data-resource-card]'));
-    const emptyState = document.querySelector('[data-empty-state]');
-    const resultCount = document.querySelector('[data-result-count]');
+    const searchInput = document.querySelector<HTMLInputElement>('[data-resource-search]');
+    const typeSelect = document.querySelector<HTMLSelectElement>('[data-resource-type]');
+    const stackSelect = document.querySelector<HTMLSelectElement>('[data-resource-stack]');
+    const sortSelect = document.querySelector<HTMLSelectElement>('[data-resource-sort]');
+    const tagButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-resource-tag]'));
+    const resourceList = document.querySelector<HTMLUListElement>('[data-resource-list]');
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-resource-card]'));
+    const emptyState = document.querySelector<HTMLElement>('[data-empty-state]');
+    const resultCount = document.querySelector<HTMLElement>('[data-result-count]');
+    const viewToggles = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-view-toggle]'));
     let activeTag = '';
 
+    // ── URL params ─────────────────────────────────────────────────────────────
+    function getParams() {
+      const p = new URLSearchParams(window.location.search);
+      return {
+        q: p.get('q') || '',
+        type: p.get('type') || '',
+        stack: p.get('stack') || '',
+        tag: p.get('tag') || '',
+        sort: p.get('sort') || '',
+      };
+    }
+
+    function pushParams() {
+      const p = new URLSearchParams();
+      const q = searchInput?.value?.trim() || '';
+      const type = typeSelect?.value || '';
+      const stack = stackSelect?.value || '';
+      const sort = sortSelect?.value && sortSelect.value !== 'default' ? sortSelect.value : '';
+      if (q) p.set('q', q);
+      if (type) p.set('type', type);
+      if (stack) p.set('stack', stack);
+      if (activeTag) p.set('tag', activeTag);
+      if (sort) p.set('sort', sort);
+      const search = p.toString();
+      history.replaceState(null, '', search ? `?${search}` : window.location.pathname);
+    }
+
+    function restoreFromParams() {
+      const { q, type, stack, tag, sort } = getParams();
+      if (searchInput && q) searchInput.value = q;
+      if (typeSelect && type) typeSelect.value = type;
+      if (stackSelect && stack) stackSelect.value = stack;
+      if (sortSelect && sort) sortSelect.value = sort;
+      if (tag) {
+        activeTag = tag;
+        tagButtons.forEach((btn) => {
+          if (btn.dataset.resourceTag === tag) {
+            btn.style.backgroundColor = 'var(--color-primary)';
+            btn.style.color = 'var(--color-on-primary)';
+            btn.style.borderColor = 'var(--color-primary)';
+          }
+        });
+      }
+    }
+
+    // ── Sorting ─────────────────────────────────────────────────────────────────
+    function getSortedItems(items: HTMLElement[]) {
+      const sort = sortSelect?.value || 'default';
+      if (sort === 'default') return items;
+      const arr = [...items];
+      switch (sort) {
+        case 'alpha-asc':
+          return arr.sort((a, b) => (a.dataset.title || '').localeCompare(b.dataset.title || ''));
+        case 'alpha-desc':
+          return arr.sort((a, b) => (b.dataset.title || '').localeCompare(a.dataset.title || ''));
+        case 'date-desc':
+          return arr.sort((a, b) => (b.dataset.date || '').localeCompare(a.dataset.date || ''));
+        case 'date-asc':
+          return arr.sort((a, b) => (a.dataset.date || '').localeCompare(b.dataset.date || ''));
+        case 'featured':
+          return arr.sort((a, b) => {
+            const af = a.dataset.featured === 'true' ? 0 : 1;
+            const bf = b.dataset.featured === 'true' ? 0 : 1;
+            return af - bf;
+          });
+        default:
+          return arr;
+      }
+    }
+
+    // ── Filtering + rendering ───────────────────────────────────────────────────
     const applyFilters = () => {
       const query = searchInput?.value?.toLowerCase().trim() || '';
       const type = typeSelect?.value || '';
@@ -164,18 +272,59 @@ const metadata = {
         const matchesStack = !stack || card.dataset.stack?.split(' ').includes(stack);
         const matchesTag = !activeTag || card.dataset.tags?.split(' ').includes(activeTag);
         const matches = matchesSearch && matchesType && matchesStack && matchesTag;
-
         card.closest('li')?.classList.toggle('hidden', !matches);
         if (matches) visible += 1;
       });
 
+      // Apply sort by reordering DOM
+      if (resourceList) {
+        const visibleItems = Array.from(resourceList.querySelectorAll<HTMLElement>('li:not(.hidden)'));
+        const visibleCards = visibleItems.map((li) => li.querySelector<HTMLElement>('[data-resource-card]')).filter(Boolean) as HTMLElement[];
+        const sorted = getSortedItems(visibleCards);
+        sorted.forEach((card) => {
+          const li = card.closest('li');
+          if (li) resourceList.appendChild(li);
+        });
+      }
+
       emptyState?.classList.toggle('hidden', visible !== 0);
       if (resultCount) resultCount.textContent = String(visible);
+      pushParams();
     };
+
+    // ── View toggle ─────────────────────────────────────────────────────────────
+    function applyView(view: string) {
+      if (!resourceList) return;
+      if (view === 'list') {
+        resourceList.classList.remove('md:grid-cols-2', 'lg:grid-cols-3');
+        resourceList.classList.add('grid-cols-1');
+      } else {
+        resourceList.classList.remove('grid-cols-1');
+        resourceList.classList.add('md:grid-cols-2', 'lg:grid-cols-3');
+      }
+      viewToggles.forEach((btn) => {
+        const isActive = btn.dataset.viewToggle === view;
+        btn.style.backgroundColor = isActive ? 'var(--color-canvas)' : 'transparent';
+        btn.style.color = isActive ? 'var(--color-ink)' : 'var(--color-mute)';
+      });
+      localStorage.setItem('devlinks-view', view);
+    }
+
+    viewToggles.forEach((btn) => {
+      btn.addEventListener('click', () => applyView(btn.dataset.viewToggle || 'grid'));
+    });
+
+    // ── Init ────────────────────────────────────────────────────────────────────
+    restoreFromParams();
+
+    const savedView = localStorage.getItem('devlinks-view') || 'grid';
+    applyView(savedView);
 
     searchInput?.addEventListener('input', applyFilters);
     typeSelect?.addEventListener('change', applyFilters);
     stackSelect?.addEventListener('change', applyFilters);
+    sortSelect?.addEventListener('change', applyFilters);
+
     tagButtons.forEach((button) => {
       button.addEventListener('click', () => {
         activeTag = activeTag === button.dataset.resourceTag ? '' : button.dataset.resourceTag || '';
@@ -193,5 +342,11 @@ const metadata = {
         applyFilters();
       });
     });
+
+    // Apply filters on load if URL params present
+    const params = getParams();
+    if (params.q || params.type || params.stack || params.tag || params.sort) {
+      applyFilters();
+    }
   </script>
 </Layout>

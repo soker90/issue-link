@@ -34,6 +34,11 @@ const typeLabels: Record<string, string> = {
 };
 
 const typeLabel = post.type ? typeLabels[post.type] || post.type.replaceAll('-', ' ') : 'Recurso';
+
+const thirtyDaysAgo = new Date();
+thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+const isNew = post.publishDate ? new Date(post.publishDate) > thirtyDaysAgo : false;
+const publishDateStr = post.publishDate ? new Date(post.publishDate).toISOString().split('T')[0] : '';
 ---
 
 <article
@@ -44,12 +49,22 @@ const typeLabel = post.type ? typeLabels[post.type] || post.type.replaceAll('-',
   data-type={post.type || ''}
   data-tags={(post.tags || []).join(' ')}
   data-stack={(post.stack || []).join(' ')}
+  data-title={post.title?.toLowerCase() || ''}
+  data-date={publishDateStr}
+  data-featured={post.featured ? 'true' : 'false'}
 >
   <div class="mb-4 flex items-start justify-between gap-3">
-    <span class="text-caption uppercase tracking-[0.18em] font-medium" style="color: var(--color-mute);">
-      {typeLabel}
-    </span>
-    {post.featured && <Icon name="tabler:sparkles" class="h-4 w-4" style="color: var(--color-primary);" />}
+    <div class="flex flex-wrap items-center gap-2">
+      <span class="text-caption uppercase tracking-[0.18em] font-medium" style="color: var(--color-mute);">
+        {typeLabel}
+      </span>
+      {isNew && (
+        <span class="rounded-xs px-1.5 py-0.5 text-caption font-medium uppercase tracking-wider" style="background-color: var(--color-success, #36d399); color: var(--color-canvas);">
+          nuevo
+        </span>
+      )}
+    </div>
+    {post.featured && <Icon name="tabler:sparkles" class="h-4 w-4 shrink-0" style="color: var(--color-primary);" />}
   </div>
 
   <h2 class="mb-3 text-display-sm" style="color: var(--color-ink);">

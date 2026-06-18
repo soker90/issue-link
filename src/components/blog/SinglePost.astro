@@ -39,6 +39,17 @@ const typeLabel = post.type ? typeLabels[post.type] || post.type.replaceAll('-',
 
 <section class="px-6 py-12 sm:py-16 lg:py-24">
   <article class="mx-auto max-w-5xl">
+    <nav class="mb-6 flex items-center gap-2 text-caption" style="color: var(--color-mute);" aria-label="Ruta de navegacion">
+      <a href="/" class="transition hover:opacity-80" style="color: var(--color-mute);">Directorio</a>
+      {post.tags?.[0] && (
+        <>
+          <Icon name="tabler:chevron-right" class="h-3 w-3" />
+          <a href={`/tag/${post.tags[0]}`} class="transition hover:opacity-80" style="color: var(--color-mute);">{post.tags[0]}</a>
+        </>
+      )}
+      <Icon name="tabler:chevron-right" class="h-3 w-3" />
+      <span style="color: var(--color-body);">{post.title}</span>
+    </nav>
     <div class="grid gap-8 lg:grid-cols-[1fr_320px] lg:items-start">
       <header class="rounded-md p-6 sm:p-8" style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);">
         <div class="mb-5 flex flex-wrap items-center gap-3">

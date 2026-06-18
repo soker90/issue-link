@@ -55,7 +55,7 @@ apps:
       isEnabled: true
       pathname: 'tag'
       robots:
-        index: false
+        index: true
 
 analytics:
   vendors:

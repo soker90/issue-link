@@ -1,22 +1,14 @@
 ---
 import { UI } from "~/utils/config";
-
-// TODO: This code is temporary
 ---
 
 <script is:inline define:vars={{ defaultTheme: UI.theme || "system" }}>
+  // Aplica el tema antes del primer render para evitar flash
   function applyTheme(theme) {
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
-    }
-    const matches = document.querySelectorAll("[data-aw-toggle-color-scheme] > input");
-
-    if (matches && matches.length) {
-      matches.forEach((elem) => {
-        elem.checked = theme !== "dark";
-      });
     }
   }
 
