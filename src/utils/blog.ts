@@ -1,4 +1,4 @@
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import type { Post } from '~/types';
 import { APP_BLOG } from '~/utils/config';
@@ -40,8 +40,11 @@ const generatePermalink = async ({
 };
 
 const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> => {
-  const { id, slug: rawSlug = '', data } = post;
-  const { Content, remarkPluginFrontmatter } = await post.render();
+  const { id, data } = post;
+  const { Content, remarkPluginFrontmatter } = await render(post);
+
+  // En Astro 5 el id es el nombre del archivo (ej. "15.md") — derivamos el slug quitando la extension
+  const rawSlug = id.replace(/\.[^.]+$/, '');
 
   const {
     publishDate: rawPublishDate = new Date(),

@@ -6,6 +6,8 @@ export function readingTimeRemarkPlugin() {
     const textOnPage = toString(tree);
     const readingTime = Math.ceil(getReadingTime(textOnPage).minutes);
 
+    // Astro 5: el frontmatter se escribe en file.data directamente
+    if (!file.data.astro) file.data.astro = { frontmatter: {} };
     file.data.astro.frontmatter.readingTime = readingTime;
   };
 }

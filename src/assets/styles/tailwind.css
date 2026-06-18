@@ -1,7 +1,7 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
+/* ── Design tokens ── */
 :root {
   --color-primary: #f7f5f0;
   --color-on-primary: #2b2622;
@@ -14,17 +14,102 @@
   --color-hairline: #3f3a36;
 }
 
+/* ── Tailwind theme ── */
+@theme {
+  /* Colors */
+  --color-primary: var(--color-primary);
+  --color-on-primary: var(--color-on-primary);
+  --color-ink: var(--color-ink);
+  --color-body: var(--color-body);
+  --color-body-strong: var(--color-body-strong);
+  --color-mute: var(--color-mute);
+  --color-canvas: var(--color-canvas);
+  --color-canvas-soft: var(--color-canvas-soft);
+  --color-hairline: var(--color-hairline);
+  --color-default: var(--color-ink);
+  --color-muted: var(--color-mute);
+
+  /* Fonts */
+  --font-sans: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --font-heading: Inter, system-ui, -apple-system, sans-serif;
+
+  /* Border radius */
+  --radius-none: 0px;
+  --radius-xxs: 1px;
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-pill: 9999px;
+  --radius-full: 9999px;
+
+  /* Font sizes — display scale */
+  --text-display-xl: 64px;
+  --text-display-xl--line-height: 70.4px;
+  --text-display-xl--letter-spacing: -1.6px;
+
+  --text-display-lg: 48px;
+  --text-display-lg--line-height: 52.8px;
+  --text-display-lg--letter-spacing: -1.2px;
+
+  --text-display-md: 32px;
+  --text-display-md--line-height: 40px;
+  --text-display-md--letter-spacing: -0.8px;
+
+  --text-display-sm: 24px;
+  --text-display-sm--line-height: 32px;
+  --text-display-sm--letter-spacing: -0.4px;
+
+  --text-display-serif: 48px;
+  --text-display-serif--line-height: 52px;
+  --text-display-serif--letter-spacing: -0.5px;
+
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 28px;
+
+  --text-body-md: 16px;
+  --text-body-md--line-height: 24px;
+
+  --text-body-md-strong: 16px;
+  --text-body-md-strong--line-height: 24px;
+
+  --text-body-sm: 14px;
+  --text-body-sm--line-height: 20px;
+
+  --text-body-sm-strong: 14px;
+  --text-body-sm-strong--line-height: 20px;
+
+  --text-caption: 12px;
+  --text-caption--line-height: 16px;
+}
+
+/* ── Base ── */
 @layer base {
   html {
-    @apply antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   body {
     background-color: var(--color-canvas);
     color: var(--color-ink);
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: Inter, system-ui, -apple-system, sans-serif;
+  }
+  a {
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+  a:hover {
+    color: var(--color-primary);
+  }
+  ::selection {
+    background-color: var(--color-primary);
+    color: var(--color-on-primary);
   }
 }
 
+/* ── Utilities ── */
 @layer utilities {
   .bg-page {
     background-color: var(--color-canvas);
@@ -43,9 +128,22 @@
   }
 }
 
+/* ── Components ── */
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center border bg-transparent font-medium text-center text-sm leading-snug transition py-2.5 px-5 ease-in duration-200 cursor-pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-width: 1px;
+    border-style: solid;
+    background-color: transparent;
+    font-weight: 500;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.375;
+    padding: 10px 20px;
+    transition: all 200ms ease-in;
+    cursor: pointer;
     border-radius: 3px;
     border-color: var(--color-hairline);
     color: var(--color-ink);
@@ -56,22 +154,61 @@
   }
 
   .btn-primary {
-    @apply btn font-semibold;
+    font-weight: 600;
     background-color: var(--color-primary);
     color: var(--color-on-primary);
     border-color: var(--color-primary);
+    border-width: 1px;
+    border-style: solid;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    line-height: 1.375;
+    padding: 10px 20px;
+    transition: all 200ms ease-in;
+    cursor: pointer;
+    border-radius: 3px;
   }
   .btn-primary:hover {
     opacity: 0.9;
-    background-color: var(--color-primary);
   }
 
   .btn-secondary {
-    @apply btn;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-width: 1px;
+    border-style: solid;
+    background-color: transparent;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.375;
+    padding: 10px 20px;
+    transition: all 200ms ease-in;
+    cursor: pointer;
+    border-radius: 3px;
+    border-color: var(--color-hairline);
+    color: var(--color-ink);
+  }
+  .btn-secondary:hover {
+    background-color: var(--color-canvas-soft);
+    border-color: var(--color-mute);
   }
 
   .btn-tertiary {
-    @apply btn border-none shadow-none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.375;
+    padding: 10px 20px;
+    transition: all 200ms ease-in;
+    cursor: pointer;
     color: var(--color-mute);
   }
   .btn-tertiary:hover {
@@ -79,6 +216,7 @@
   }
 }
 
+/* ── Header scroll state ── */
 #header.scroll > div:first-child {
   background-color: var(--color-canvas);
   border-bottom: 1px solid var(--color-hairline);
@@ -94,42 +232,31 @@
   padding: 0 5px;
 }
 
+/* ── Dropdown ── */
 .dropdown:hover .dropdown-menu {
   display: block;
 }
 
+/* ── Icon stroke variants ── */
 [astro-icon].icon-light > * {
   stroke-width: 1.2;
 }
-
 [astro-icon].icon-bold > * {
   stroke-width: 2.4;
 }
 
+/* ── Mobile menu toggle animation ── */
 [data-aw-toggle-menu] path {
-  @apply transition;
+  transition: all 150ms ease;
 }
 [data-aw-toggle-menu].expanded g > path:first-child {
-  @apply -rotate-45 translate-y-[15px] translate-x-[-3px];
+  transform: rotate(-45deg) translateY(15px) translateX(-3px);
 }
-
 [data-aw-toggle-menu].expanded g > path:last-child {
-  @apply rotate-45 translate-y-[-8px] translate-x-[14px];
+  transform: rotate(45deg) translateY(-8px) translateX(14px);
 }
 
+/* ── Prose util ── */
 .dd *:first-child {
   margin-top: 0;
-}
-
-::selection {
-  background-color: var(--color-primary);
-  color: var(--color-on-primary);
-}
-
-a {
-  color: var(--color-ink);
-  text-decoration: none;
-}
-a:hover {
-  color: var(--color-primary);
 }

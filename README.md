@@ -1,5 +1,5 @@
 ![Proyecto top](https://img.shields.io/badge/Proyecto-molon-flat)
-![Astro](https://img.shields.io/badge/Astro-4.16-orange)
+![Astro](https://img.shields.io/badge/Astro-6.4.8-orange)
 ![Deploy](https://img.shields.io/badge/Deploy-GitHub%20Pages-blue)
 
 # DevLinks
@@ -12,8 +12,8 @@ La prioridad es encontrar rapido recursos para lo que necesitas hacer: monitoriz
 
 ## Stack
 
-- [Astro 4](https://astro.build) — generador de sitio estatico
-- [Tailwind CSS 3](https://tailwindcss.com) — estilos
+- [Astro 5](https://astro.build) — generador de sitio estatico
+- [Tailwind CSS 4](https://tailwindcss.com) — estilos (config CSS-first con `@tailwindcss/vite`)
 - [GitHub Issues](https://github.com) — CMS: cada issue con prefijo `[link]` genera un recurso
 - [GitHub Pages](https://pages.github.com) — despliegue
 
