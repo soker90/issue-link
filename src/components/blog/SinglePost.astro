@@ -34,6 +34,18 @@ const typeLabels: Record<string, string> = {
   'package-registry': 'Paquetes',
 };
 
+const pricingLabels: Record<string, string> = {
+  free: 'Gratis',
+  freemium: 'Freemium',
+  paid: 'De pago',
+};
+
+const statusLabels: Record<string, string> = {
+  active: 'Activo',
+  archived: 'Archivado',
+  deprecated: 'Descontinuado',
+};
+
 const typeLabel = post.type ? typeLabels[post.type] || post.type.replaceAll('-', ' ') : 'Recurso';
 ---
 
@@ -54,8 +66,8 @@ const typeLabel = post.type ? typeLabels[post.type] || post.type.replaceAll('-',
       <header class="rounded-md p-6 sm:p-8" style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);">
         <div class="mb-5 flex flex-wrap items-center gap-3">
           <span class="text-caption uppercase tracking-[0.18em] font-medium" style="color: var(--color-mute);">{typeLabel}</span>
-          {post.pricing && <span class="text-caption uppercase tracking-widest font-medium" style="color: var(--color-body);">{post.pricing}</span>}
-          {post.status && <span class="text-caption uppercase tracking-widest font-medium" style="color: var(--color-body);">{post.status}</span>}
+          {post.pricing && <span class="text-caption uppercase tracking-widest font-medium" style="color: var(--color-body);">{pricingLabels[post.pricing] || post.pricing}</span>}
+          {post.status && <span class="text-caption uppercase tracking-widest font-medium" style="color: var(--color-body);">{statusLabels[post.status] || post.status}</span>}
         </div>
         <h1 class="text-display-lg" style="color: var(--color-ink);">{post.title}</h1>
         {post.useCase && <p class="mt-4 text-body-lg font-medium" style="color: var(--color-body-strong);">{post.useCase}</p>}
@@ -87,7 +99,7 @@ const typeLabel = post.type ? typeLabels[post.type] || post.type.replaceAll('-',
             </div>
           ) : null}
           <div>
-            <dt class="mb-2 text-caption uppercase tracking-[0.22em] font-medium" style="color: var(--color-mute);">Tags</dt>
+            <dt class="mb-2 text-caption uppercase tracking-[0.22em] font-medium" style="color: var(--color-mute);">Etiquetas</dt>
             <dd><PostTags tags={post.tags} class="text-caption" /></dd>
           </div>
         </dl>

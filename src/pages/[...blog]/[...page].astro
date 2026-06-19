@@ -21,6 +21,21 @@ const allStacks = await findStacks();
 const allTypes = await findTypes();
 const featured = allPosts.filter((post) => post.featured).slice(0, 8);
 
+const typeLabels: Record<string, string> = {
+  service: 'Servicio',
+  tool: 'Herramienta',
+  library: 'Libreria',
+  repository: 'Repositorio',
+  framework: 'Framework',
+  template: 'Template',
+  integration: 'Integracion',
+  'github-action': 'GitHub Action',
+  'desktop-app': 'App desktop',
+  'ai-tool': 'IA',
+  'component-library': 'Componentes',
+  'package-registry': 'Paquetes',
+};
+
 const metadata = {
   title: `Directorio de recursos${currentPage > 1 ? ` — Pagina ${currentPage}` : ''}`,
   robots: {
@@ -83,7 +98,7 @@ const metadata = {
             style="background-color: var(--color-canvas); color: var(--color-ink); border: 1px solid var(--color-hairline);"
           >
             <option value="">Todos los tipos</option>
-            {allTypes.map(({ type, count }) => <option value={type}>{type.replaceAll('-', ' ')} ({count})</option>)}
+            {allTypes.map(({ type, count }) => <option value={type}>{typeLabels[type] || type.replaceAll('-', ' ')} ({count})</option>)}
           </select>
           <select
             data-resource-stack
@@ -130,7 +145,7 @@ const metadata = {
                 class="min-w-[240px] rounded-md p-4 transition hover:opacity-80"
                 style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);"
               >
-                <span class="block text-caption uppercase tracking-widest" style="color: var(--color-mute);">{post.type?.replaceAll('-', ' ')}</span>
+                <span class="block text-caption uppercase tracking-widest" style="color: var(--color-mute);">{typeLabels[post.type] || post.type?.replaceAll('-', ' ')}</span>
                 <span class="mt-1 block text-body-md-strong" style="color: var(--color-ink);">{post.title}</span>
               </a>
             ))}
