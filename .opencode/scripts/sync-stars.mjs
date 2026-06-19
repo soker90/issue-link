@@ -63,22 +63,10 @@ async function getExistingRepos() {
   for (const file of mdFiles) {
     const content = await readFile(join(POSTS_DIR, file), 'utf8');
 
-    // Extraer solo el bloque frontmatter (entre los dos ---)
-    const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
-    if (!frontmatterMatch) continue;
-    const frontmatter = frontmatterMatch[1];
-
-    // Buscar campos repo: y link: en el frontmatter
-    const repoMatch = frontmatter.match(/^repo:\s*"?([^"\n]+)"?/m);
-    const linkMatch = frontmatter.match(/^link:\s*"?([^"\n]+)"?/m);
-
-    for (const match of [repoMatch, linkMatch]) {
-      if (!match) continue;
-      const url = match[1].trim();
-      const ghMatch = url.match(/github\.com\/([a-zA-Z0-9_.-]+\/[a-zA-Z0-9_.-]+)/);
-      if (ghMatch) {
-        repos.add(ghMatch[1].replace(/\.git$/, '').toLowerCase());
-      }
+    // Buscar cualquier ocurrencia de github.com/owner/repo en todo el archivo
+    const matches = content.matchAll(/github\.com\/([a-zA-Z0-9_.-]+\/[a-zA-Z0-9_.-]+)/gi);
+    for (const match of matches) {
+      repos.add(match[1].replace(/\.git$/, '').toLowerCase());
     }
   }
   return repos;
