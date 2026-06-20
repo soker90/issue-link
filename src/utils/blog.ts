@@ -3,6 +3,11 @@ import type { CollectionEntry } from 'astro:content';
 import type { Post } from '~/types';
 import { APP_BLOG } from '~/utils/config';
 import { cleanSlug, trimSlash, BLOG_BASE, POST_PERMALINK_PATTERN, CATEGORY_BASE, TAG_BASE } from './permalinks';
+import { historicalIds } from '~/historico';
+
+// Recursos marcados como históricos (ver src/historico.ts): se excluyen de la home,
+// búsqueda, tags y RSS, pero conservan su ficha y aparecen en /historico.
+const historicalSet = new Set(historicalIds.map((id) => String(id)));
 
 const generatePermalink = async ({
   id,
@@ -124,6 +129,8 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
     // or 'content' in case you consume from API
 
     readingTime: remarkPluginFrontmatter?.readingTime,
+
+    historical: historicalSet.has(slug),
   };
 };
 
@@ -138,7 +145,14 @@ const load = async function (): Promise<Array<Post>> {
   return results;
 };
 
-let _posts: Array<Post>;
+let _allPosts: Array<Post>;
+
+const loadAll = async (): Promise<Array<Post>> => {
+  if (!_allPosts) {
+    _allPosts = await load();
+  }
+  return _allPosts;
+};
 
 /** */
 export const isBlogEnabled = APP_BLOG.isEnabled;
@@ -154,13 +168,17 @@ export const blogTagRobots = APP_BLOG.tag.robots;
 
 export const blogPostsPerPage = APP_BLOG?.postsPerPage;
 
-/** */
-export const fetchPosts = async (): Promise<Array<Post>> => {
-  if (!_posts) {
-    _posts = await load();
-  }
+/** Todos los recursos, incluidos los históricos (para generar sus fichas). */
+export const fetchAllPosts = async (): Promise<Array<Post>> => loadAll();
 
-  return _posts;
+/** Recursos visibles: excluye los históricos (home, búsqueda, tags, RSS...). */
+export const fetchPosts = async (): Promise<Array<Post>> => {
+  return (await loadAll()).filter((post) => !post.historical);
+};
+
+/** Solo los recursos históricos, para la página /historico. */
+export const fetchHistoricalPosts = async (): Promise<Array<Post>> => {
+  return (await loadAll()).filter((post) => post.historical);
 };
 
 /** */
@@ -250,7 +268,7 @@ export const getStaticPathsBlogList = async ({ paginate }) => {
 /** */
 export const getStaticPathsBlogPost = async () => {
   if (!isBlogEnabled || !isBlogPostRouteEnabled) return [];
-  return (await fetchPosts()).flatMap((post) => ({
+  return (await fetchAllPosts()).flatMap((post) => ({
     params: {
       blog: post.permalink,
     },

@@ -46,6 +46,9 @@ export interface Post {
   version?: string;
   archived?: boolean;
 
+  /** Recurso histórico (ver src/historico.ts): oculto de la home/búsqueda, visible en /historico */
+  historical?: boolean;
+
   /**  */
   metadata?: MetaData;
 

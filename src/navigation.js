@@ -11,6 +11,10 @@ export const headerData = {
       href: getPermalink('/tags'),
     },
     {
+      text: 'Historico',
+      href: getPermalink('/historico'),
+    },
+    {
       text: 'Explorar',
       links: [
         {

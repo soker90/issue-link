@@ -21,7 +21,73 @@ import path from 'node:path';
 
 const execFileAsync = promisify(execFile);
 const POST_DIR = path.join(process.cwd(), 'src/content/post');
+const HISTORICO_FILE = path.join(process.cwd(), 'src/historico.ts');
 const CONCURRENCY = 6;
+
+// Ids actualmente en el histórico (se carga al inicio de main()).
+let historicalSet = new Set();
+
+/** Lee los ids del histórico (src/historico.ts), ignorando líneas comentadas. */
+async function readHistoricoSet() {
+  try {
+    const content = await readFile(HISTORICO_FILE, 'utf8');
+    const arrayPart = content.slice(content.indexOf('export const historicalIds'));
+    const ids = [];
+    for (const line of arrayPart.split('\n')) {
+      const t = line.trim();
+      if (t.startsWith('//')) continue;
+      const m = t.match(/^"([^"]+)",?$/);
+      if (m) ids.push(m[1]);
+    }
+    return new Set(ids);
+  } catch {
+    return new Set();
+  }
+}
+
+/**
+ * Añade ids al histórico (src/historico.ts) sin duplicar ni tocar los existentes.
+ * Devuelve los ids realmente añadidos.
+ */
+async function addToHistorico(ids) {
+  if (!ids.length) return [];
+  let content;
+  try {
+    content = await readFile(HISTORICO_FILE, 'utf8');
+  } catch {
+    return [];
+  }
+  const marker = 'export const historicalIds';
+  const idx = content.indexOf(marker);
+  if (idx === -1) return [];
+
+  const prefix = content.slice(0, idx); // bloque de comentario/documentación
+  const arrayPart = content.slice(idx);
+
+  // ids reales ya presentes (líneas con comillas que NO estén comentadas)
+  const existing = [];
+  for (const line of arrayPart.split('\n')) {
+    const trimmed = line.trim();
+    if (trimmed.startsWith('//')) continue;
+    const m = trimmed.match(/^"([^"]+)",?$/);
+    if (m) existing.push(m[1]);
+  }
+
+  const seen = new Set(existing);
+  const added = [];
+  for (const id of ids) {
+    if (!seen.has(id)) {
+      existing.push(id);
+      seen.add(id);
+      added.push(id);
+    }
+  }
+  if (!added.length) return [];
+
+  const body = existing.map((id) => `  "${id}",`).join('\n');
+  await writeFile(HISTORICO_FILE, `${prefix}export const historicalIds: string[] = [\n${body}\n];\n`);
+  return added;
+}
 
 /** Llama a `gh api <ruta> --jq <expr>` y devuelve el texto, o null si falla. */
 async function gh(apiPath, jq) {
@@ -100,6 +166,13 @@ async function processFile(file) {
   const parts = splitFrontmatter(content);
   if (!parts) return { file, status: 'sin-frontmatter' };
 
+  // Los recursos históricos o ya archivados no se refrescan: sus datos quedan
+  // congelados (no tiene sentido seguir consultando proyectos muertos/deprecados).
+  const id = file.replace(/\.md$/, '');
+  if (historicalSet.has(id) || getField(parts.fm, 'archived') === 'true') {
+    return { file, status: 'omitido', reason: historicalSet.has(id) ? 'historico' : 'archivado' };
+  }
+
   const repoUrl = getField(parts.fm, 'repo');
   const parsed = parseRepo(repoUrl);
   if (!parsed) return { file, status: repoUrl ? 'repo-no-github' : 'sin-repo' };
@@ -137,6 +210,8 @@ async function main() {
   const argv = process.argv.slice(2);
   const files = argv.length ? argv : (await readdir(POST_DIR)).filter((f) => f.endsWith('.md'));
 
+  historicalSet = await readHistoricoSet();
+
   const results = [];
   for (let i = 0; i < files.length; i += CONCURRENCY) {
     const batch = files.slice(i, i + CONCURRENCY);
@@ -146,16 +221,26 @@ async function main() {
       if (r.status === 'ok') {
         const flags = [r.stars != null ? `★${r.stars}` : '', r.version || '', r.archived ? 'ARCHIVADO' : ''].filter(Boolean).join(' ');
         console.log(`✓ ${r.file.padEnd(14)} ${r.repo} ${flags}`);
+      } else if (r.status === 'omitido') {
+        console.log(`· ${r.file.padEnd(14)} omitido (${r.reason})`);
       } else if (!['sin-repo', 'repo-no-github'].includes(r.status)) {
         console.log(`✗ ${r.file.padEnd(14)} ${r.status}${r.repo ? ' ' + r.repo : ''}`);
       }
     }
   }
 
+  // Los repos detectados como archivados en esta pasada se añaden al histórico.
+  const archivedIds = results.filter((r) => r.archived).map((r) => r.file.replace(/\.md$/, ''));
+  const added = await addToHistorico(archivedIds);
+  if (added.length) {
+    console.log(`\n📁 Añadidos al histórico (src/historico.ts): ${added.join(', ')}`);
+  }
+
   const by = (s) => results.filter((r) => r.status === s).length;
   console.log(
-    `\nResumen: ${by('ok')} actualizados · ${by('sin-repo')} sin repo · ${by('repo-no-github')} repo no-GitHub · ` +
-      `${by('error-api') + by('excepcion')} con error · ${results.filter((r) => r.archived).length} archivados`
+    `\nResumen: ${by('ok')} actualizados · ${by('omitido')} omitidos (historico/archivado) · ${by('sin-repo')} sin repo · ` +
+      `${by('repo-no-github')} repo no-GitHub · ${by('error-api') + by('excepcion')} con error · ` +
+      `${results.filter((r) => r.archived).length} archivados`
   );
 }
 
