@@ -1,6 +1,6 @@
 ---
 title: jsDelivr
-publishDate: 2026-06-20T17:50:15Z
+publishDate: 2026-06-20T17:54:41Z
 link: https://www.jsdelivr.com/
 excerpt: Un CDN público y gratuito para npm y GitHub.
 aditional:
@@ -55,6 +55,7 @@ Es una opción excelente para entornos de prototipado rápido, entornos interact
 
 ## Ten en cuenta
 
+- **Límites de tamaño**: Existe un límite de tamaño máximo de **20 MB por archivo individual**, y el repositorio de GitHub al que se enlaza no debe superar los **100 MB** de tamaño total.
 - **No es aconsejable para producción crítica en grandes apps**: Depender de un CDN externo gratuito introduce un punto de fallo externo. En proyectos empresariales grandes se prefiere empaquetar las dependencias localmente.
 - **Seguridad**: Para mitigar riesgos de inyección de código (si el paquete npm o repo es comprometido), se recomienda usar la validación de integridad Subresource Integrity (SRI) con el atributo `integrity`.
 - **Actualizaciones por caché**: Si enlazas a la última versión (e.g. `@latest` o sin versión), el CDN almacena en caché el archivo por un tiempo (usualmente 24 horas), por lo que las actualizaciones de tu código en GitHub pueden no reflejarse inmediatamente.
