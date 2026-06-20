@@ -11,6 +11,16 @@ const formatter: Intl.DateTimeFormat =
 
 export const getFormattedDate = (date: Date): string => (date ? formatter.format(date) : '');
 
+/** Formatea un recuento (p. ej. estrellas de GitHub) al estilo "108k", "176,6k", "1,2M". */
+export const formatCompactNumber = (n?: number): string | null => {
+  if (typeof n !== 'number' || Number.isNaN(n)) return null;
+  if (n < 1000) return String(n);
+  const format = (value: number, suffix: string) =>
+    `${value.toFixed(1).replace(/\.0$/, '').replace('.', ',')}${suffix}`;
+  if (n < 1_000_000) return format(n / 1000, 'k');
+  return format(n / 1_000_000, 'M');
+};
+
 export const trim = (str = '', ch?: string) => {
   let start = 0,
     end = str.length || 0;

@@ -39,6 +39,21 @@ Los recursos viven en `src/content/post/*.md` como archivos Markdown con frontma
 | `featured` | `true` para marcar como destacado (aparece en la tira superior) |
 | `aditional` | URLs de material adicional |
 | `internal` | Slugs de recursos relacionados dentro del directorio |
+| `stars` | Estrellas del repositorio en GitHub (automatico) |
+| `lastCommit` | Fecha del ultimo commit/push al repositorio (automatico) |
+| `version` | Ultima release publicada, si tiene (automatico) |
+| `archived` | `true` si el repositorio esta archivado (automatico) |
+
+Los campos `stars`, `lastCommit`, `version` y `archived` se rellenan
+automaticamente para los recursos con `repo` de GitHub. No se editan a mano:
+
+```bash
+pnpm refresh:github            # actualiza todos los posts
+node scripts/refresh-github.mjs 93.md 98.md   # solo algunos
+```
+
+Ademas, el workflow `.github/workflows/refresh-github.yml` los refresca cada
+semana de forma automatica.
 
 ### Anadir un recurso
 

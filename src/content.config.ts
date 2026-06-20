@@ -62,6 +62,12 @@ const postCollection = defineCollection({
     featured: z.boolean().optional(),
     aiGenerated: z.boolean().optional(),
 
+    // Metadatos del repositorio de GitHub (se actualizan con scripts/refresh-github.mjs)
+    stars: z.number().optional(),
+    lastCommit: z.coerce.date().optional(),
+    version: z.string().optional(),
+    archived: z.boolean().optional(),
+
     title: z.string(),
     excerpt: z.string().optional(),
     image: z.string().optional(),

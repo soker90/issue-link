@@ -5,6 +5,7 @@ import PostTags from '~/components/blog/Tags.astro';
 import type { Post } from '~/types';
 
 import { getPermalink } from '~/utils/permalinks';
+import { formatCompactNumber } from '~/utils/utils';
 
 export interface Props {
   post: Post;
@@ -39,11 +40,19 @@ const thirtyDaysAgo = new Date();
 thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 const isNew = post.publishDate ? new Date(post.publishDate) > thirtyDaysAgo : false;
 const publishDateStr = post.publishDate ? new Date(post.publishDate).toISOString().split('T')[0] : '';
+const starsLabel = formatCompactNumber(post.stars);
+const lastCommitLabel = post.lastCommit
+  ? new Intl.DateTimeFormat('es', { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date(post.lastCommit))
+  : null;
+
+// Evitar repetir como etiqueta lo que ya se muestra en el stack
+const stackSet = new Set((post.stack || []).map((s) => s.toLowerCase()));
+const visibleTags = (post.tags || []).filter((tag) => !stackSet.has(tag.toLowerCase()));
 ---
 
 <article
   class="group relative flex h-full flex-col rounded-md transition"
-  style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline); padding: 24px;"
+  style={`background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline); padding: 24px;${post.archived ? ' opacity: 0.6;' : ''}`}
   data-resource-card
   data-search={search}
   data-type={post.type || ''}
@@ -63,8 +72,25 @@ const publishDateStr = post.publishDate ? new Date(post.publishDate).toISOString
           nuevo
         </span>
       )}
+      {post.archived && (
+        <span class="rounded-xs px-1.5 py-0.5 text-caption font-medium uppercase tracking-wider" style="background-color: var(--color-warning, #c2410c); color: #fff;">
+          archivado
+        </span>
+      )}
     </div>
-    {post.featured && <Icon name="tabler:sparkles" class="h-4 w-4 shrink-0" style="color: var(--color-primary);" />}
+    <div class="flex shrink-0 items-center gap-3">
+      {starsLabel && (
+        <span class="flex items-center gap-1 text-caption font-medium" style="color: var(--color-mute);" title={`${post.stars} estrellas en GitHub`}>
+          <Icon name="tabler:star" class="h-3.5 w-3.5" /> {starsLabel}
+        </span>
+      )}
+      {lastCommitLabel && (
+        <span class="flex items-center gap-1 text-caption font-medium" style="color: var(--color-mute);" title="Último commit">
+          <Icon name="tabler:git-commit" class="h-3.5 w-3.5" /> {lastCommitLabel}
+        </span>
+      )}
+      {post.featured && <Icon name="tabler:sparkles" class="h-4 w-4 shrink-0" style="color: var(--color-primary);" />}
+    </div>
   </div>
 
   <h2 class="mb-3 text-display-sm" style="color: var(--color-ink);">
@@ -82,7 +108,7 @@ const publishDateStr = post.publishDate ? new Date(post.publishDate).toISOString
     </div>
   ) : null}
 
-  <PostTags tags={post.tags?.slice(0, 5)} class="mb-5 text-caption" />
+  <PostTags tags={visibleTags.slice(0, 5)} class="mb-5 text-caption" />
 
   <div class="mt-auto flex flex-wrap items-center gap-3" style="border-top: 1px solid var(--color-hairline); padding-top: 16px;">
     {externalLink && (

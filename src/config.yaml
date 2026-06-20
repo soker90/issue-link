@@ -31,7 +31,9 @@ i18n:
 apps:
   blog:
     isEnabled: true
-    postsPerPage: 100
+    # Una sola pagina con todos los recursos: la busqueda/filtros son en cliente,
+    # asi cubren todo el directorio (no solo la pagina actual) y no hay paginacion.
+    postsPerPage: 1000
 
     link:
       isEnabled: true

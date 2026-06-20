@@ -1,61 +1,67 @@
 ---
 title: jsDelivr
 publishDate: 2026-06-20T17:54:41Z
-link: https://www.jsdelivr.com/
-excerpt: Un CDN público y gratuito para npm y GitHub.
-aditional:
-  - https://www.jsdelivr.com/
-  - https://github.com/jsdelivr/jsdelivr
+link: "https://www.jsdelivr.com/"
+repo: "https://github.com/jsdelivr/jsdelivr"
+docs: "https://www.jsdelivr.com/docs"
+excerpt: "CDN público, gratuito y open source para servir paquetes de npm, GitHub y ESM."
+type: service
+useCase: "Para servir librerías de npm o archivos de GitHub desde un CDN rápido y gratuito sin instalar ni compilar nada."
+pricing: free
+status: active
 tags:
-  - tools
-  - publicado
-  - utilidades
+  - cdn
+  - javascript
   - librerias
-  - dependencies
+  - rendimiento
+  - npm
+  - open-source
+stars: 6284
+lastCommit: 2026-05-29
 ---
-jsDelivr es una red de entrega de contenido (CDN) pública, gratuita y de código abierto orientada a desarrolladores. Es utilizada principalmente para servir de forma rápida y ultra-confiable archivos JavaScript, CSS, fuentes y otros activos web estáticos directamente desde repositorios de GitHub, el registro de npm o WordPress.
+
+## Qué es
+
+jsDelivr es una red de entrega de contenido (CDN) pública, gratuita y de código abierto (licencia MIT) orientada a desarrolladores. Sirve de forma rápida y fiable archivos JavaScript, CSS, fuentes y otros activos web estáticos directamente desde el registro de npm, repositorios de GitHub y módulos ESM. Funciona como un CDN inteligente que combina varios proveedores de primer nivel (actualmente Cloudflare y Fastly) y enruta cada petición al servidor más rápido según datos de rendimiento reales.
 
 ## Para qué sirve
 
-- **Cargar librerías npm**: Permite importar cualquier paquete publicado en npm sin necesidad de instalarlo localmente ni configurar bundles en desarrollo rápido.
-- **Servir código desde GitHub**: Funciona como un hosting directo para archivos de código fuente alojados en repositorios públicos de GitHub.
-- **Optimizar rendimiento con multi-CDN**: jsDelivr combina múltiples proveedores de CDN (como Cloudflare, Fastly, Bunny y GCore) en una única infraestructura inteligente para derivar el tráfico al servidor más rápido.
-- **Acceder a versiones específicas**: Permite enlazar a versiones exactas, rangos semánticos (semver) o directamente a la última versión disponible de un archivo.
-
-## Ejemplos de uso
-
-### 1. Cargar una librería npm
-Puedes cargar cualquier archivo de un paquete npm usando la siguiente estructura:
-`https://cdn.jsdelivr.net/npm/package@version/file`
-
-Ejemplo con la build para navegador de Tailwind CSS v4:
-```html
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-```
-
-### 2. Cargar desde GitHub
-Puedes acceder a archivos de repositorios públicos usando:
-`https://cdn.jsdelivr.net/gh/user/repo@version/file`
-
-Ejemplo con la librería jQuery:
-```html
-<script src="https://cdn.jsdelivr.net/gh/jquery/jquery@3.6.0/dist/jquery.min.js"></script>
-```
+- Cargar cualquier paquete publicado en npm sin instalarlo localmente ni configurar un bundler, ideal para desarrollo rápido.
+- Servir archivos de código directamente desde repositorios públicos de GitHub (o desde releases).
+- Enlazar a versiones exactas, rangos semánticos (semver) o a la última versión disponible de un archivo.
+- Distribuir activos estáticos pesados fuera de tu propio hosting para reducir ancho de banda y latencia.
 
 ## Cuándo usarlo
 
-Es una opción excelente para entornos de prototipado rápido, entornos interactivos en línea (como CodePen o JSFiddle), proyectos estáticos sencillos que no requieren un proceso de compilación complejo (build pipeline), o para servir activos estáticos pesados fuera de tu propio servidor de hosting para reducir ancho de banda.
+Es una opción excelente para prototipado rápido, entornos interactivos en línea (CodePen, JSFiddle), demos y proyectos estáticos sencillos que no requieren un proceso de compilación. También para servir librerías populares aprovechando el caché global del CDN. Como alternativas están unpkg (centrado en npm) o esm.sh (especializado en ESM); en aplicaciones grandes de producción suele preferirse empaquetar las dependencias localmente.
+
+## Ejemplo
+
+Cargar un archivo de un paquete de npm con la estructura `https://cdn.jsdelivr.net/npm/paquete@version/archivo`:
+
+```html
+<!-- Build para navegador de Tailwind CSS v4 -->
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+```
+
+Cargar un archivo desde un repositorio de GitHub con `https://cdn.jsdelivr.net/gh/usuario/repo@version/archivo`:
+
+```html
+<!-- jQuery 3.6.0 servido desde GitHub -->
+<script src="https://cdn.jsdelivr.net/gh/jquery/jquery@3.6.0/dist/jquery.min.js"></script>
+```
 
 ## Puntos clave
 
-- **Sin límites de ancho de banda**: Completamente gratuito y sin límites estrictos de tráfico para proyectos legítimos de código abierto.
-- **Infraestructura Multi-CDN**: Combina redes de primer nivel para ofrecer un uptime prácticamente del 100% y latencias mínimas.
-- **Minificación automática**: Si agregas `.min` al final del nombre del archivo y este no está minificado, jsDelivr puede generar la versión minificada al vuelo para ciertos archivos.
-- **Uso en China continental**: Cuenta con enlaces optimizados y licencias ICP para servir archivos de manera confiable en China sin bloqueos por el Great Firewall.
+- Gratuito y sin límites estrictos de ancho de banda para proyectos legítimos.
+- Infraestructura multi-CDN que ofrece un uptime muy alto y latencias mínimas a nivel global.
+- Minificación al vuelo: añadiendo `.min` al nombre de ciertos archivos no minificados, jsDelivr genera la versión minificada automáticamente.
+- Enlaces optimizados para servir contenido de forma fiable en China continental gracias a sus licencias ICP.
+- Proyecto open source con licencia MIT y comunidad muy activa.
 
 ## Ten en cuenta
 
-- **Límites de tamaño**: Existe un límite de tamaño máximo de **20 MB por archivo individual**, y el repositorio de GitHub al que se enlaza no debe superar los **100 MB** de tamaño total.
-- **No es aconsejable para producción crítica en grandes apps**: Depender de un CDN externo gratuito introduce un punto de fallo externo. En proyectos empresariales grandes se prefiere empaquetar las dependencias localmente.
-- **Seguridad**: Para mitigar riesgos de inyección de código (si el paquete npm o repo es comprometido), se recomienda usar la validación de integridad Subresource Integrity (SRI) con el atributo `integrity`.
-- **Actualizaciones por caché**: Si enlazas a la última versión (e.g. `@latest` o sin versión), el CDN almacena en caché el archivo por un tiempo (usualmente 24 horas), por lo que las actualizaciones de tu código en GitHub pueden no reflejarse inmediatamente.
+- Hay límites de tamaño: los archivos individuales de GitHub no pueden superar los **20 MB** y los paquetes mayores de **150 MB** no se sirven por defecto (se pueden solicitar excepciones).
+- Depender de un CDN externo introduce un punto de fallo de terceros; en producción crítica conviene valorar empaquetar las dependencias localmente.
+- Para mitigar riesgos si un paquete o repo se ve comprometido, usa validación de integridad (Subresource Integrity, atributo `integrity`).
+- Si enlazas a la última versión (sin fijar `@version`), el CDN cachea el archivo un tiempo, por lo que los cambios pueden tardar en reflejarse.

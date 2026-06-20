@@ -40,6 +40,12 @@ export interface Post {
   aiGenerated?: boolean;
   stack?: Array<string>;
 
+  /** Metadatos del repositorio de GitHub (ver scripts/refresh-github.mjs) */
+  stars?: number;
+  lastCommit?: Date;
+  version?: string;
+  archived?: boolean;
+
   /**  */
   metadata?: MetaData;
 

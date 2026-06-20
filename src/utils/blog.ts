@@ -69,6 +69,10 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
     featured = false,
     aiGenerated = false,
     stack: rawStack = [],
+    stars,
+    lastCommit: rawLastCommit,
+    version,
+    archived = false,
   } = data;
 
   const slug = cleanSlug(rawSlug); // cleanSlug(rawSlug.split('/').pop());
@@ -103,6 +107,11 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
     featured,
     aiGenerated,
     stack,
+
+    stars,
+    lastCommit: rawLastCommit ? new Date(rawLastCommit) : undefined,
+    version,
+    archived,
 
     internal,
     aditional,

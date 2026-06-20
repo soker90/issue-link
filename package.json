@@ -10,7 +10,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "format": "prettier -w .",
-    "lint:eslint": "eslint ."
+    "lint:eslint": "eslint .",
+    "refresh:github": "node scripts/refresh-github.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "7.2.0",

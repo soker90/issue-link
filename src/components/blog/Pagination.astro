@@ -14,7 +14,7 @@ const { prevUrl, nextUrl, prevText = 'Anterior', nextText = 'Siguiente' } = Astr
 
 {
   (prevUrl || nextUrl) && (
-    <div class="mt-8 flex justify-between">
+    <div class="mt-8 flex justify-between" data-pagination>
       <a
         class:list={['inline-flex items-center gap-2 rounded-sm px-4 py-2.5 text-body-sm font-medium transition hover:opacity-80', { invisible: !prevUrl }]}
         style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline); color: var(--color-ink);"

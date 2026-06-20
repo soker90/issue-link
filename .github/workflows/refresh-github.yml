@@ -1,0 +1,36 @@
+name: Refresh GitHub metadata
+
+# Actualiza estrellas, último commit, versión y estado de archivado de los
+# recursos que tienen un repositorio de GitHub asociado.
+on:
+  schedule:
+    - cron: '0 5 * * 1' # cada lunes a las 05:00 UTC
+  workflow_dispatch:
+
+concurrency:
+  group: refresh-github
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Refresh GitHub metadata
+        run: node scripts/refresh-github.mjs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          file_pattern: 'src/content/post/*.md'
+          commit_message: 'chore: refresh GitHub metadata (stars, último commit, versión, archivado)'
