@@ -140,13 +140,17 @@ const saveContent = ({ path: dirPath, issue, core }) => {
   if(isFieldValid(excerpt))
     markdown += `excerpt: ${excerpt}\n`;
 
-  const aditional = formated["Enlaces adicionales"]
-  if(isFieldValid(aditional))
-    markdown += `aditional:\n${aditional}\n`;
+  const aditional = formated["Enlaces adicionales"];
+  if (isFieldValid(aditional)) {
+    const indentedAditional = aditional.split("\n").map(line => `  ${line}`).join("\n");
+    markdown += `aditional:\n${indentedAditional}\n`;
+  }
 
-  const internal = formated["Otros enlaces internos relacionados"]
-  if(isFieldValid(internal))
-    markdown += `internal:\n${internal}\n`;
+  const internal = formated["Otros enlaces internos relacionados"];
+  if (isFieldValid(internal)) {
+    const indentedInternal = internal.split("\n").map(line => `  ${line}`).join("\n");
+    markdown += `internal:\n${indentedInternal}\n`;
+  }
 
   if (issue.labels && issue.labels.length > 0) {
     core.info("Labels found");

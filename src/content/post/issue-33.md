@@ -4,8 +4,8 @@ publishDate: 2026-06-20T17:50:15Z
 link: https://www.jsdelivr.com/
 excerpt: Un CDN público y gratuito para npm y GitHub.
 aditional:
-- [Web oficial de jsDelivr](https://www.jsdelivr.com/)
-- [Repositorio de jsDelivr en GitHub](https://github.com/jsdelivr/jsdelivr)
+  - https://www.jsdelivr.com/
+  - https://github.com/jsdelivr/jsdelivr
 tags:
   - tools
   - publicado
