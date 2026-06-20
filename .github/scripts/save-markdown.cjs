@@ -32,44 +32,113 @@ const slugify = (text) => {
     .replace(/\-\-+/g, "-");
 };
 
+const isDuplicate = (dirPath, link, currentFilename) => {
+  if (!link) return null;
+
+  const cleanLink = link.trim().toLowerCase();
+
+  // Extract github owner/repo if it's a GitHub URL
+  const ghMatch = cleanLink.match(/github\.com\/([a-zA-Z0-9_.-]+\/[a-zA-Z0-9_.-]+)/);
+  const ghRepo = ghMatch ? ghMatch[1].replace(/\.git$/, '').toLowerCase() : null;
+
+  const files = fs.readdirSync(dirPath).filter(f => f.endsWith('.md'));
+
+  for (const file of files) {
+    if (file === currentFilename) continue;
+
+    try {
+      const content = fs.readFileSync(path.join(dirPath, file), 'utf8');
+
+      // Check link: field in frontmatter
+      const linkMatch = content.match(/^link:\s*"?([^"\n]+)"?/m);
+      if (linkMatch) {
+        const existingLink = linkMatch[1].replace(/['"]/g, "").trim().toLowerCase();
+        if (existingLink === cleanLink) {
+          return file;
+        }
+      }
+
+      // Check repo: field in frontmatter
+      const repoMatch = content.match(/^repo:\s*"?([^"\n]+)"?/m);
+      if (repoMatch) {
+        const existingRepo = repoMatch[1].replace(/['"]/g, "").trim().toLowerCase();
+        if (existingRepo === cleanLink) {
+          return file;
+        }
+      }
+
+      // If it's a GitHub URL, check if the repo matches
+      if (ghRepo) {
+        const matches = content.matchAll(/github\.com\/([a-zA-Z0-9_.-]+\/[a-zA-Z0-9_.-]+)/gi);
+        for (const match of matches) {
+          const existingGhRepo = match[1].replace(/\.git$/, '').toLowerCase();
+          if (existingGhRepo === ghRepo) {
+            return file;
+          }
+        }
+      }
+    } catch (e) {
+      // Ignore read errors
+    }
+  }
+
+  return null;
+};
+
 const getFilename = (dirPath, issue) => {
+  // 1. If issue-specific file already exists, keep updating it
+  const prefixedFilename = `issue-${issue.number}`;
+  const prefixedPath = path.join(dirPath, `${prefixedFilename}.md`);
+  if (fs.existsSync(prefixedPath)) {
+    return prefixedFilename;
+  }
+
+  // 2. If legacy number-only file exists, check if it's the same resource
   const defaultFilename = `${issue.number}`;
   const defaultPath = path.join(dirPath, `${defaultFilename}.md`);
-  if (!fs.existsSync(defaultPath)) {
-    return defaultFilename;
-  }
-
-  try {
-    const content = fs.readFileSync(defaultPath, "utf8");
-    const titleMatch = content.match(/^title:\s*(.*)$/m);
-    if (titleMatch) {
-      const existingTitle = titleMatch[1].replace(/['"]/g, "").trim();
-      const cleanIssueTitle = clearTitle(issue.title).trim();
-      if (existingTitle.toLowerCase() === cleanIssueTitle.toLowerCase()) {
-        return defaultFilename;
+  if (fs.existsSync(defaultPath)) {
+    try {
+      const content = fs.readFileSync(defaultPath, "utf8");
+      const titleMatch = content.match(/^title:\s*(.*)$/m);
+      if (titleMatch) {
+        const existingTitle = titleMatch[1].replace(/['"]/g, "").trim();
+        const cleanIssueTitle = clearTitle(issue.title).trim();
+        if (existingTitle.toLowerCase() === cleanIssueTitle.toLowerCase()) {
+          return defaultFilename;
+        }
       }
+    } catch (e) {
+      // Ignore read error
     }
-  } catch (e) {
-    // Ignore read error
   }
 
-  return slugify(clearTitle(issue.title));
+  // 3. Otherwise, use the prefixed name to avoid collisions
+  return prefixedFilename;
 };
 
 const saveContent = ({ path: dirPath, issue, core }) => {
   const formated = formatBody(issue.body);
+  const nameFile = getFilename(dirPath, issue);
+
+  const link = formated["Enlace"];
+  if (isFieldValid(link)) {
+    const duplicateFile = isDuplicate(dirPath, link, `${nameFile}.md`);
+    if (duplicateFile) {
+      core.warning(`Duplicate resource detected! The link ${link} is already present in ${duplicateFile}. Skipping generation.`);
+      return;
+    }
+  }
 
   let markdown = "---\n";
   markdown += `title: ${clearTitle(issue.title)}\n`;
   markdown += `publishDate: ${issue.updated_at}\n`;
 
-  const link = formated["Enlace"]
   if(isFieldValid(link))
     markdown += `link: ${link}\n`;
 
-    const excerpt = formated["Descripción"]
-    if(isFieldValid(excerpt))
-      markdown += `excerpt: ${excerpt}\n`;
+  const excerpt = formated["Descripción"];
+  if(isFieldValid(excerpt))
+    markdown += `excerpt: ${excerpt}\n`;
 
   const aditional = formated["Enlaces adicionales"]
   if(isFieldValid(aditional))
@@ -94,7 +163,6 @@ const saveContent = ({ path: dirPath, issue, core }) => {
 
   core.info(`Markdown: ${markdown}`);
 
-  const nameFile = getFilename(dirPath, issue);
   writeToFile(markdown, dirPath, nameFile);
 };
 
