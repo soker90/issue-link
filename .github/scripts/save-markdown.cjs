@@ -20,7 +20,43 @@ const clearTitle = (title) => title.replace(/\[link\]: /, "");
 
 const isFieldValid = (field) => field && field!=='_No response_';
 
-const saveContent = ({ path, issue, core }) => {
+const slugify = (text) => {
+  return text
+    .toString()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w\-]+/g, "")
+    .replace(/\-\-+/g, "-");
+};
+
+const getFilename = (dirPath, issue) => {
+  const defaultFilename = `${issue.number}`;
+  const defaultPath = path.join(dirPath, `${defaultFilename}.md`);
+  if (!fs.existsSync(defaultPath)) {
+    return defaultFilename;
+  }
+
+  try {
+    const content = fs.readFileSync(defaultPath, "utf8");
+    const titleMatch = content.match(/^title:\s*(.*)$/m);
+    if (titleMatch) {
+      const existingTitle = titleMatch[1].replace(/['"]/g, "").trim();
+      const cleanIssueTitle = clearTitle(issue.title).trim();
+      if (existingTitle.toLowerCase() === cleanIssueTitle.toLowerCase()) {
+        return defaultFilename;
+      }
+    }
+  } catch (e) {
+    // Ignore read error
+  }
+
+  return slugify(clearTitle(issue.title));
+};
+
+const saveContent = ({ path: dirPath, issue, core }) => {
   const formated = formatBody(issue.body);
 
   let markdown = "---\n";
@@ -58,7 +94,8 @@ const saveContent = ({ path, issue, core }) => {
 
   core.info(`Markdown: ${markdown}`);
 
-  writeToFile(markdown, path, issue.number);
+  const nameFile = getFilename(dirPath, issue);
+  writeToFile(markdown, dirPath, nameFile);
 };
 
 const writeToFile = (string, path, nameFile, overwrite = false) =>
