@@ -19,7 +19,6 @@ const allPosts = await fetchPosts();
 const allTags = await findTags();
 const allStacks = await findStacks();
 const allTypes = await findTypes();
-const featured = allPosts.filter((post) => post.featured).slice(0, 8);
 
 const typeLabels: Record<string, string> = {
   service: 'Servicio',
@@ -88,458 +87,431 @@ const metadata = {
         </div>
       </div>
 
-      {
-        featured.length > 0 && (
-          <div class="mt-12">
-            <h2 class="text-display-sm mb-4" style="color: var(--color-ink);">
-              Destacados
-            </h2>
-            <div class="flex gap-3 overflow-x-auto pb-2">
-              {featured.map((post) => (
-                <a
-                  href={getPermalink(post.permalink, 'post')}
-                  class="min-w-[240px] rounded-md p-4 transition hover:opacity-80"
-                  style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);"
+      <section class="px-6 pb-16 sm:pb-24 lg:pb-32">
+        <div class="mx-auto max-w-6xl">
+          <div class="mb-8 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
+            <div>
+              <h2 class="text-display-md" style="color: var(--color-ink);">Todos los recursos</h2>
+            </div>
+            <div class="flex items-center gap-4">
+              <p class="text-body-sm" style="color: var(--color-mute);">
+                <span data-result-count>{page.data.length}</span> recursos
+              </p>
+              <div
+                class="flex gap-1 rounded-sm p-1"
+                style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);"
+              >
+                <button
+                  data-view-toggle="grid"
+                  aria-label="Vista en cuadricula"
+                  class="rounded-xs px-2 py-1 transition"
+                  style="background-color: var(--color-canvas); color: var(--color-ink);"
+                  title="Vista cuadricula"
                 >
-                  <span class="block text-caption uppercase tracking-widest" style="color: var(--color-mute);">
-                    {typeLabels[post.type] || post.type?.replaceAll('-', ' ')}
-                  </span>
-                  <span class="mt-1 block text-body-md-strong" style="color: var(--color-ink);">
-                    {post.title}
-                  </span>
-                </a>
-              ))}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    ><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect
+                      x="3"
+                      y="14"
+                      width="7"
+                      height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg
+                  >
+                </button>
+                <button
+                  data-view-toggle="list"
+                  aria-label="Vista en lista"
+                  class="rounded-xs px-2 py-1 transition"
+                  style="color: var(--color-mute);"
+                  title="Vista lista"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    ><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line
+                      x1="8"
+                      y1="18"
+                      x2="21"
+                      y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"
+                    ></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg
+                  >
+                </button>
+              </div>
             </div>
           </div>
-        )
-      }
-    </div>
-  </section>
-
-  <section class="px-6 pb-16 sm:pb-24 lg:pb-32">
-    <div class="mx-auto max-w-6xl">
-      <div class="mb-8 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
-        <div>
-          <p class="text-caption uppercase tracking-[0.2em] font-medium" style="color: var(--color-mute);">Explorar</p>
-          <h2 class="mt-2 text-display-md" style="color: var(--color-ink);">Todos los recursos</h2>
-        </div>
-        <div class="flex items-center gap-4">
-          <p class="text-body-sm" style="color: var(--color-mute);">
-            <span data-result-count>{page.data.length}</span> recursos
-          </p>
           <div
-            class="flex gap-1 rounded-sm p-1"
-            style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);"
+            class="sticky top-16 z-30 mb-6 rounded-md p-5"
+            style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline); box-shadow: 0 6px 24px -12px rgba(0,0,0,0.5);"
           >
-            <button
-              data-view-toggle="grid"
-              aria-label="Vista en cuadricula"
-              class="rounded-xs px-2 py-1 transition"
-              style="background-color: var(--color-canvas); color: var(--color-ink);"
-              title="Vista cuadricula"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                ><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect
-                  x="3"
-                  y="14"
-                  width="7"
-                  height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg
+            <div class="grid gap-4 lg:grid-cols-[1fr_180px_180px_180px]">
+              <label class="relative block">
+                <span class="sr-only">Buscar recursos</span>
+                <input
+                  data-resource-search
+                  class="w-full rounded-sm px-4 py-3 text-body-sm font-medium outline-none"
+                  style="background-color: var(--color-canvas); color: var(--color-ink); border: 1px solid var(--color-hairline);"
+                  type="search"
+                  placeholder="Buscar: enviar emails, monitorizar, tailwind, API..."
+                />
+              </label>
+              <select
+                data-resource-type
+                class="rounded-sm px-4 py-3 text-body-sm font-medium outline-none"
+                style="background-color: var(--color-canvas); color: var(--color-ink); border: 1px solid var(--color-hairline);"
               >
+                <option value="">Todos los tipos</option>
+                {
+                  allTypes.map(({ type, count }) => (
+                    <option value={type}>
+                      {typeLabels[type] || type.replaceAll('-', ' ')} ({count})
+                    </option>
+                  ))
+                }
+              </select>
+              <select
+                data-resource-stack
+                class="rounded-sm px-4 py-3 text-body-sm font-medium outline-none"
+                style="background-color: var(--color-canvas); color: var(--color-ink); border: 1px solid var(--color-hairline);"
+              >
+                <option value="">Todos los stacks</option>
+                {
+                  allStacks.map(({ stack, count }) => (
+                    <option value={stack}>
+                      {stack} ({count})
+                    </option>
+                  ))
+                }
+              </select>
+              <select
+                data-resource-sort
+                class="rounded-sm px-4 py-3 text-body-sm font-medium outline-none"
+                style="background-color: var(--color-canvas); color: var(--color-ink); border: 1px solid var(--color-hairline);"
+              >
+                <option value="default">Ordenar: por defecto</option>
+                <option value="alpha-asc">Nombre A → Z</option>
+                <option value="alpha-desc">Nombre Z → A</option>
+                <option value="date-desc">Mas recientes</option>
+                <option value="date-asc">Mas antiguos</option>
+                <option value="featured">Destacados primero</option>
+              </select>
+            </div>
+            <div class="mt-4 flex flex-wrap gap-2" data-tag-filter-list>
+              {
+                allTags.slice(0, 20).map(({ tag, count }) => (
+                  <button
+                    type="button"
+                    data-resource-tag={tag}
+                    class="rounded-sm px-3 py-1.5 text-caption font-medium transition"
+                    style="background-color: var(--color-canvas); color: var(--color-body); border: 1px solid var(--color-hairline);"
+                  >
+                    {tag} <span style="color: var(--color-mute);">{count}</span>
+                  </button>
+                ))
+              }
+            </div>
+          </div>
+          <BlogList posts={page.data} />
+          <div data-client-pagination class="mt-10 hidden items-center justify-center gap-4">
+            <button
+              data-page-prev
+              class="inline-flex items-center gap-2 rounded-sm px-4 py-2.5 text-body-sm font-medium transition hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-40"
+              style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline); color: var(--color-ink);"
+            >
+              <Icon name="tabler:chevron-left" class="h-4 w-4" /> Anterior
             </button>
+            <span data-page-info class="text-body-sm font-medium" style="color: var(--color-mute);">Pagina 1 de 1</span>
             <button
-              data-view-toggle="list"
-              aria-label="Vista en lista"
-              class="rounded-xs px-2 py-1 transition"
-              style="color: var(--color-mute);"
-              title="Vista lista"
+              data-page-next
+              class="inline-flex items-center gap-2 rounded-sm px-4 py-2.5 text-body-sm font-medium transition hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-40"
+              style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline); color: var(--color-ink);"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                ><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line
-                  x1="8"
-                  y1="18"
-                  x2="21"
-                  y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"
-                ></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg
-              >
+              Siguiente <Icon name="tabler:chevron-right" class="h-4 w-4" />
             </button>
           </div>
         </div>
-      </div>
-      <div
-        class="sticky top-16 z-30 mb-6 rounded-md p-5"
-        style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline); box-shadow: 0 6px 24px -12px rgba(0,0,0,0.5);"
+      </section>
+
+      <button
+        data-back-to-top
+        aria-label="Volver arriba"
+        title="Volver arriba"
+        class="fixed bottom-6 right-6 z-40 hidden items-center justify-center rounded-full p-3 shadow-lg transition hover:opacity-80"
+        style="background-color: var(--color-primary); color: var(--color-on-primary, #fff); border: 1px solid var(--color-hairline);"
       >
-        <div class="grid gap-4 lg:grid-cols-[1fr_180px_180px_180px]">
-          <label class="relative block">
-            <span class="sr-only">Buscar recursos</span>
-            <input
-              data-resource-search
-              class="w-full rounded-sm px-4 py-3 text-body-sm font-medium outline-none"
-              style="background-color: var(--color-canvas); color: var(--color-ink); border: 1px solid var(--color-hairline);"
-              type="search"
-              placeholder="Buscar: enviar emails, monitorizar, tailwind, API..."
-            />
-          </label>
-          <select
-            data-resource-type
-            class="rounded-sm px-4 py-3 text-body-sm font-medium outline-none"
-            style="background-color: var(--color-canvas); color: var(--color-ink); border: 1px solid var(--color-hairline);"
-          >
-            <option value="">Todos los tipos</option>
-            {
-              allTypes.map(({ type, count }) => (
-                <option value={type}>
-                  {typeLabels[type] || type.replaceAll('-', ' ')} ({count})
-                </option>
-              ))
-            }
-          </select>
-          <select
-            data-resource-stack
-            class="rounded-sm px-4 py-3 text-body-sm font-medium outline-none"
-            style="background-color: var(--color-canvas); color: var(--color-ink); border: 1px solid var(--color-hairline);"
-          >
-            <option value="">Todos los stacks</option>
-            {
-              allStacks.map(({ stack, count }) => (
-                <option value={stack}>
-                  {stack} ({count})
-                </option>
-              ))
-            }
-          </select>
-          <select
-            data-resource-sort
-            class="rounded-sm px-4 py-3 text-body-sm font-medium outline-none"
-            style="background-color: var(--color-canvas); color: var(--color-ink); border: 1px solid var(--color-hairline);"
-          >
-            <option value="default">Ordenar: por defecto</option>
-            <option value="alpha-asc">Nombre A → Z</option>
-            <option value="alpha-desc">Nombre Z → A</option>
-            <option value="date-desc">Mas recientes</option>
-            <option value="date-asc">Mas antiguos</option>
-            <option value="featured">Destacados primero</option>
-          </select>
-        </div>
-        <div class="mt-4 flex flex-wrap gap-2" data-tag-filter-list>
-          {
-            allTags.slice(0, 20).map(({ tag, count }) => (
-              <button
-                type="button"
-                data-resource-tag={tag}
-                class="rounded-sm px-3 py-1.5 text-caption font-medium transition"
-                style="background-color: var(--color-canvas); color: var(--color-body); border: 1px solid var(--color-hairline);"
-              >
-                {tag} <span style="color: var(--color-mute);">{count}</span>
-              </button>
-            ))
+        <Icon name="tabler:arrow-up" class="h-5 w-5" />
+      </button>
+
+      <script>
+        const searchInput = document.querySelector<HTMLInputElement>('[data-resource-search]');
+        const typeSelect = document.querySelector<HTMLSelectElement>('[data-resource-type]');
+        const stackSelect = document.querySelector<HTMLSelectElement>('[data-resource-stack]');
+        const sortSelect = document.querySelector<HTMLSelectElement>('[data-resource-sort]');
+        const tagButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-resource-tag]'));
+        const resourceList = document.querySelector<HTMLUListElement>('[data-resource-list]');
+        const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-resource-card]'));
+        const emptyState = document.querySelector<HTMLElement>('[data-empty-state]');
+        const resultCount = document.querySelector<HTMLElement>('[data-result-count]');
+        const viewToggles = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-view-toggle]'));
+        let activeTag = '';
+
+        // ── URL params ─────────────────────────────────────────────────────────────
+        function getParams() {
+          const p = new URLSearchParams(window.location.search);
+          return {
+            q: p.get('q') || '',
+            type: p.get('type') || '',
+            stack: p.get('stack') || '',
+            tag: p.get('tag') || '',
+            sort: p.get('sort') || '',
+          };
+        }
+
+        function pushParams() {
+          const p = new URLSearchParams();
+          const q = searchInput?.value?.trim() || '';
+          const type = typeSelect?.value || '';
+          const stack = stackSelect?.value || '';
+          const sort = sortSelect?.value && sortSelect.value !== 'default' ? sortSelect.value : '';
+          if (q) p.set('q', q);
+          if (type) p.set('type', type);
+          if (stack) p.set('stack', stack);
+          if (activeTag) p.set('tag', activeTag);
+          if (sort) p.set('sort', sort);
+          const search = p.toString();
+          history.replaceState(null, '', search ? `?${search}` : window.location.pathname);
+        }
+
+        function restoreFromParams() {
+          const { q, type, stack, tag, sort } = getParams();
+          if (searchInput && q) searchInput.value = q;
+          if (typeSelect && type) typeSelect.value = type;
+          if (stackSelect && stack) stackSelect.value = stack;
+          if (sortSelect && sort) sortSelect.value = sort;
+          if (tag) {
+            activeTag = tag;
+            tagButtons.forEach((btn) => {
+              if (btn.dataset.resourceTag === tag) {
+                btn.style.backgroundColor = 'var(--color-primary)';
+                btn.style.color = 'var(--color-on-primary)';
+                btn.style.borderColor = 'var(--color-primary)';
+              }
+            });
           }
-        </div>
-      </div>
-      <BlogList posts={page.data} />
-      <div data-client-pagination class="mt-10 hidden items-center justify-center gap-4">
-        <button
-          data-page-prev
-          class="inline-flex items-center gap-2 rounded-sm px-4 py-2.5 text-body-sm font-medium transition hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-40"
-          style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline); color: var(--color-ink);"
-        >
-          <Icon name="tabler:chevron-left" class="h-4 w-4" /> Anterior
-        </button>
-        <span data-page-info class="text-body-sm font-medium" style="color: var(--color-mute);">Pagina 1 de 1</span>
-        <button
-          data-page-next
-          class="inline-flex items-center gap-2 rounded-sm px-4 py-2.5 text-body-sm font-medium transition hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-40"
-          style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline); color: var(--color-ink);"
-        >
-          Siguiente <Icon name="tabler:chevron-right" class="h-4 w-4" />
-        </button>
-      </div>
-    </div>
-  </section>
+        }
 
-  <button
-    data-back-to-top
-    aria-label="Volver arriba"
-    title="Volver arriba"
-    class="fixed bottom-6 right-6 z-40 hidden items-center justify-center rounded-full p-3 shadow-lg transition hover:opacity-80"
-    style="background-color: var(--color-primary); color: var(--color-on-primary, #fff); border: 1px solid var(--color-hairline);"
-  >
-    <Icon name="tabler:arrow-up" class="h-5 w-5" />
-  </button>
-
-  <script>
-    const searchInput = document.querySelector<HTMLInputElement>('[data-resource-search]');
-    const typeSelect = document.querySelector<HTMLSelectElement>('[data-resource-type]');
-    const stackSelect = document.querySelector<HTMLSelectElement>('[data-resource-stack]');
-    const sortSelect = document.querySelector<HTMLSelectElement>('[data-resource-sort]');
-    const tagButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-resource-tag]'));
-    const resourceList = document.querySelector<HTMLUListElement>('[data-resource-list]');
-    const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-resource-card]'));
-    const emptyState = document.querySelector<HTMLElement>('[data-empty-state]');
-    const resultCount = document.querySelector<HTMLElement>('[data-result-count]');
-    const viewToggles = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-view-toggle]'));
-    let activeTag = '';
-
-    // ── URL params ─────────────────────────────────────────────────────────────
-    function getParams() {
-      const p = new URLSearchParams(window.location.search);
-      return {
-        q: p.get('q') || '',
-        type: p.get('type') || '',
-        stack: p.get('stack') || '',
-        tag: p.get('tag') || '',
-        sort: p.get('sort') || '',
-      };
-    }
-
-    function pushParams() {
-      const p = new URLSearchParams();
-      const q = searchInput?.value?.trim() || '';
-      const type = typeSelect?.value || '';
-      const stack = stackSelect?.value || '';
-      const sort = sortSelect?.value && sortSelect.value !== 'default' ? sortSelect.value : '';
-      if (q) p.set('q', q);
-      if (type) p.set('type', type);
-      if (stack) p.set('stack', stack);
-      if (activeTag) p.set('tag', activeTag);
-      if (sort) p.set('sort', sort);
-      const search = p.toString();
-      history.replaceState(null, '', search ? `?${search}` : window.location.pathname);
-    }
-
-    function restoreFromParams() {
-      const { q, type, stack, tag, sort } = getParams();
-      if (searchInput && q) searchInput.value = q;
-      if (typeSelect && type) typeSelect.value = type;
-      if (stackSelect && stack) stackSelect.value = stack;
-      if (sortSelect && sort) sortSelect.value = sort;
-      if (tag) {
-        activeTag = tag;
-        tagButtons.forEach((btn) => {
-          if (btn.dataset.resourceTag === tag) {
-            btn.style.backgroundColor = 'var(--color-primary)';
-            btn.style.color = 'var(--color-on-primary)';
-            btn.style.borderColor = 'var(--color-primary)';
+        // ── Sorting ─────────────────────────────────────────────────────────────────
+        function getSortedItems(items: HTMLElement[]) {
+          const sort = sortSelect?.value || 'default';
+          if (sort === 'default') return items;
+          const arr = [...items];
+          switch (sort) {
+            case 'alpha-asc':
+              return arr.sort((a, b) => (a.dataset.title || '').localeCompare(b.dataset.title || ''));
+            case 'alpha-desc':
+              return arr.sort((a, b) => (b.dataset.title || '').localeCompare(a.dataset.title || ''));
+            case 'date-desc':
+              return arr.sort((a, b) => (b.dataset.date || '').localeCompare(a.dataset.date || ''));
+            case 'date-asc':
+              return arr.sort((a, b) => (a.dataset.date || '').localeCompare(b.dataset.date || ''));
+            case 'featured':
+              return arr.sort((a, b) => {
+                const af = a.dataset.featured === 'true' ? 0 : 1;
+                const bf = b.dataset.featured === 'true' ? 0 : 1;
+                return af - bf;
+              });
+            default:
+              return arr;
           }
-        });
-      }
-    }
+        }
 
-    // ── Sorting ─────────────────────────────────────────────────────────────────
-    function getSortedItems(items: HTMLElement[]) {
-      const sort = sortSelect?.value || 'default';
-      if (sort === 'default') return items;
-      const arr = [...items];
-      switch (sort) {
-        case 'alpha-asc':
-          return arr.sort((a, b) => (a.dataset.title || '').localeCompare(b.dataset.title || ''));
-        case 'alpha-desc':
-          return arr.sort((a, b) => (b.dataset.title || '').localeCompare(a.dataset.title || ''));
-        case 'date-desc':
-          return arr.sort((a, b) => (b.dataset.date || '').localeCompare(a.dataset.date || ''));
-        case 'date-asc':
-          return arr.sort((a, b) => (a.dataset.date || '').localeCompare(b.dataset.date || ''));
-        case 'featured':
-          return arr.sort((a, b) => {
-            const af = a.dataset.featured === 'true' ? 0 : 1;
-            const bf = b.dataset.featured === 'true' ? 0 : 1;
-            return af - bf;
+        // ── Paginacion en cliente ────────────────────────────────────────────────────
+        // La rejilla muestra 1, 2 o 3 columnas (mobile / md / lg). Para que la última
+        // fila quede siempre llena, PER_PAGE debe ser múltiplo de 6 (mcm de 1, 2 y 3).
+        const PER_PAGE = 24;
+        let currentPage = 0;
+        const clientPagination = document.querySelector<HTMLElement>('[data-client-pagination]');
+        const pagePrev = document.querySelector<HTMLButtonElement>('[data-page-prev]');
+        const pageNext = document.querySelector<HTMLButtonElement>('[data-page-next]');
+        const pageInfo = document.querySelector<HTMLElement>('[data-page-info]');
+
+        function getMatchingLis(): HTMLElement[] {
+          if (!resourceList) return [];
+          // Solo los <li> hijos directos (las tarjetas). Ojo: PostTags renderiza <li>
+          // anidados dentro de cada tarjeta, así que NO se puede usar querySelectorAll('li').
+          return Array.from(resourceList.querySelectorAll<HTMLElement>(':scope > li')).filter(
+            (li) => li.dataset.match !== '0'
+          );
+        }
+
+        function renderPage() {
+          if (!resourceList) return;
+          const allLis = Array.from(resourceList.querySelectorAll<HTMLElement>(':scope > li'));
+          const matching = allLis.filter((li) => li.dataset.match !== '0');
+          const total = matching.length;
+          const pages = Math.max(1, Math.ceil(total / PER_PAGE));
+          if (currentPage >= pages) currentPage = pages - 1;
+          if (currentPage < 0) currentPage = 0;
+
+          allLis.forEach((li) => {
+            if (li.dataset.match === '0') {
+              li.classList.add('hidden');
+            } else {
+              const idx = matching.indexOf(li);
+              const inPage = idx >= currentPage * PER_PAGE && idx < (currentPage + 1) * PER_PAGE;
+              li.classList.toggle('hidden', !inPage);
+            }
           });
-        default:
-          return arr;
-      }
-    }
 
-    // ── Paginacion en cliente ────────────────────────────────────────────────────
-    // La rejilla muestra 1, 2 o 3 columnas (mobile / md / lg). Para que la última
-    // fila quede siempre llena, PER_PAGE debe ser múltiplo de 6 (mcm de 1, 2 y 3).
-    const PER_PAGE = 24;
-    let currentPage = 0;
-    const clientPagination = document.querySelector<HTMLElement>('[data-client-pagination]');
-    const pagePrev = document.querySelector<HTMLButtonElement>('[data-page-prev]');
-    const pageNext = document.querySelector<HTMLButtonElement>('[data-page-next]');
-    const pageInfo = document.querySelector<HTMLElement>('[data-page-info]');
-
-    function getMatchingLis(): HTMLElement[] {
-      if (!resourceList) return [];
-      // Solo los <li> hijos directos (las tarjetas). Ojo: PostTags renderiza <li>
-      // anidados dentro de cada tarjeta, así que NO se puede usar querySelectorAll('li').
-      return Array.from(resourceList.querySelectorAll<HTMLElement>(':scope > li')).filter(
-        (li) => li.dataset.match !== '0'
-      );
-    }
-
-    function renderPage() {
-      if (!resourceList) return;
-      const allLis = Array.from(resourceList.querySelectorAll<HTMLElement>(':scope > li'));
-      const matching = allLis.filter((li) => li.dataset.match !== '0');
-      const total = matching.length;
-      const pages = Math.max(1, Math.ceil(total / PER_PAGE));
-      if (currentPage >= pages) currentPage = pages - 1;
-      if (currentPage < 0) currentPage = 0;
-
-      allLis.forEach((li) => {
-        if (li.dataset.match === '0') {
-          li.classList.add('hidden');
-        } else {
-          const idx = matching.indexOf(li);
-          const inPage = idx >= currentPage * PER_PAGE && idx < (currentPage + 1) * PER_PAGE;
-          li.classList.toggle('hidden', !inPage);
-        }
-      });
-
-      if (clientPagination) {
-        const show = total > PER_PAGE;
-        clientPagination.classList.toggle('hidden', !show);
-        clientPagination.classList.toggle('flex', show);
-      }
-      if (pageInfo) pageInfo.textContent = `Pagina ${currentPage + 1} de ${pages}`;
-      if (pagePrev) pagePrev.toggleAttribute('disabled', currentPage === 0);
-      if (pageNext) pageNext.toggleAttribute('disabled', currentPage >= pages - 1);
-    }
-
-    function goToPage(n: number) {
-      currentPage = n;
-      renderPage();
-
-      const stickyBox = document.querySelector('.sticky.top-16') as HTMLElement;
-      let stickyTop = 64;
-      if (stickyBox) {
-        const computedTop = window.getComputedStyle(stickyBox).top;
-        if (computedTop.endsWith('px')) {
-          stickyTop = parseFloat(computedTop);
-        }
-      }
-      const stickyBoxHeight = stickyBox ? stickyBox.getBoundingClientRect().height : 120;
-      const offset = stickyTop + stickyBoxHeight + 24;
-
-      const top = (resourceList?.getBoundingClientRect().top ?? 0) + window.scrollY - offset;
-      window.scrollTo({ top: top < 0 ? 0 : top, behavior: 'smooth' });
-    }
-
-    // ── Filtering + rendering ───────────────────────────────────────────────────
-    const applyFilters = () => {
-      const query = searchInput?.value?.toLowerCase().trim() || '';
-      const type = typeSelect?.value || '';
-      const stack = stackSelect?.value || '';
-      let matched = 0;
-
-      cards.forEach((card) => {
-        const matchesSearch = !query || card.dataset.search?.includes(query);
-        const matchesType = !type || card.dataset.type === type;
-        const matchesStack = !stack || card.dataset.stack?.split(' ').includes(stack);
-        const matchesTag = !activeTag || card.dataset.tags?.split(' ').includes(activeTag);
-        const matches = matchesSearch && matchesType && matchesStack && matchesTag;
-        const li = card.closest<HTMLElement>('li');
-        if (li) li.dataset.match = matches ? '1' : '0';
-        if (matches) matched += 1;
-      });
-
-      // Ordenar reordenando el DOM (solo los que encajan)
-      if (resourceList) {
-        const matchingCards = getMatchingLis()
-          .map((li) => li.querySelector<HTMLElement>('[data-resource-card]'))
-          .filter(Boolean) as HTMLElement[];
-        const sorted = getSortedItems(matchingCards);
-        sorted.forEach((card) => {
-          const li = card.closest('li');
-          if (li) resourceList.appendChild(li);
-        });
-      }
-
-      emptyState?.classList.toggle('hidden', matched !== 0);
-      if (resultCount) resultCount.textContent = String(matched);
-
-      currentPage = 0;
-      renderPage();
-      pushParams();
-    };
-
-    pagePrev?.addEventListener('click', () => goToPage(currentPage - 1));
-    pageNext?.addEventListener('click', () => goToPage(currentPage + 1));
-
-    // ── View toggle ─────────────────────────────────────────────────────────────
-    function applyView(view: string) {
-      if (!resourceList) return;
-      if (view === 'list') {
-        resourceList.classList.remove('md:grid-cols-2', 'lg:grid-cols-3');
-        resourceList.classList.add('grid-cols-1');
-      } else {
-        resourceList.classList.remove('grid-cols-1');
-        resourceList.classList.add('md:grid-cols-2', 'lg:grid-cols-3');
-      }
-      viewToggles.forEach((btn) => {
-        const isActive = btn.dataset.viewToggle === view;
-        btn.style.backgroundColor = isActive ? 'var(--color-canvas)' : 'transparent';
-        btn.style.color = isActive ? 'var(--color-ink)' : 'var(--color-mute)';
-      });
-      localStorage.setItem('devlinks-view', view);
-    }
-
-    viewToggles.forEach((btn) => {
-      btn.addEventListener('click', () => applyView(btn.dataset.viewToggle || 'grid'));
-    });
-
-    // ── Init ────────────────────────────────────────────────────────────────────
-    restoreFromParams();
-
-    const savedView = localStorage.getItem('devlinks-view') || 'grid';
-    applyView(savedView);
-
-    searchInput?.addEventListener('input', applyFilters);
-    typeSelect?.addEventListener('change', applyFilters);
-    stackSelect?.addEventListener('change', applyFilters);
-    sortSelect?.addEventListener('change', applyFilters);
-
-    tagButtons.forEach((button) => {
-      button.addEventListener('click', () => {
-        activeTag = activeTag === button.dataset.resourceTag ? '' : button.dataset.resourceTag || '';
-        tagButtons.forEach((item) => {
-          if (item === button && activeTag) {
-            item.style.backgroundColor = 'var(--color-primary)';
-            item.style.color = 'var(--color-on-primary)';
-            item.style.borderColor = 'var(--color-primary)';
-          } else {
-            item.style.backgroundColor = 'var(--color-canvas)';
-            item.style.color = 'var(--color-body)';
-            item.style.borderColor = 'var(--color-hairline)';
+          if (clientPagination) {
+            const show = total > PER_PAGE;
+            clientPagination.classList.toggle('hidden', !show);
+            clientPagination.classList.toggle('flex', show);
           }
+          if (pageInfo) pageInfo.textContent = `Pagina ${currentPage + 1} de ${pages}`;
+          if (pagePrev) pagePrev.toggleAttribute('disabled', currentPage === 0);
+          if (pageNext) pageNext.toggleAttribute('disabled', currentPage >= pages - 1);
+        }
+
+        function goToPage(n: number) {
+          currentPage = n;
+          renderPage();
+
+          const stickyBox = document.querySelector('.sticky.top-16') as HTMLElement;
+          let stickyTop = 64;
+          if (stickyBox) {
+            const computedTop = window.getComputedStyle(stickyBox).top;
+            if (computedTop.endsWith('px')) {
+              stickyTop = parseFloat(computedTop);
+            }
+          }
+          const stickyBoxHeight = stickyBox ? stickyBox.getBoundingClientRect().height : 120;
+          const offset = stickyTop + stickyBoxHeight + 24;
+
+          const top = (resourceList?.getBoundingClientRect().top ?? 0) + window.scrollY - offset;
+          window.scrollTo({ top: top < 0 ? 0 : top, behavior: 'smooth' });
+        }
+
+        // ── Filtering + rendering ───────────────────────────────────────────────────
+        const applyFilters = () => {
+          const query = searchInput?.value?.toLowerCase().trim() || '';
+          const type = typeSelect?.value || '';
+          const stack = stackSelect?.value || '';
+          let matched = 0;
+
+          cards.forEach((card) => {
+            const matchesSearch = !query || card.dataset.search?.includes(query);
+            const matchesType = !type || card.dataset.type === type;
+            const matchesStack = !stack || card.dataset.stack?.split(' ').includes(stack);
+            const matchesTag = !activeTag || card.dataset.tags?.split(' ').includes(activeTag);
+            const matches = matchesSearch && matchesType && matchesStack && matchesTag;
+            const li = card.closest<HTMLElement>('li');
+            if (li) li.dataset.match = matches ? '1' : '0';
+            if (matches) matched += 1;
+          });
+
+          // Ordenar reordenando el DOM (solo los que encajan)
+          if (resourceList) {
+            const matchingCards = getMatchingLis()
+              .map((li) => li.querySelector<HTMLElement>('[data-resource-card]'))
+              .filter(Boolean) as HTMLElement[];
+            const sorted = getSortedItems(matchingCards);
+            sorted.forEach((card) => {
+              const li = card.closest('li');
+              if (li) resourceList.appendChild(li);
+            });
+          }
+
+          emptyState?.classList.toggle('hidden', matched !== 0);
+          if (resultCount) resultCount.textContent = String(matched);
+
+          currentPage = 0;
+          renderPage();
+          pushParams();
+        };
+
+        pagePrev?.addEventListener('click', () => goToPage(currentPage - 1));
+        pageNext?.addEventListener('click', () => goToPage(currentPage + 1));
+
+        // ── View toggle ─────────────────────────────────────────────────────────────
+        function applyView(view: string) {
+          if (!resourceList) return;
+          if (view === 'list') {
+            resourceList.classList.remove('md:grid-cols-2', 'lg:grid-cols-3');
+            resourceList.classList.add('grid-cols-1');
+          } else {
+            resourceList.classList.remove('grid-cols-1');
+            resourceList.classList.add('md:grid-cols-2', 'lg:grid-cols-3');
+          }
+          viewToggles.forEach((btn) => {
+            const isActive = btn.dataset.viewToggle === view;
+            btn.style.backgroundColor = isActive ? 'var(--color-canvas)' : 'transparent';
+            btn.style.color = isActive ? 'var(--color-ink)' : 'var(--color-mute)';
+          });
+          localStorage.setItem('devlinks-view', view);
+        }
+
+        viewToggles.forEach((btn) => {
+          btn.addEventListener('click', () => applyView(btn.dataset.viewToggle || 'grid'));
         });
+
+        // ── Init ────────────────────────────────────────────────────────────────────
+        restoreFromParams();
+
+        const savedView = localStorage.getItem('devlinks-view') || 'grid';
+        applyView(savedView);
+
+        searchInput?.addEventListener('input', applyFilters);
+        typeSelect?.addEventListener('change', applyFilters);
+        stackSelect?.addEventListener('change', applyFilters);
+        sortSelect?.addEventListener('change', applyFilters);
+
+        tagButtons.forEach((button) => {
+          button.addEventListener('click', () => {
+            activeTag = activeTag === button.dataset.resourceTag ? '' : button.dataset.resourceTag || '';
+            tagButtons.forEach((item) => {
+              if (item === button && activeTag) {
+                item.style.backgroundColor = 'var(--color-primary)';
+                item.style.color = 'var(--color-on-primary)';
+                item.style.borderColor = 'var(--color-primary)';
+              } else {
+                item.style.backgroundColor = 'var(--color-canvas)';
+                item.style.color = 'var(--color-body)';
+                item.style.borderColor = 'var(--color-hairline)';
+              }
+            });
+            applyFilters();
+          });
+        });
+
+        // Ejecutar siempre en carga: aplica filtros de la URL (si los hay) y pagina.
         applyFilters();
-      });
-    });
 
-    // Ejecutar siempre en carga: aplica filtros de la URL (si los hay) y pagina.
-    applyFilters();
-
-    // ── Volver arriba ────────────────────────────────────────────────────────────
-    const backToTop = document.querySelector<HTMLButtonElement>('[data-back-to-top]');
-    if (backToTop) {
-      const toggleBackToTop = () => {
-        backToTop.classList.toggle('hidden', window.scrollY < 600);
-        backToTop.classList.toggle('flex', window.scrollY >= 600);
-      };
-      window.addEventListener('scroll', toggleBackToTop, { passive: true });
-      backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-      toggleBackToTop();
-    }
-  </script>
-</Layout>
+        // ── Volver arriba ────────────────────────────────────────────────────────────
+        const backToTop = document.querySelector<HTMLButtonElement>('[data-back-to-top]');
+        if (backToTop) {
+          const toggleBackToTop = () => {
+            backToTop.classList.toggle('hidden', window.scrollY < 600);
+            backToTop.classList.toggle('flex', window.scrollY >= 600);
+          };
+          window.addEventListener('scroll', toggleBackToTop, { passive: true });
+          backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+          toggleBackToTop();
+        }
+      </script>
+    </div>
+  </section></Layout
+>
