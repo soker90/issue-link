@@ -225,9 +225,7 @@ export const findTags = async (): Promise<Array<{ tag: string; count: number }>>
     post.tags?.forEach((tag) => tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1));
   });
 
-  return Array.from(tagCounts, ([tag, count]) => ({ tag, count })).sort((a, b) =>
-    a.tag.localeCompare(b.tag)
-  );
+  return Array.from(tagCounts, ([tag, count]) => ({ tag, count })).sort((a, b) => a.tag.localeCompare(b.tag));
 };
 
 export const findStacks = async (): Promise<Array<{ stack: string; count: number }>> => {
@@ -238,9 +236,7 @@ export const findStacks = async (): Promise<Array<{ stack: string; count: number
     post.stack?.forEach((stack) => stackCounts.set(stack, (stackCounts.get(stack) || 0) + 1));
   });
 
-  return Array.from(stackCounts, ([stack, count]) => ({ stack, count })).sort((a, b) =>
-    a.stack.localeCompare(b.stack)
-  );
+  return Array.from(stackCounts, ([stack, count]) => ({ stack, count })).sort((a, b) => a.stack.localeCompare(b.stack));
 };
 
 export const findTypes = async (): Promise<Array<{ type: string; count: number }>> => {
@@ -251,9 +247,7 @@ export const findTypes = async (): Promise<Array<{ type: string; count: number }
     if (post.type) typeCounts.set(post.type, (typeCounts.get(post.type) || 0) + 1);
   });
 
-  return Array.from(typeCounts, ([type, count]) => ({ type, count })).sort((a, b) =>
-    a.type.localeCompare(b.type)
-  );
+  return Array.from(typeCounts, ([type, count]) => ({ type, count })).sort((a, b) => a.type.localeCompare(b.type));
 };
 
 /** */

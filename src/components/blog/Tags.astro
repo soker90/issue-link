@@ -18,16 +18,26 @@ const { tags, class: className = 'text-sm', title = undefined, isCategory = fals
   tags && Array.isArray(tags) && (
     <>
       <>
-        {title !== undefined && <span class="align-super font-normal underline underline-offset-4 decoration-2" style="color: var(--color-mute);">{title}</span>}
+        {title !== undefined && (
+          <span
+            class="align-super font-normal underline underline-offset-4 decoration-2"
+            style="color: var(--color-mute);"
+          >
+            {title}
+          </span>
+        )}
       </>
       <ul class={className}>
         {tags.map((tag) => (
-          <li class="inline-block mr-2 rtl:mr-0 rtl:ml-2 mb-2 rounded-xs py-1 px-2.5 lowercase font-medium" style="background-color: var(--color-canvas); color: var(--color-body);">
+          <li
+            class="inline-block mr-2 rtl:mr-0 rtl:ml-2 mb-2 rounded-xs py-1 px-2.5 lowercase font-medium"
+            style="background-color: var(--color-canvas); color: var(--color-body);"
+          >
             {!APP_BLOG?.tag?.isEnabled ? (
               tag
             ) : (
               <a
-                href={getPermalink(tag, (isCategory ? 'category' : 'tag'))}
+                href={getPermalink(tag, isCategory ? 'category' : 'tag')}
                 class="transition hover:opacity-80"
                 style="color: var(--color-body);"
               >

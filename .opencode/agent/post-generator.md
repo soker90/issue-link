@@ -36,6 +36,7 @@ tags:
 ```
 
 **Reglas de YAML críticas:**
+
 - Si `excerpt` o `useCase` contienen `:` (dos puntos), SIEMPRE rodear el valor con comillas dobles: `excerpt: "Texto: con dos puntos"`
 - `link`, `repo` y `docs` SIEMPRE entre comillas dobles
 - `featured: false` por defecto, `true` solo si es muy conocido y útil

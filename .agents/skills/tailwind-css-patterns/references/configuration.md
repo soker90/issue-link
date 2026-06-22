@@ -6,7 +6,7 @@ Use the `@theme` directive for CSS-based configuration:
 
 ```css
 /* src/styles.css */
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   /* Custom colors */
@@ -15,8 +15,8 @@ Use the `@theme` directive for CSS-based configuration:
   --color-brand-900: #1e3a8a;
 
   /* Custom fonts */
-  --font-display: "Inter", system-ui, sans-serif;
-  --font-mono: "Fira Code", monospace;
+  --font-display: 'Inter', system-ui, sans-serif;
+  --font-mono: 'Fira Code', monospace;
 
   /* Custom spacing */
   --spacing-128: 32rem;
@@ -30,8 +30,12 @@ Use the `@theme` directive for CSS-based configuration:
 
 /* Define custom animations */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* Custom utilities */
@@ -47,10 +51,7 @@ Use the `@theme` directive for CSS-based configuration:
 ```javascript
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx,vue,svelte}",
-  ],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx,vue,svelte}'],
   theme: {
     extend: {
       colors: {
@@ -64,12 +65,12 @@ export default {
         sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       spacing: {
-        '128': '32rem',
+        128: '32rem',
       },
     },
   },
   plugins: [],
-}
+};
 ```
 
 ---
@@ -78,14 +79,12 @@ export default {
 
 ```javascript
 // vite.config.ts
-import { defineConfig } from 'vite'
-import tailwindcss from '@tailwindcss/vite'
+import { defineConfig } from 'vite';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  plugins: [
-    tailwindcss(),
-  ],
-})
+  plugins: [tailwindcss()],
+});
 ```
 
 ---
@@ -95,23 +94,17 @@ export default defineConfig({
 ### Native CSS Custom Properties
 
 ```html
-<div class="bg-[var(--color-brand-500)] text-[var(--color-white)]">
-  Using CSS custom properties directly
-</div>
+<div class="bg-[var(--color-brand-500)] text-[var(--color-white)]">Using CSS custom properties directly</div>
 ```
 
 ### Enhanced Arbitrary Values
 
 ```html
 <!-- Complex grid with custom tracks -->
-<div class="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4">
-  Responsive grid without custom CSS
-</div>
+<div class="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4">Responsive grid without custom CSS</div>
 
 <!-- Custom animation timing -->
-<div class="animate-bounce ease-[cubic-bezier(0.68,-0.55,0.265,1.55)]">
-  Bounce with custom easing
-</div>
+<div class="animate-bounce ease-[cubic-bezier(0.68,-0.55,0.265,1.55)]">Bounce with custom easing</div>
 ```
 
 ### Custom Utilities
@@ -122,7 +115,7 @@ export default defineConfig({
 }
 
 @utility text-shadow {
-  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 ```
 
@@ -134,17 +127,17 @@ export default defineConfig({
 
 ```javascript
 // tailwind.config.js
-const plugin = require('tailwindcss/plugin')
+const plugin = require('tailwindcss/plugin');
 
 module.exports = {
   plugins: [
-    plugin(function({ addUtilities, addComponents, e, config }) {
+    plugin(function ({ addUtilities, addComponents, e, config }) {
       // Add custom utilities
       addUtilities({
         '.content-auto': {
           contentVisibility: 'auto',
         },
-      })
+      });
 
       // Add custom components
       addComponents({
@@ -153,10 +146,10 @@ module.exports = {
           borderRadius: '.25rem',
           fontWeight: '600',
         },
-      })
+      });
     }),
   ],
-}
+};
 ```
 
 ---
@@ -179,11 +172,8 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/typography'),
-  ],
-}
+  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
+};
 ```
 
 ### Using a Preset
@@ -191,8 +181,6 @@ module.exports = {
 ```javascript
 // tailwind.config.js
 module.exports = {
-  presets: [
-    require('./tailwind-preset.js'),
-  ],
-}
+  presets: [require('./tailwind-preset.js')],
+};
 ```

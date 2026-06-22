@@ -8,7 +8,7 @@ import { getPermalink } from '~/utils/permalinks';
 
 export const prerender = true;
 
-export async function getStaticPaths ({ paginate }) {
+export async function getStaticPaths({ paginate }) {
   return await getStaticPathsBlogList({ paginate });
 }
 
@@ -56,47 +56,63 @@ const metadata = {
           <p class="mb-4 text-caption uppercase tracking-[0.2em] font-medium" style="color: var(--color-mute);">
             Directorio de recursos para desarrolladores
           </p>
-          <h1 class="text-display-xl max-w-3xl" style="color: var(--color-ink);">
-            Encuentra lo que necesitas.
-          </h1>
+          <h1 class="text-display-xl max-w-3xl" style="color: var(--color-ink);">Encuentra lo que necesitas.</h1>
           <p class="mt-6 text-body-lg max-w-xl" style="color: var(--color-body);">
-            Herramientas, repositorios, librerias y servicios organizados por tipo, tecnologia y caso de uso. Para que no pierdas tiempo buscando.
+            Herramientas, repositorios, librerias y servicios organizados por tipo, tecnologia y caso de uso. Para que
+            no pierdas tiempo buscando.
           </p>
         </div>
 
         <div class="grid grid-cols-3 gap-3">
-          <div class="rounded-md p-5" style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);">
+          <div
+            class="rounded-md p-5"
+            style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);"
+          >
             <div class="text-display-sm" style="color: var(--color-ink);">{allPosts.length}</div>
             <div class="mt-1 text-caption uppercase tracking-widest" style="color: var(--color-mute);">recursos</div>
           </div>
-          <div class="rounded-md p-5" style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);">
+          <div
+            class="rounded-md p-5"
+            style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);"
+          >
             <div class="text-display-sm" style="color: var(--color-ink);">{allTags.length}</div>
             <div class="mt-1 text-caption uppercase tracking-widest" style="color: var(--color-mute);">tags</div>
           </div>
-          <div class="rounded-md p-5" style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);">
+          <div
+            class="rounded-md p-5"
+            style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);"
+          >
             <div class="text-display-sm" style="color: var(--color-ink);">{allStacks.length}</div>
             <div class="mt-1 text-caption uppercase tracking-widest" style="color: var(--color-mute);">stacks</div>
           </div>
         </div>
       </div>
 
-      {featured.length > 0 && (
-        <div class="mt-12">
-          <h2 class="text-display-sm mb-4" style="color: var(--color-ink);">Destacados</h2>
-          <div class="flex gap-3 overflow-x-auto pb-2">
-            {featured.map((post) => (
-              <a
-                href={getPermalink(post.permalink, 'post')}
-                class="min-w-[240px] rounded-md p-4 transition hover:opacity-80"
-                style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);"
-              >
-                <span class="block text-caption uppercase tracking-widest" style="color: var(--color-mute);">{typeLabels[post.type] || post.type?.replaceAll('-', ' ')}</span>
-                <span class="mt-1 block text-body-md-strong" style="color: var(--color-ink);">{post.title}</span>
-              </a>
-            ))}
+      {
+        featured.length > 0 && (
+          <div class="mt-12">
+            <h2 class="text-display-sm mb-4" style="color: var(--color-ink);">
+              Destacados
+            </h2>
+            <div class="flex gap-3 overflow-x-auto pb-2">
+              {featured.map((post) => (
+                <a
+                  href={getPermalink(post.permalink, 'post')}
+                  class="min-w-[240px] rounded-md p-4 transition hover:opacity-80"
+                  style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);"
+                >
+                  <span class="block text-caption uppercase tracking-widest" style="color: var(--color-mute);">
+                    {typeLabels[post.type] || post.type?.replaceAll('-', ' ')}
+                  </span>
+                  <span class="mt-1 block text-body-md-strong" style="color: var(--color-ink);">
+                    {post.title}
+                  </span>
+                </a>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )
+      }
     </div>
   </section>
 
@@ -108,8 +124,13 @@ const metadata = {
           <h2 class="mt-2 text-display-md" style="color: var(--color-ink);">Todos los recursos</h2>
         </div>
         <div class="flex items-center gap-4">
-          <p class="text-body-sm" style="color: var(--color-mute);"><span data-result-count>{page.data.length}</span> recursos</p>
-          <div class="flex gap-1 rounded-sm p-1" style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);">
+          <p class="text-body-sm" style="color: var(--color-mute);">
+            <span data-result-count>{page.data.length}</span> recursos
+          </p>
+          <div
+            class="flex gap-1 rounded-sm p-1"
+            style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);"
+          >
             <button
               data-view-toggle="grid"
               aria-label="Vista en cuadricula"
@@ -117,7 +138,22 @@ const metadata = {
               style="background-color: var(--color-canvas); color: var(--color-ink);"
               title="Vista cuadricula"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect
+                  x="3"
+                  y="14"
+                  width="7"
+                  height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg
+              >
             </button>
             <button
               data-view-toggle="list"
@@ -126,12 +162,31 @@ const metadata = {
               style="color: var(--color-mute);"
               title="Vista lista"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line
+                  x1="8"
+                  y1="18"
+                  x2="21"
+                  y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"
+                ></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg
+              >
             </button>
           </div>
         </div>
       </div>
-      <div class="sticky top-16 z-30 mb-6 rounded-md p-5" style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline); box-shadow: 0 6px 24px -12px rgba(0,0,0,0.5);">
+      <div
+        class="sticky top-16 z-30 mb-6 rounded-md p-5"
+        style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline); box-shadow: 0 6px 24px -12px rgba(0,0,0,0.5);"
+      >
         <div class="grid gap-4 lg:grid-cols-[1fr_180px_180px_180px]">
           <label class="relative block">
             <span class="sr-only">Buscar recursos</span>
@@ -149,7 +204,13 @@ const metadata = {
             style="background-color: var(--color-canvas); color: var(--color-ink); border: 1px solid var(--color-hairline);"
           >
             <option value="">Todos los tipos</option>
-            {allTypes.map(({ type, count }) => <option value={type}>{typeLabels[type] || type.replaceAll('-', ' ')} ({count})</option>)}
+            {
+              allTypes.map(({ type, count }) => (
+                <option value={type}>
+                  {typeLabels[type] || type.replaceAll('-', ' ')} ({count})
+                </option>
+              ))
+            }
           </select>
           <select
             data-resource-stack
@@ -157,7 +218,13 @@ const metadata = {
             style="background-color: var(--color-canvas); color: var(--color-ink); border: 1px solid var(--color-hairline);"
           >
             <option value="">Todos los stacks</option>
-            {allStacks.map(({ stack, count }) => <option value={stack}>{stack} ({count})</option>)}
+            {
+              allStacks.map(({ stack, count }) => (
+                <option value={stack}>
+                  {stack} ({count})
+                </option>
+              ))
+            }
           </select>
           <select
             data-resource-sort
@@ -173,16 +240,18 @@ const metadata = {
           </select>
         </div>
         <div class="mt-4 flex flex-wrap gap-2" data-tag-filter-list>
-          {allTags.slice(0, 20).map(({ tag, count }) => (
-            <button
-              type="button"
-              data-resource-tag={tag}
-              class="rounded-sm px-3 py-1.5 text-caption font-medium transition"
-              style="background-color: var(--color-canvas); color: var(--color-body); border: 1px solid var(--color-hairline);"
-            >
-              {tag} <span style="color: var(--color-mute);">{count}</span>
-            </button>
-          ))}
+          {
+            allTags.slice(0, 20).map(({ tag, count }) => (
+              <button
+                type="button"
+                data-resource-tag={tag}
+                class="rounded-sm px-3 py-1.5 text-caption font-medium transition"
+                style="background-color: var(--color-canvas); color: var(--color-body); border: 1px solid var(--color-hairline);"
+              >
+                {tag} <span style="color: var(--color-mute);">{count}</span>
+              </button>
+            ))
+          }
         </div>
       </div>
       <BlogList posts={page.data} />
@@ -313,19 +382,30 @@ const metadata = {
       if (!resourceList) return [];
       // Solo los <li> hijos directos (las tarjetas). Ojo: PostTags renderiza <li>
       // anidados dentro de cada tarjeta, así que NO se puede usar querySelectorAll('li').
-      return Array.from(resourceList.querySelectorAll<HTMLElement>(':scope > li')).filter((li) => li.dataset.match !== '0');
+      return Array.from(resourceList.querySelectorAll<HTMLElement>(':scope > li')).filter(
+        (li) => li.dataset.match !== '0'
+      );
     }
 
     function renderPage() {
-      const matching = getMatchingLis();
+      if (!resourceList) return;
+      const allLis = Array.from(resourceList.querySelectorAll<HTMLElement>(':scope > li'));
+      const matching = allLis.filter((li) => li.dataset.match !== '0');
       const total = matching.length;
       const pages = Math.max(1, Math.ceil(total / PER_PAGE));
       if (currentPage >= pages) currentPage = pages - 1;
       if (currentPage < 0) currentPage = 0;
-      matching.forEach((li, idx) => {
-        const inPage = idx >= currentPage * PER_PAGE && idx < (currentPage + 1) * PER_PAGE;
-        li.classList.toggle('hidden', !inPage);
+
+      allLis.forEach((li) => {
+        if (li.dataset.match === '0') {
+          li.classList.add('hidden');
+        } else {
+          const idx = matching.indexOf(li);
+          const inPage = idx >= currentPage * PER_PAGE && idx < (currentPage + 1) * PER_PAGE;
+          li.classList.toggle('hidden', !inPage);
+        }
       });
+
       if (clientPagination) {
         const show = total > PER_PAGE;
         clientPagination.classList.toggle('hidden', !show);

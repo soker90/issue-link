@@ -7,21 +7,21 @@
 **Basic Setup:**
 
 ```typescript
-import express, { Request, Response, NextFunction } from "express";
-import helmet from "helmet";
-import cors from "cors";
-import compression from "compression";
+import express, { Request, Response, NextFunction } from 'express';
+import helmet from 'helmet';
+import cors from 'cors';
+import compression from 'compression';
 
 const app = express();
 
 // Security middleware
 app.use(helmet());
-app.use(cors({ origin: process.env.ALLOWED_ORIGINS?.split(",") }));
+app.use(cors({ origin: process.env.ALLOWED_ORIGINS?.split(',') }));
 app.use(compression());
 
 // Body parsing
-app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Request logging
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -40,16 +40,16 @@ app.listen(PORT, () => {
 **Basic Setup:**
 
 ```typescript
-import Fastify from "fastify";
-import helmet from "@fastify/helmet";
-import cors from "@fastify/cors";
-import compress from "@fastify/compress";
+import Fastify from 'fastify';
+import helmet from '@fastify/helmet';
+import cors from '@fastify/cors';
+import compress from '@fastify/compress';
 
 const fastify = Fastify({
   logger: {
-    level: process.env.LOG_LEVEL || "info",
+    level: process.env.LOG_LEVEL || 'info',
     transport: {
-      target: "pino-pretty",
+      target: 'pino-pretty',
       options: { colorize: true },
     },
   },
@@ -65,26 +65,26 @@ fastify.post<{
   Body: { name: string; email: string };
   Reply: { id: string; name: string };
 }>(
-  "/users",
+  '/users',
   {
     schema: {
       body: {
-        type: "object",
-        required: ["name", "email"],
+        type: 'object',
+        required: ['name', 'email'],
         properties: {
-          name: { type: "string", minLength: 1 },
-          email: { type: "string", format: "email" },
+          name: { type: 'string', minLength: 1 },
+          email: { type: 'string', format: 'email' },
         },
       },
     },
   },
   async (request, reply) => {
     const { name, email } = request.body;
-    return { id: "123", name };
-  },
+    return { id: '123', name };
+  }
 );
 
-await fastify.listen({ port: 3000, host: "0.0.0.0" });
+await fastify.listen({ port: 3000, host: '0.0.0.0' });
 ```
 
 ## Architectural Patterns
@@ -110,9 +110,9 @@ src/
 
 ```typescript
 // controllers/user.controller.ts
-import { Request, Response, NextFunction } from "express";
-import { UserService } from "../services/user.service";
-import { CreateUserDTO, UpdateUserDTO } from "../types/user.types";
+import { Request, Response, NextFunction } from 'express';
+import { UserService } from '../services/user.service';
+import { CreateUserDTO, UpdateUserDTO } from '../types/user.types';
 
 export class UserController {
   constructor(private userService: UserService) {}
@@ -164,10 +164,10 @@ export class UserController {
 
 ```typescript
 // services/user.service.ts
-import { UserRepository } from "../repositories/user.repository";
-import { CreateUserDTO, UpdateUserDTO, User } from "../types/user.types";
-import { NotFoundError, ValidationError } from "../utils/errors";
-import bcrypt from "bcrypt";
+import { UserRepository } from '../repositories/user.repository';
+import { CreateUserDTO, UpdateUserDTO, User } from '../types/user.types';
+import { NotFoundError, ValidationError } from '../utils/errors';
+import bcrypt from 'bcrypt';
 
 export class UserService {
   constructor(private userRepository: UserRepository) {}
@@ -176,7 +176,7 @@ export class UserService {
     // Validation
     const existingUser = await this.userRepository.findByEmail(userData.email);
     if (existingUser) {
-      throw new ValidationError("Email already exists");
+      throw new ValidationError('Email already exists');
     }
 
     // Hash password
@@ -196,7 +196,7 @@ export class UserService {
   async getUserById(id: string): Promise<User> {
     const user = await this.userRepository.findById(id);
     if (!user) {
-      throw new NotFoundError("User not found");
+      throw new NotFoundError('User not found');
     }
     const { password, ...userWithoutPassword } = user;
     return userWithoutPassword as User;
@@ -205,7 +205,7 @@ export class UserService {
   async updateUser(id: string, updates: UpdateUserDTO): Promise<User> {
     const user = await this.userRepository.update(id, updates);
     if (!user) {
-      throw new NotFoundError("User not found");
+      throw new NotFoundError('User not found');
     }
     const { password, ...userWithoutPassword } = user;
     return userWithoutPassword as User;
@@ -214,7 +214,7 @@ export class UserService {
   async deleteUser(id: string): Promise<void> {
     const deleted = await this.userRepository.delete(id);
     if (!deleted) {
-      throw new NotFoundError("User not found");
+      throw new NotFoundError('User not found');
     }
   }
 }
@@ -224,36 +224,30 @@ export class UserService {
 
 ```typescript
 // repositories/user.repository.ts
-import { Pool } from "pg";
-import { CreateUserDTO, UpdateUserDTO, UserEntity } from "../types/user.types";
+import { Pool } from 'pg';
+import { CreateUserDTO, UpdateUserDTO, UserEntity } from '../types/user.types';
 
 export class UserRepository {
   constructor(private db: Pool) {}
 
-  async create(
-    userData: CreateUserDTO & { password: string },
-  ): Promise<UserEntity> {
+  async create(userData: CreateUserDTO & { password: string }): Promise<UserEntity> {
     const query = `
       INSERT INTO users (name, email, password)
       VALUES ($1, $2, $3)
       RETURNING id, name, email, password, created_at, updated_at
     `;
-    const { rows } = await this.db.query(query, [
-      userData.name,
-      userData.email,
-      userData.password,
-    ]);
+    const { rows } = await this.db.query(query, [userData.name, userData.email, userData.password]);
     return rows[0];
   }
 
   async findById(id: string): Promise<UserEntity | null> {
-    const query = "SELECT * FROM users WHERE id = $1";
+    const query = 'SELECT * FROM users WHERE id = $1';
     const { rows } = await this.db.query(query, [id]);
     return rows[0] || null;
   }
 
   async findByEmail(email: string): Promise<UserEntity | null> {
-    const query = "SELECT * FROM users WHERE email = $1";
+    const query = 'SELECT * FROM users WHERE email = $1';
     const { rows } = await this.db.query(query, [email]);
     return rows[0] || null;
   }
@@ -262,9 +256,7 @@ export class UserRepository {
     const fields = Object.keys(updates);
     const values = Object.values(updates);
 
-    const setClause = fields
-      .map((field, idx) => `${field} = $${idx + 2}`)
-      .join(", ");
+    const setClause = fields.map((field, idx) => `${field} = $${idx + 2}`).join(', ');
 
     const query = `
       UPDATE users
@@ -278,7 +270,7 @@ export class UserRepository {
   }
 
   async delete(id: string): Promise<boolean> {
-    const query = "DELETE FROM users WHERE id = $1";
+    const query = 'DELETE FROM users WHERE id = $1';
     const { rowCount } = await this.db.query(query, [id]);
     return rowCount > 0;
   }
@@ -295,9 +287,9 @@ Use a DI container to wire up repositories, services, and controllers. For a ful
 
 ```typescript
 // middleware/auth.middleware.ts
-import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
-import { UnauthorizedError } from "../utils/errors";
+import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
+import { UnauthorizedError } from '../utils/errors';
 
 interface JWTPayload {
   userId: string;
@@ -312,16 +304,12 @@ declare global {
   }
 }
 
-export const authenticate = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const authenticate = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const token = req.headers.authorization?.replace("Bearer ", "");
+    const token = req.headers.authorization?.replace('Bearer ', '');
 
     if (!token) {
-      throw new UnauthorizedError("No token provided");
+      throw new UnauthorizedError('No token provided');
     }
 
     const payload = jwt.verify(token, process.env.JWT_SECRET!) as JWTPayload;
@@ -329,21 +317,21 @@ export const authenticate = async (
     req.user = payload;
     next();
   } catch (error) {
-    next(new UnauthorizedError("Invalid token"));
+    next(new UnauthorizedError('Invalid token'));
   }
 };
 
 export const authorize = (...roles: string[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     if (!req.user) {
-      return next(new UnauthorizedError("Not authenticated"));
+      return next(new UnauthorizedError('Not authenticated'));
     }
 
     // Check if user has required role
     const hasRole = roles.some((role) => req.user?.roles?.includes(role));
 
     if (!hasRole) {
-      return next(new UnauthorizedError("Insufficient permissions"));
+      return next(new UnauthorizedError('Insufficient permissions'));
     }
 
     next();
@@ -355,9 +343,9 @@ export const authorize = (...roles: string[]) => {
 
 ```typescript
 // middleware/validation.middleware.ts
-import { Request, Response, NextFunction } from "express";
-import { AnyZodObject, ZodError } from "zod";
-import { ValidationError } from "../utils/errors";
+import { Request, Response, NextFunction } from 'express';
+import { AnyZodObject, ZodError } from 'zod';
+import { ValidationError } from '../utils/errors';
 
 export const validate = (schema: AnyZodObject) => {
   return async (req: Request, res: Response, next: NextFunction) => {
@@ -371,10 +359,10 @@ export const validate = (schema: AnyZodObject) => {
     } catch (error) {
       if (error instanceof ZodError) {
         const errors = error.errors.map((err) => ({
-          field: err.path.join("."),
+          field: err.path.join('.'),
           message: err.message,
         }));
-        next(new ValidationError("Validation failed", errors));
+        next(new ValidationError('Validation failed', errors));
       } else {
         next(error);
       }
@@ -383,7 +371,7 @@ export const validate = (schema: AnyZodObject) => {
 };
 
 // Usage with Zod
-import { z } from "zod";
+import { z } from 'zod';
 
 const createUserSchema = z.object({
   body: z.object({
@@ -393,30 +381,30 @@ const createUserSchema = z.object({
   }),
 });
 
-router.post("/users", validate(createUserSchema), userController.createUser);
+router.post('/users', validate(createUserSchema), userController.createUser);
 ```
 
 ### Rate Limiting Middleware
 
 ```typescript
 // middleware/rate-limit.middleware.ts
-import rateLimit from "express-rate-limit";
-import RedisStore from "rate-limit-redis";
-import Redis from "ioredis";
+import rateLimit from 'express-rate-limit';
+import RedisStore from 'rate-limit-redis';
+import Redis from 'ioredis';
 
 const redis = new Redis({
   host: process.env.REDIS_HOST,
-  port: parseInt(process.env.REDIS_PORT || "6379"),
+  port: parseInt(process.env.REDIS_PORT || '6379'),
 });
 
 export const apiLimiter = rateLimit({
   store: new RedisStore({
     client: redis,
-    prefix: "rl:",
+    prefix: 'rl:',
   }),
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // Limit each IP to 100 requests per windowMs
-  message: "Too many requests from this IP, please try again later",
+  message: 'Too many requests from this IP, please try again later',
   standardHeaders: true,
   legacyHeaders: false,
 });
@@ -424,7 +412,7 @@ export const apiLimiter = rateLimit({
 export const authLimiter = rateLimit({
   store: new RedisStore({
     client: redis,
-    prefix: "rl:auth:",
+    prefix: 'rl:auth:',
   }),
   windowMs: 15 * 60 * 1000,
   max: 5, // Stricter limit for auth endpoints
@@ -436,33 +424,29 @@ export const authLimiter = rateLimit({
 
 ```typescript
 // middleware/logger.middleware.ts
-import { Request, Response, NextFunction } from "express";
-import pino from "pino";
+import { Request, Response, NextFunction } from 'express';
+import pino from 'pino';
 
 const logger = pino({
-  level: process.env.LOG_LEVEL || "info",
+  level: process.env.LOG_LEVEL || 'info',
   transport: {
-    target: "pino-pretty",
+    target: 'pino-pretty',
     options: { colorize: true },
   },
 });
 
-export const requestLogger = (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const requestLogger = (req: Request, res: Response, next: NextFunction) => {
   const start = Date.now();
 
   // Log response when finished
-  res.on("finish", () => {
+  res.on('finish', () => {
     const duration = Date.now() - start;
     logger.info({
       method: req.method,
       url: req.url,
       status: res.statusCode,
       duration: `${duration}ms`,
-      userAgent: req.headers["user-agent"],
+      userAgent: req.headers['user-agent'],
       ip: req.ip,
     });
   });
@@ -483,7 +467,7 @@ export class AppError extends Error {
   constructor(
     public message: string,
     public statusCode: number = 500,
-    public isOperational: boolean = true,
+    public isOperational: boolean = true
   ) {
     super(message);
     Object.setPrototypeOf(this, AppError.prototype);
@@ -494,26 +478,26 @@ export class AppError extends Error {
 export class ValidationError extends AppError {
   constructor(
     message: string,
-    public errors?: any[],
+    public errors?: any[]
   ) {
     super(message, 400);
   }
 }
 
 export class NotFoundError extends AppError {
-  constructor(message: string = "Resource not found") {
+  constructor(message: string = 'Resource not found') {
     super(message, 404);
   }
 }
 
 export class UnauthorizedError extends AppError {
-  constructor(message: string = "Unauthorized") {
+  constructor(message: string = 'Unauthorized') {
     super(message, 401);
   }
 }
 
 export class ForbiddenError extends AppError {
-  constructor(message: string = "Forbidden") {
+  constructor(message: string = 'Forbidden') {
     super(message, 403);
   }
 }
@@ -529,19 +513,14 @@ export class ConflictError extends AppError {
 
 ```typescript
 // middleware/error-handler.ts
-import { Request, Response, NextFunction } from "express";
-import { AppError } from "../utils/errors";
-import { logger } from "./logger.middleware";
+import { Request, Response, NextFunction } from 'express';
+import { AppError } from '../utils/errors';
+import { logger } from './logger.middleware';
 
-export const errorHandler = (
-  err: Error,
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof AppError) {
     return res.status(err.statusCode).json({
-      status: "error",
+      status: 'error',
       message: err.message,
       ...(err instanceof ValidationError && { errors: err.errors }),
     });
@@ -556,21 +535,16 @@ export const errorHandler = (
   });
 
   // Don't leak error details in production
-  const message =
-    process.env.NODE_ENV === "production"
-      ? "Internal server error"
-      : err.message;
+  const message = process.env.NODE_ENV === 'production' ? 'Internal server error' : err.message;
 
   res.status(500).json({
-    status: "error",
+    status: 'error',
     message,
   });
 };
 
 // Async error wrapper
-export const asyncHandler = (
-  fn: (req: Request, res: Response, next: NextFunction) => Promise<any>,
-) => {
+export const asyncHandler = (fn: (req: Request, res: Response, next: NextFunction) => Promise<any>) => {
   return (req: Request, res: Response, next: NextFunction) => {
     Promise.resolve(fn(req, res, next)).catch(next);
   };
@@ -582,6 +556,7 @@ export const asyncHandler = (
 Node.js supports both SQL and NoSQL databases. Use connection pooling for all production databases.
 
 Key patterns covered in [references/advanced-patterns.md](references/advanced-patterns.md):
+
 - **PostgreSQL with connection pool** — `pg` Pool configuration and graceful shutdown
 - **MongoDB with Mongoose** — connection management and schema definition
 - **Transaction pattern** — `BEGIN`/`COMMIT`/`ROLLBACK` with `pg` client

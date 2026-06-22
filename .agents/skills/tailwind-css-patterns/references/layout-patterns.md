@@ -158,25 +158,19 @@ Space between children:
 Responsive typography:
 
 ```html
-<h1 class="text-2xl md:text-4xl lg:text-6xl font-bold">
-  Responsive Heading
-</h1>
+<h1 class="text-2xl md:text-4xl lg:text-6xl font-bold">Responsive Heading</h1>
 ```
 
 ### Line Height & Letter Spacing
 
 ```html
-<p class="leading-relaxed tracking-wide">
-  Text with relaxed line height and wide letter spacing
-</p>
+<p class="leading-relaxed tracking-wide">Text with relaxed line height and wide letter spacing</p>
 ```
 
 ### Text Alignment
 
 ```html
-<p class="text-left md:text-center">
-  Left aligned on mobile, centered on tablet+
-</p>
+<p class="text-left md:text-center">Left aligned on mobile, centered on tablet+</p>
 ```
 
 ---
@@ -188,9 +182,7 @@ Responsive typography:
 ```html
 <div class="bg-blue-500">Blue background</div>
 <div class="bg-gray-100">Light gray background</div>
-<div class="bg-gradient-to-r from-blue-500 to-purple-600">
-  Gradient background
-</div>
+<div class="bg-gradient-to-r from-blue-500 to-purple-600">Gradient background</div>
 ```
 
 ### Text Colors
@@ -204,19 +196,17 @@ Responsive typography:
 ### Opacity
 
 ```html
-<div class="bg-blue-500 bg-opacity-50">
-  Semi-transparent blue
-</div>
+<div class="bg-blue-500 bg-opacity-50">Semi-transparent blue</div>
 ```
 
 ---
 
 ## Responsive Breakpoints Reference
 
-| Prefix | Min Width | CSS Equivalent |
-|--------|-----------|----------------|
-| `sm:` | 640px | `@media (min-width: 640px)` |
-| `md:` | 768px | `@media (min-width: 768px)` |
-| `lg:` | 1024px | `@media (min-width: 1024px)` |
-| `xl:` | 1280px | `@media (min-width: 1280px)` |
-| `2xl:` | 1536px | `@media (min-width: 1536px)` |
+| Prefix | Min Width | CSS Equivalent               |
+| ------ | --------- | ---------------------------- |
+| `sm:`  | 640px     | `@media (min-width: 640px)`  |
+| `md:`  | 768px     | `@media (min-width: 768px)`  |
+| `lg:`  | 1024px    | `@media (min-width: 1024px)` |
+| `xl:`  | 1280px    | `@media (min-width: 1280px)` |
+| `2xl:` | 1536px    | `@media (min-width: 1536px)` |

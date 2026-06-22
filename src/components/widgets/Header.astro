@@ -1,10 +1,10 @@
 ---
-import { Icon } from "astro-icon/components";
-import Logo from "~/components/Logo.astro";
-import ToggleMenu from "~/components/common/ToggleMenu.astro";
+import { Icon } from 'astro-icon/components';
+import Logo from '~/components/Logo.astro';
+import ToggleMenu from '~/components/common/ToggleMenu.astro';
 
-import { getHomePermalink } from "~/utils/permalinks";
-import { trimSlash, getAsset } from "~/utils/permalinks";
+import { getHomePermalink } from '~/utils/permalinks';
+import { trimSlash, getAsset } from '~/utils/permalinks';
 
 interface Link {
   text?: string;
@@ -25,30 +25,21 @@ export interface Props {
   showRssFeed?: boolean;
 }
 
-const {
-  id = "header",
-  links = [],
-  isSticky = false,
-  isFullWidth = false,
-  showRssFeed = false,
-} = Astro.props;
+const { id = 'header', links = [], isSticky = false, isFullWidth = false, showRssFeed = false } = Astro.props;
 
-const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`
+const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
 ---
 
 <header
   class:list={[
     { sticky: isSticky, relative: !isSticky },
-    "top-0 z-40 flex-none mx-auto w-full transition-[opacity] ease-in-out",
+    'top-0 z-40 flex-none mx-auto w-full transition-[opacity] ease-in-out',
   ]}
   style="background-color: var(--color-canvas); border-bottom: 1px solid var(--color-hairline);"
   {...id ? { id } : {}}
 >
   <div
-    class:list={[
-      "relative py-3 px-4 md:px-6 mx-auto w-full md:flex md:justify-between",
-      { "max-w-6xl": !isFullWidth },
-    ]}
+    class:list={['relative py-3 px-4 md:px-6 mx-auto w-full md:flex md:justify-between', { 'max-w-6xl': !isFullWidth }]}
   >
     <div class="flex justify-between">
       <a class="flex items-center" href={getHomePermalink()}>
@@ -65,19 +56,25 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`
       <ul class="flex flex-col md:flex-row md:self-center w-full md:w-auto text-body-sm font-medium">
         {
           links.map(({ text, href, links }) => (
-            <li class={links?.length ? "dropdown" : ""}>
+            <li class={links?.length ? 'dropdown' : ''}>
               {links?.length ? (
                 <>
-                  <button class="px-4 py-2.5 flex items-center transition hover:opacity-80" style="color: var(--color-ink);">
+                  <button
+                    class="px-4 py-2.5 flex items-center transition hover:opacity-80"
+                    style="color: var(--color-ink);"
+                  >
                     {text} <Icon name="tabler:chevron-down" class="w-3.5 h-3.5 ml-0.5 hidden md:inline" />
                   </button>
-                  <ul class="dropdown-menu rounded-sm md:absolute pl-4 md:pl-0 md:hidden font-medium md:min-w-[180px]" style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);">
+                  <ul
+                    class="dropdown-menu rounded-sm md:absolute pl-4 md:pl-0 md:hidden font-medium md:min-w-[180px]"
+                    style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);"
+                  >
                     {links.map(({ text: text2, href: href2 }) => (
                       <li>
                         <a
                           class:list={[
-                            "py-2 px-4 block whitespace-no-wrap transition hover:opacity-80",
-                            { "font-semibold": href2 === currentPath }
+                            'py-2 px-4 block whitespace-no-wrap transition hover:opacity-80',
+                            { 'font-semibold': href2 === currentPath },
                           ]}
                           style={`color: ${href2 === currentPath ? 'var(--color-ink)' : 'var(--color-body)'};`}
                           href={href2}
@@ -91,8 +88,8 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`
               ) : (
                 <a
                   class:list={[
-                    "px-4 py-2.5 flex items-center transition hover:opacity-80",
-                    { "font-semibold": href === currentPath }
+                    'px-4 py-2.5 flex items-center transition hover:opacity-80',
+                    { 'font-semibold': href === currentPath },
                   ]}
                   style={`color: ${href === currentPath ? 'var(--color-ink)' : 'var(--color-body)'};`}
                   href={href}
@@ -106,16 +103,18 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`
       </ul>
     </nav>
     <div class="hidden md:self-center md:flex items-center md:mb-0">
-      {showRssFeed && (
-        <a
-          class="rounded-full p-2 transition hover:opacity-80"
-          style="color: var(--color-mute);"
-          aria-label="RSS Feed"
-          href={getAsset('/rss.xml')}
-        >
-          <Icon name="tabler:rss" class="w-4 h-4" />
-        </a>
-      )}
+      {
+        showRssFeed && (
+          <a
+            class="rounded-full p-2 transition hover:opacity-80"
+            style="color: var(--color-mute);"
+            aria-label="RSS Feed"
+            href={getAsset('/rss.xml')}
+          >
+            <Icon name="tabler:rss" class="w-4 h-4" />
+          </a>
+        )
+      }
     </div>
   </div>
 </header>

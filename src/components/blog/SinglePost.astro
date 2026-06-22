@@ -64,39 +64,87 @@ const resourceLinks = [
 
 <section class="px-6 py-12 sm:py-16 lg:py-24">
   <article class="mx-auto max-w-5xl">
-    <nav class="mb-6 flex items-center gap-2 text-caption" style="color: var(--color-mute);" aria-label="Ruta de navegacion">
+    <nav
+      class="mb-6 flex items-center gap-2 text-caption"
+      style="color: var(--color-mute);"
+      aria-label="Ruta de navegacion"
+    >
       <a href="/" class="transition hover:opacity-80" style="color: var(--color-mute);">Directorio</a>
-      {post.tags?.[0] && (
-        <>
-          <Icon name="tabler:chevron-right" class="h-3 w-3" />
-          <a href={`/tag/${post.tags[0]}`} class="transition hover:opacity-80" style="color: var(--color-mute);">{post.tags[0]}</a>
-        </>
-      )}
+      {
+        post.tags?.[0] && (
+          <>
+            <Icon name="tabler:chevron-right" class="h-3 w-3" />
+            <a href={`/tag/${post.tags[0]}`} class="transition hover:opacity-80" style="color: var(--color-mute);">
+              {post.tags[0]}
+            </a>
+          </>
+        )
+      }
       <Icon name="tabler:chevron-right" class="h-3 w-3" />
       <span style="color: var(--color-body);">{post.title}</span>
     </nav>
     <div class="grid gap-8 lg:grid-cols-[1fr_320px] lg:items-start">
       <!-- Columna principal: cabecera + contenido (fluyen juntas, sin huecos) -->
       <div class="space-y-8">
-      <header class="rounded-md p-6 sm:p-8" style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);">
-        <div class="mb-5 flex flex-wrap items-center gap-3">
-          <span class="text-caption uppercase tracking-[0.18em] font-medium" style="color: var(--color-mute);">{typeLabel}</span>
-          {post.pricing && <span class="text-caption uppercase tracking-widest font-medium" style="color: var(--color-body);">{pricingLabels[post.pricing] || post.pricing}</span>}
-          {post.status && !post.archived && <span class="text-caption uppercase tracking-widest font-medium" style="color: var(--color-body);">{statusLabels[post.status] || post.status}</span>}
-          {post.archived && (
-            <span class="inline-flex items-center gap-1 rounded-xs px-2 py-0.5 text-caption uppercase tracking-widest font-medium" style="background-color: var(--color-warning, #c2410c); color: #fff;">
-              <Icon name="tabler:archive" class="h-3.5 w-3.5" /> Archivado
-            </span>
-          )}
-        </div>
-        <h1 class="text-display-lg" style="color: var(--color-ink);">{post.title}</h1>
-        {post.useCase && <p class="mt-4 text-body-lg font-medium" style="color: var(--color-body-strong);">{post.useCase}</p>}
-        {post.excerpt && <p class="mt-4 text-body-md" style="color: var(--color-body);">{post.excerpt}</p>}
-      </header>
+        <header
+          class="rounded-md p-6 sm:p-8"
+          style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);"
+        >
+          <div class="mb-5 flex flex-wrap items-center gap-3">
+            <span class="text-caption uppercase tracking-[0.18em] font-medium" style="color: var(--color-mute);"
+              >{typeLabel}</span
+            >
+            {
+              post.pricing && (
+                <span class="text-caption uppercase tracking-widest font-medium" style="color: var(--color-body);">
+                  {pricingLabels[post.pricing] || post.pricing}
+                </span>
+              )
+            }
+            {
+              post.status && !post.archived && (
+                <span class="text-caption uppercase tracking-widest font-medium" style="color: var(--color-body);">
+                  {statusLabels[post.status] || post.status}
+                </span>
+              )
+            }
+            {
+              post.archived && (
+                <span
+                  class="inline-flex items-center gap-1 rounded-xs px-2 py-0.5 text-caption uppercase tracking-widest font-medium"
+                  style="background-color: var(--color-warning, #c2410c); color: #fff;"
+                >
+                  <Icon name="tabler:archive" class="h-3.5 w-3.5" /> Archivado
+                </span>
+              )
+            }
+          </div>
+          <h1 class="text-display-lg" style="color: var(--color-ink);">{post.title}</h1>
+          {
+            post.useCase && (
+              <p class="mt-4 text-body-lg font-medium" style="color: var(--color-body-strong);">
+                {post.useCase}
+              </p>
+            )
+          }
+          {
+            post.excerpt && (
+              <p class="mt-4 text-body-md" style="color: var(--color-body);">
+                {post.excerpt}
+              </p>
+            )
+          }
+        </header>
 
-        <div class="rounded-md p-6 sm:p-8" style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);">
+        <div
+          class="rounded-md p-6 sm:p-8"
+          style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);"
+        >
           <h2 class="text-display-sm mb-5" style="color: var(--color-ink);">Notas y contexto</h2>
-          <div class="prose prose-invert prose-headings:font-heading prose-headings:font-medium prose-headings:tracking-tight max-w-none" style="color: var(--color-body);">
+          <div
+            class="prose prose-invert prose-headings:font-heading prose-headings:font-medium prose-headings:tracking-tight max-w-none"
+            style="color: var(--color-body);"
+          >
             {Content ? <Content /> : <Fragment set:html={post.content || ''} />}
           </div>
         </div>
@@ -104,67 +152,118 @@ const resourceLinks = [
 
       <!-- Panel lateral: metadatos, enlaces y recursos relacionados -->
       <div class="space-y-6 lg:sticky lg:top-6">
-      <aside class="rounded-md p-6" style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);">
-        <dl class="space-y-5">
-          <div>
-            <dt class="text-caption uppercase tracking-[0.22em] font-medium" style="color: var(--color-mute);">Guardado</dt>
-            <dd class="mt-1 flex items-center gap-2 text-body-md font-medium" style="color: var(--color-body-strong);">
-              <Icon name="tabler:calendar" class="h-4 w-4" /> <time datetime={String(post.publishDate)}>{getFormattedDate(post.publishDate)}</time>
-            </dd>
-          </div>
-          {hasRepoMeta ? (
+        <aside
+          class="rounded-md p-6"
+          style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);"
+        >
+          <dl class="space-y-5">
             <div>
-              <dt class="mb-2 text-caption uppercase tracking-[0.22em] font-medium" style="color: var(--color-mute);">GitHub</dt>
-              <dd class="flex flex-col gap-2 text-body-md font-medium" style="color: var(--color-body-strong);">
-                {typeof post.stars === 'number' && (
-                  <span class="flex items-center gap-2"><Icon name="tabler:star" class="h-4 w-4" /> {formatCompactNumber(post.stars)} estrellas</span>
-                )}
-                {post.lastCommit && (
-                  <span class="flex items-center gap-2"><Icon name="tabler:git-commit" class="h-4 w-4" /> Último commit: <time datetime={post.lastCommit.toISOString()}>{getFormattedDate(post.lastCommit)}</time></span>
-                )}
-                {post.version && (
-                  <span class="flex items-center gap-2"><Icon name="tabler:tag" class="h-4 w-4" /> {post.version}</span>
-                )}
+              <dt class="text-caption uppercase tracking-[0.22em] font-medium" style="color: var(--color-mute);">
+                Guardado
+              </dt>
+              <dd
+                class="mt-1 flex items-center gap-2 text-body-md font-medium"
+                style="color: var(--color-body-strong);"
+              >
+                <Icon name="tabler:calendar" class="h-4 w-4" />
+                <time datetime={String(post.publishDate)}>{getFormattedDate(post.publishDate)}</time>
               </dd>
             </div>
-          ) : null}
-          {post.stack?.length ? (
-            <div>
-              <dt class="mb-2 text-caption uppercase tracking-[0.22em] font-medium" style="color: var(--color-mute);">Stack</dt>
-              <dd class="flex flex-wrap gap-2">
-                {post.stack.map((item) => (
-                  <span class="rounded-xs px-2 py-1 text-caption font-medium" style="background-color: var(--color-canvas); color: var(--color-body);">{item}</span>
-                ))}
-              </dd>
-            </div>
-          ) : null}
-          {visibleTags.length ? (
-            <div>
-              <dt class="mb-2 text-caption uppercase tracking-[0.22em] font-medium" style="color: var(--color-mute);">Etiquetas</dt>
-              <dd><PostTags tags={visibleTags} class="text-caption" /></dd>
-            </div>
-          ) : null}
-          {resourceLinks.length ? (
-            <div>
-              <dt class="mb-2 text-caption uppercase tracking-[0.22em] font-medium" style="color: var(--color-mute);">Enlaces</dt>
-              <dd class="flex flex-col gap-2">
-                {resourceLinks.map((l) => (
-                  <a
-                    href={l.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="inline-flex items-center gap-2 rounded-sm px-3 py-2 text-body-sm font-medium no-underline transition hover:opacity-80"
-                    style={`border: 1px solid var(--color-hairline); color: ${l.primary ? 'var(--color-on-primary, #fff)' : 'var(--color-ink)'}; background-color: ${l.primary ? 'var(--color-primary)' : 'var(--color-canvas)'};`}
+            {
+              hasRepoMeta ? (
+                <div>
+                  <dt
+                    class="mb-2 text-caption uppercase tracking-[0.22em] font-medium"
+                    style="color: var(--color-mute);"
                   >
-                    <Icon name={l.icon} class="h-4 w-4 shrink-0" /> {l.label}
-                  </a>
-                ))}
-              </dd>
-            </div>
-          ) : null}
-        </dl>
-        <SocialShare url={url} text={post.title} class="mt-6 align-middle" style="color: var(--color-mute);" />
-      </aside>
+                    GitHub
+                  </dt>
+                  <dd class="flex flex-col gap-2 text-body-md font-medium" style="color: var(--color-body-strong);">
+                    {typeof post.stars === 'number' && (
+                      <span class="flex items-center gap-2">
+                        <Icon name="tabler:star" class="h-4 w-4" /> {formatCompactNumber(post.stars)} estrellas
+                      </span>
+                    )}
+                    {post.lastCommit && (
+                      <span class="flex items-center gap-2">
+                        <Icon name="tabler:git-commit" class="h-4 w-4" /> Último commit:{' '}
+                        <time datetime={post.lastCommit.toISOString()}>{getFormattedDate(post.lastCommit)}</time>
+                      </span>
+                    )}
+                    {post.version && (
+                      <span class="flex items-center gap-2">
+                        <Icon name="tabler:tag" class="h-4 w-4" /> {post.version}
+                      </span>
+                    )}
+                  </dd>
+                </div>
+              ) : null
+            }
+            {
+              post.stack?.length ? (
+                <div>
+                  <dt
+                    class="mb-2 text-caption uppercase tracking-[0.22em] font-medium"
+                    style="color: var(--color-mute);"
+                  >
+                    Stack
+                  </dt>
+                  <dd class="flex flex-wrap gap-2">
+                    {post.stack.map((item) => (
+                      <span
+                        class="rounded-xs px-2 py-1 text-caption font-medium"
+                        style="background-color: var(--color-canvas); color: var(--color-body);"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </dd>
+                </div>
+              ) : null
+            }
+            {
+              visibleTags.length ? (
+                <div>
+                  <dt
+                    class="mb-2 text-caption uppercase tracking-[0.22em] font-medium"
+                    style="color: var(--color-mute);"
+                  >
+                    Etiquetas
+                  </dt>
+                  <dd>
+                    <PostTags tags={visibleTags} class="text-caption" />
+                  </dd>
+                </div>
+              ) : null
+            }
+            {
+              resourceLinks.length ? (
+                <div>
+                  <dt
+                    class="mb-2 text-caption uppercase tracking-[0.22em] font-medium"
+                    style="color: var(--color-mute);"
+                  >
+                    Enlaces
+                  </dt>
+                  <dd class="flex flex-col gap-2">
+                    {resourceLinks.map((l) => (
+                      <a
+                        href={l.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-2 rounded-sm px-3 py-2 text-body-sm font-medium no-underline transition hover:opacity-80"
+                        style={`border: 1px solid var(--color-hairline); color: ${l.primary ? 'var(--color-on-primary, #fff)' : 'var(--color-ink)'}; background-color: ${l.primary ? 'var(--color-primary)' : 'var(--color-canvas)'};`}
+                      >
+                        <Icon name={l.icon} class="h-4 w-4 shrink-0" /> {l.label}
+                      </a>
+                    ))}
+                  </dd>
+                </div>
+              ) : null
+            }
+          </dl>
+          <SocialShare url={url} text={post.title} class="mt-6 align-middle" style="color: var(--color-mute);" />
+        </aside>
         {post.aditional?.length ? <RelatedList title="Material adicional" items={post.aditional} /> : null}
         {post.internal?.length ? <RelatedList title="Recursos relacionados" items={post.internal} /> : null}
         <a

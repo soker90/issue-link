@@ -71,20 +71,20 @@ tags:
 > [!NOTE]
 > **Estado: COMPLETADO** — Todas las siguientes entradas han sido reescritas siguiendo el formato completo.
 
-| ID | Título | Repo |
-|----|--------|------|
-| 208 | Refined GitHub | https://github.com/refined-github/refined-github |
-| 209 | rclone | https://github.com/rclone/rclone |
-| 210 | D3.js | https://github.com/d3/d3 |
-| 211 | localForage | https://github.com/localForage/localForage |
-| 212 | Passport.js | https://github.com/jaredhanson/passport |
-| 213 | MDX | https://github.com/mdx-js/mdx |
+| ID  | Título          | Repo                                               |
+| --- | --------------- | -------------------------------------------------- |
+| 208 | Refined GitHub  | https://github.com/refined-github/refined-github   |
+| 209 | rclone          | https://github.com/rclone/rclone                   |
+| 210 | D3.js           | https://github.com/d3/d3                           |
+| 211 | localForage     | https://github.com/localForage/localForage         |
+| 212 | Passport.js     | https://github.com/jaredhanson/passport            |
+| 213 | MDX             | https://github.com/mdx-js/mdx                      |
 | 214 | Release Drafter | https://github.com/release-drafter/release-drafter |
-| 215 | SheetJS | https://github.com/SheetJS/sheetjs |
-| 216 | happy-dom | https://github.com/capricorn86/happy-dom |
-| 217 | Atuin | https://github.com/atuinsh/atuin |
-| 218 | Pomotroid | https://github.com/Splode/pomotroid |
-| 219 | Nextron | https://github.com/saltyshiomix/nextron |
+| 215 | SheetJS         | https://github.com/SheetJS/sheetjs                 |
+| 216 | happy-dom       | https://github.com/capricorn86/happy-dom           |
+| 217 | Atuin           | https://github.com/atuinsh/atuin                   |
+| 218 | Pomotroid       | https://github.com/Splode/pomotroid                |
+| 219 | Nextron         | https://github.com/saltyshiomix/nextron            |
 
 ---
 
@@ -93,21 +93,21 @@ tags:
 > [!NOTE]
 > **Estado: COMPLETADO** — Todas las siguientes entradas han sido creadas secuencialmente a partir del ID 220.
 
-| ID | Título | Repo | Notas |
-|----|--------|------|-------|
-| 220 | size-limit | https://github.com/ai/size-limit | Herramienta para medir el coste real en bytes de tu JS |
-| 221 | eslint-plugin-testing-library | https://github.com/testing-library/eslint-plugin-testing-library | Plugin ESLint con reglas para Testing Library |
-| 222 | JavaScript Data Structures & Algorithms | https://github.com/loiane/javascript-datastructures-algorithms | Colección de estructuras de datos y algoritmos en JS/TS |
-| 223 | Clean Code JavaScript (español) | https://github.com/andersontr15/clean-code-javascript-es | Clean Code traducido al español |
-| 224 | readme-md-generator | https://github.com/kefranabg/readme-md-generator | CLI para generar README.md bonitos |
-| 225 | cypress-react-unit-test | https://github.com/cypress-io/cypress-react-unit-test | Tests unitarios de componentes React con Cypress |
-| 226 | mui-datatables | https://github.com/gregnb/mui-datatables | Datatables para React con Material-UI |
-| 227 | trackerslist | https://github.com/ngosang/trackerslist | Lista actualizada de trackers públicos de BitTorrent |
-| 228 | melon | https://github.com/kibibytes/melon | Acortador de URLs usando GitHub Gists |
-| 229 | music-box | https://github.com/AnandChowdhary/music-box | GitHub Action para mostrar el informe semanal de Last.fm en un Gist |
-| 230 | bookshelf-action | https://github.com/AnandChowdhary/bookshelf-action | GitHub Action para rastrear lecturas en GitHub |
-| 231 | SendScriptWhatsApp | https://github.com/Matt-Fontes/SendScriptWhatsApp | Script para enviar el guión de Shrek línea a línea por WhatsApp |
-| 232 | smarttv-twitch | https://github.com/fgl27/smarttv-twitch | Cliente de Twitch para Samsung Smart TVs |
+| ID  | Título                                  | Repo                                                             | Notas                                                               |
+| --- | --------------------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------- |
+| 220 | size-limit                              | https://github.com/ai/size-limit                                 | Herramienta para medir el coste real en bytes de tu JS              |
+| 221 | eslint-plugin-testing-library           | https://github.com/testing-library/eslint-plugin-testing-library | Plugin ESLint con reglas para Testing Library                       |
+| 222 | JavaScript Data Structures & Algorithms | https://github.com/loiane/javascript-datastructures-algorithms   | Colección de estructuras de datos y algoritmos en JS/TS             |
+| 223 | Clean Code JavaScript (español)         | https://github.com/andersontr15/clean-code-javascript-es         | Clean Code traducido al español                                     |
+| 224 | readme-md-generator                     | https://github.com/kefranabg/readme-md-generator                 | CLI para generar README.md bonitos                                  |
+| 225 | cypress-react-unit-test                 | https://github.com/cypress-io/cypress-react-unit-test            | Tests unitarios de componentes React con Cypress                    |
+| 226 | mui-datatables                          | https://github.com/gregnb/mui-datatables                         | Datatables para React con Material-UI                               |
+| 227 | trackerslist                            | https://github.com/ngosang/trackerslist                          | Lista actualizada de trackers públicos de BitTorrent                |
+| 228 | melon                                   | https://github.com/kibibytes/melon                               | Acortador de URLs usando GitHub Gists                               |
+| 229 | music-box                               | https://github.com/AnandChowdhary/music-box                      | GitHub Action para mostrar el informe semanal de Last.fm en un Gist |
+| 230 | bookshelf-action                        | https://github.com/AnandChowdhary/bookshelf-action               | GitHub Action para rastrear lecturas en GitHub                      |
+| 231 | SendScriptWhatsApp                      | https://github.com/Matt-Fontes/SendScriptWhatsApp                | Script para enviar el guión de Shrek línea a línea por WhatsApp     |
+| 232 | smarttv-twitch                          | https://github.com/fgl27/smarttv-twitch                          | Cliente de Twitch para Samsung Smart TVs                            |
 
 ---
 

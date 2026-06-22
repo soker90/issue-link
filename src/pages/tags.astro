@@ -25,16 +25,22 @@ const tags = await findTags();
     <div class="mx-auto max-w-5xl">
       <Headline subtitle="Explora los recursos por necesidad, tecnologia o tipo de problema.">Etiquetas</Headline>
       <div class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {tags.map(({ tag, count }) => (
-          <a
-            class="group rounded-md p-5 transition hover:opacity-80"
-            style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);"
-            href={getPermalink(tag, 'tag')}
-          >
-            <span class="block text-body-md-strong" style="color: var(--color-ink);">#{tag}</span>
-            <span class="mt-1 block text-caption" style="color: var(--color-mute);">{count} {count === 1 ? 'recurso' : 'recursos'}</span>
-          </a>
-        ))}
+        {
+          tags.map(({ tag, count }) => (
+            <a
+              class="group rounded-md p-5 transition hover:opacity-80"
+              style="background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline);"
+              href={getPermalink(tag, 'tag')}
+            >
+              <span class="block text-body-md-strong" style="color: var(--color-ink);">
+                #{tag}
+              </span>
+              <span class="mt-1 block text-caption" style="color: var(--color-mute);">
+                {count} {count === 1 ? 'recurso' : 'recursos'}
+              </span>
+            </a>
+          ))
+        }
       </div>
     </div>
   </section>

@@ -21,15 +21,17 @@ const metadata = {
       <p class="mb-4 text-caption uppercase tracking-[0.2em] font-medium" style="color: var(--color-mute);">Archivo</p>
       <h1 class="text-display-xl" style="color: var(--color-ink);">Histórico</h1>
       <p class="mt-6 max-w-2xl text-body-lg" style="color: var(--color-body);">
-        Recursos que en su día estuvieron en el directorio pero que ya no consideramos relevantes
-        (descontinuados, reemplazados o desactualizados). Se conservan aquí como referencia.
+        Recursos que en su día estuvieron en el directorio pero que ya no consideramos relevantes (descontinuados,
+        reemplazados o desactualizados). Se conservan aquí como referencia.
       </p>
 
       <div class="mt-12">
         {
           posts.length > 0 ? (
             <>
-              <p class="mb-6 text-body-sm" style="color: var(--color-mute);">{posts.length} recursos archivados</p>
+              <p class="mb-6 text-body-sm" style="color: var(--color-mute);">
+                {posts.length} recursos archivados
+              </p>
               <BlogList posts={posts} />
             </>
           ) : (

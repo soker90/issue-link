@@ -42,7 +42,9 @@ const isNew = post.publishDate ? new Date(post.publishDate) > thirtyDaysAgo : fa
 const publishDateStr = post.publishDate ? new Date(post.publishDate).toISOString().split('T')[0] : '';
 const starsLabel = formatCompactNumber(post.stars);
 const lastCommitLabel = post.lastCommit
-  ? new Intl.DateTimeFormat('es', { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date(post.lastCommit))
+  ? new Intl.DateTimeFormat('es', { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(
+      new Date(post.lastCommit)
+    )
   : null;
 
 // Evitar repetir como etiqueta lo que ya se muestra en el stack
@@ -67,33 +69,60 @@ const visibleTags = (post.tags || []).filter((tag) => !stackSet.has(tag.toLowerC
       <span class="text-caption uppercase tracking-[0.18em] font-medium" style="color: var(--color-mute);">
         {typeLabel}
       </span>
-      {isNew && (
-        <span class="rounded-xs px-1.5 py-0.5 text-caption font-medium uppercase tracking-wider" style="background-color: var(--color-success, #36d399); color: var(--color-canvas);">
-          nuevo
-        </span>
-      )}
-      {post.archived && (
-        <span class="rounded-xs px-1.5 py-0.5 text-caption font-medium uppercase tracking-wider" style="background-color: var(--color-warning, #c2410c); color: #fff;">
-          archivado
-        </span>
-      )}
-      {!post.archived && post.status === 'inactive' && (
-        <span class="rounded-xs px-1.5 py-0.5 text-caption font-medium uppercase tracking-wider" style="background-color: var(--color-mute, #6b7280); color: #fff;">
-          inactivo
-        </span>
-      )}
+      {
+        isNew && (
+          <span
+            class="rounded-xs px-1.5 py-0.5 text-caption font-medium uppercase tracking-wider"
+            style="background-color: var(--color-success, #36d399); color: var(--color-canvas);"
+          >
+            nuevo
+          </span>
+        )
+      }
+      {
+        post.archived && (
+          <span
+            class="rounded-xs px-1.5 py-0.5 text-caption font-medium uppercase tracking-wider"
+            style="background-color: var(--color-warning, #c2410c); color: #fff;"
+          >
+            archivado
+          </span>
+        )
+      }
+      {
+        !post.archived && post.status === 'inactive' && (
+          <span
+            class="rounded-xs px-1.5 py-0.5 text-caption font-medium uppercase tracking-wider"
+            style="background-color: var(--color-mute, #6b7280); color: #fff;"
+          >
+            inactivo
+          </span>
+        )
+      }
     </div>
     <div class="flex shrink-0 items-center gap-3">
-      {starsLabel && (
-        <span class="flex items-center gap-1 text-caption font-medium" style="color: var(--color-mute);" title={`${post.stars} estrellas en GitHub`}>
-          <Icon name="tabler:star" class="h-3.5 w-3.5" /> {starsLabel}
-        </span>
-      )}
-      {lastCommitLabel && (
-        <span class="flex items-center gap-1 text-caption font-medium" style="color: var(--color-mute);" title="Último commit">
-          <Icon name="tabler:git-commit" class="h-3.5 w-3.5" /> {lastCommitLabel}
-        </span>
-      )}
+      {
+        starsLabel && (
+          <span
+            class="flex items-center gap-1 text-caption font-medium"
+            style="color: var(--color-mute);"
+            title={`${post.stars} estrellas en GitHub`}
+          >
+            <Icon name="tabler:star" class="h-3.5 w-3.5" /> {starsLabel}
+          </span>
+        )
+      }
+      {
+        lastCommitLabel && (
+          <span
+            class="flex items-center gap-1 text-caption font-medium"
+            style="color: var(--color-mute);"
+            title="Último commit"
+          >
+            <Icon name="tabler:git-commit" class="h-3.5 w-3.5" /> {lastCommitLabel}
+          </span>
+        )
+      }
       {post.featured && <Icon name="tabler:sparkles" class="h-4 w-4 shrink-0" style="color: var(--color-primary);" />}
     </div>
   </div>
@@ -102,31 +131,59 @@ const visibleTags = (post.tags || []).filter((tag) => !stackSet.has(tag.toLowerC
     <a class="transition hover:opacity-80" href={internalLink}>{post.title}</a>
   </h2>
 
-  {post.useCase && <p class="mb-4 text-body-sm font-medium" style="color: var(--color-body-strong);">{post.useCase}</p>}
-  {post.excerpt && <p class="mb-5 flex-grow text-body-sm" style="color: var(--color-body);">{post.excerpt}</p>}
+  {
+    post.useCase && (
+      <p class="mb-4 text-body-sm font-medium" style="color: var(--color-body-strong);">
+        {post.useCase}
+      </p>
+    )
+  }
+  {
+    post.excerpt && (
+      <p class="mb-5 flex-grow text-body-sm" style="color: var(--color-body);">
+        {post.excerpt}
+      </p>
+    )
+  }
 
-  {post.stack?.length ? (
-    <div class="mb-4 flex flex-wrap gap-2">
-      {post.stack.slice(0, 4).map((item) => (
-        <span class="rounded-xs px-2 py-1 text-caption font-medium" style="background-color: var(--color-canvas); color: var(--color-body);">{item}</span>
-      ))}
-    </div>
-  ) : null}
+  {
+    post.stack?.length ? (
+      <div class="mb-4 flex flex-wrap gap-2">
+        {post.stack.slice(0, 4).map((item) => (
+          <span
+            class="rounded-xs px-2 py-1 text-caption font-medium"
+            style="background-color: var(--color-canvas); color: var(--color-body);"
+          >
+            {item}
+          </span>
+        ))}
+      </div>
+    ) : null
+  }
 
   <PostTags tags={visibleTags.slice(0, 5)} class="mb-5 text-caption" />
 
-  <div class="mt-auto flex flex-wrap items-center gap-3" style="border-top: 1px solid var(--color-hairline); padding-top: 16px;">
-    {externalLink && (
-      <a
-        class="btn-primary rounded-sm text-caption font-medium"
-        href={externalLink}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Abrir <Icon name="tabler:external-link" class="h-3.5 w-3.5 ml-1" />
-      </a>
-    )}
-    <a class="text-caption font-medium transition hover:opacity-80" style="color: var(--color-mute);" href={internalLink}>
+  <div
+    class="mt-auto flex flex-wrap items-center gap-3"
+    style="border-top: 1px solid var(--color-hairline); padding-top: 16px;"
+  >
+    {
+      externalLink && (
+        <a
+          class="btn-primary rounded-sm text-caption font-medium"
+          href={externalLink}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Abrir <Icon name="tabler:external-link" class="h-3.5 w-3.5 ml-1" />
+        </a>
+      )
+    }
+    <a
+      class="text-caption font-medium transition hover:opacity-80"
+      style="color: var(--color-mute);"
+      href={internalLink}
+    >
       Ver ficha <Icon name="tabler:arrow-right" class="h-3.5 w-3.5 inline" />
     </a>
   </div>

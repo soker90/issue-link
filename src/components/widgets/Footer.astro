@@ -22,30 +22,38 @@ const { socialLinks = [], footNote = '' } = Astro.props;
   <div class="relative max-w-6xl mx-auto px-4 sm:px-6">
     <div class="flex flex-col sm:flex-row items-center justify-between py-8 gap-4">
       <div class="flex items-center gap-4">
-        <a class="text-body-md font-medium transition hover:opacity-80" style="color: var(--color-ink);" href={getHomePermalink()}>{SITE?.name}</a>
+        <a
+          class="text-body-md font-medium transition hover:opacity-80"
+          style="color: var(--color-ink);"
+          href={getHomePermalink()}>{SITE?.name}</a
+        >
         <span class="text-caption" style="color: var(--color-mute);">Directorio de recursos para desarrolladores</span>
       </div>
 
       <div class="flex items-center gap-3">
-        {socialLinks?.length ? (
-          socialLinks.map(({ ariaLabel, href, icon }) => (
-            <a
-              class="rounded-sm p-2 transition hover:opacity-80"
-              style="color: var(--color-mute);"
-              aria-label={ariaLabel}
-              href={href}
-            >
-              {icon && <Icon name={icon} class="w-4 h-4" />}
-            </a>
-          ))
-        ) : null}
+        {
+          socialLinks?.length
+            ? socialLinks.map(({ ariaLabel, href, icon }) => (
+                <a
+                  class="rounded-sm p-2 transition hover:opacity-80"
+                  style="color: var(--color-mute);"
+                  aria-label={ariaLabel}
+                  href={href}
+                >
+                  {icon && <Icon name={icon} class="w-4 h-4" />}
+                </a>
+              ))
+            : null
+        }
       </div>
     </div>
 
-    {footNote && (
-      <div class="border-t py-6 text-caption" style="border-color: var(--color-hairline); color: var(--color-mute);">
-        <Fragment set:html={footNote} />
-      </div>
-    )}
+    {
+      footNote && (
+        <div class="border-t py-6 text-caption" style="border-color: var(--color-hairline); color: var(--color-mute);">
+          <Fragment set:html={footNote} />
+        </div>
+      )
+    }
   </div>
 </footer>

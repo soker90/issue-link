@@ -31,6 +31,7 @@ aditional:
 ```
 
 **Reglas de YAML críticas:**
+
 - Si `excerpt` o `useCase` contienen `:` (dos puntos), rodear SIEMPRE el valor con comillas dobles.
 - `link`, `repo` y `docs` SIEMPRE entre comillas dobles.
 - `docs` y `aditional` solo si aportan; si no, se omiten.

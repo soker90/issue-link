@@ -34,18 +34,15 @@ if (!user) {
 // ── helpers ──────────────────────────────────────────────────────────────────
 const headers = {
   'User-Agent': 'issue-link-sync',
-  'Accept': 'application/vnd.github.v3+json',
-  ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+  Accept: 'application/vnd.github.v3+json',
+  ...(token ? { Authorization: `Bearer ${token}` } : {}),
 };
 
 async function fetchAllStarred(user) {
   const repos = [];
   let page = 1;
   while (true) {
-    const res = await fetch(
-      `https://api.github.com/users/${user}/starred?per_page=100&page=${page}`,
-      { headers }
-    );
+    const res = await fetch(`https://api.github.com/users/${user}/starred?per_page=100&page=${page}`, { headers });
     if (!res.ok) throw new Error(`GitHub API error ${res.status}: ${await res.text()}`);
     const data = await res.json();
     if (data.length === 0) break;
@@ -57,7 +54,7 @@ async function fetchAllStarred(user) {
 
 async function getExistingRepos() {
   const files = await readdir(POSTS_DIR);
-  const mdFiles = files.filter(f => f.endsWith('.md'));
+  const mdFiles = files.filter((f) => f.endsWith('.md'));
   const repos = new Set();
 
   for (const file of mdFiles) {
@@ -73,17 +70,14 @@ async function getExistingRepos() {
 }
 
 // ── main ─────────────────────────────────────────────────────────────────────
-const [starred, existing] = await Promise.all([
-  fetchAllStarred(user),
-  getExistingRepos(),
-]);
+const [starred, existing] = await Promise.all([fetchAllStarred(user), getExistingRepos()]);
 
-const missing = starred.filter(repo => {
+const missing = starred.filter((repo) => {
   const key = repo.full_name.toLowerCase();
   return !existing.has(key);
 });
 
-const enriched = missing.map(r => ({
+const enriched = missing.map((r) => ({
   full_name: r.full_name,
   html_url: r.html_url,
   description: r.description,

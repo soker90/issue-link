@@ -23,26 +23,26 @@ Los recursos viven en `src/content/post/*.md` como archivos Markdown con frontma
 
 ### Campos del frontmatter
 
-| Campo | Descripcion |
-|---|---|
-| `title` | Nombre del recurso |
-| `link` | URL principal |
-| `repo` | Repositorio, si existe |
-| `docs` | Documentacion, si existe |
-| `excerpt` | Descripcion corta |
-| `type` | Tipo: `repository`, `tool`, `service`, `framework`, `template`, `library`, `github-action`... |
-| `useCase` | Para que sirve en una frase practica |
-| `stack` | Tecnologias o contexto tecnico |
-| `tags` | Etiquetas de busqueda |
-| `pricing` | `free`, `freemium`, `paid` |
-| `status` | Estado del recurso |
-| `featured` | `true` para marcar como destacado (aparece en la tira superior) |
-| `aditional` | URLs de material adicional |
-| `internal` | Slugs de recursos relacionados dentro del directorio |
-| `stars` | Estrellas del repositorio en GitHub (automatico) |
-| `lastCommit` | Fecha del ultimo commit/push al repositorio (automatico) |
-| `version` | Ultima release publicada, si tiene (automatico) |
-| `archived` | `true` si el repositorio esta archivado (automatico) |
+| Campo        | Descripcion                                                                                   |
+| ------------ | --------------------------------------------------------------------------------------------- |
+| `title`      | Nombre del recurso                                                                            |
+| `link`       | URL principal                                                                                 |
+| `repo`       | Repositorio, si existe                                                                        |
+| `docs`       | Documentacion, si existe                                                                      |
+| `excerpt`    | Descripcion corta                                                                             |
+| `type`       | Tipo: `repository`, `tool`, `service`, `framework`, `template`, `library`, `github-action`... |
+| `useCase`    | Para que sirve en una frase practica                                                          |
+| `stack`      | Tecnologias o contexto tecnico                                                                |
+| `tags`       | Etiquetas de busqueda                                                                         |
+| `pricing`    | `free`, `freemium`, `paid`                                                                    |
+| `status`     | Estado del recurso                                                                            |
+| `featured`   | `true` para marcar como destacado (aparece en la tira superior)                               |
+| `aditional`  | URLs de material adicional                                                                    |
+| `internal`   | Slugs de recursos relacionados dentro del directorio                                          |
+| `stars`      | Estrellas del repositorio en GitHub (automatico)                                              |
+| `lastCommit` | Fecha del ultimo commit/push al repositorio (automatico)                                      |
+| `version`    | Ultima release publicada, si tiene (automatico)                                               |
+| `archived`   | `true` si el repositorio esta archivado (automatico)                                          |
 
 Los campos `stars`, `lastCommit`, `version` y `archived` se rellenan
 automaticamente para los recursos con `repo` de GitHub. No se editan a mano:

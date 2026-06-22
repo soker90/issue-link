@@ -1,12 +1,12 @@
 ---
 title: jsDelivr
 publishDate: 2026-06-20T17:54:41Z
-link: "https://www.jsdelivr.com/"
-repo: "https://github.com/jsdelivr/jsdelivr"
-docs: "https://www.jsdelivr.com/docs"
-excerpt: "CDN público, gratuito y open source para servir paquetes de npm, GitHub y ESM."
+link: 'https://www.jsdelivr.com/'
+repo: 'https://github.com/jsdelivr/jsdelivr'
+docs: 'https://www.jsdelivr.com/docs'
+excerpt: 'CDN público, gratuito y open source para servir paquetes de npm, GitHub y ESM.'
 type: service
-useCase: "Para servir librerías de npm o archivos de GitHub desde un CDN rápido y gratuito sin instalar ni compilar nada."
+useCase: 'Para servir librerías de npm o archivos de GitHub desde un CDN rápido y gratuito sin instalar ni compilar nada.'
 pricing: free
 status: active
 tags:

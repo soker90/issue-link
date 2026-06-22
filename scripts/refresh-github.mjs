@@ -156,7 +156,10 @@ function getField(fm, key) {
 }
 
 async function fetchRepoMeta({ owner, repo }) {
-  const repoJson = await gh(`/repos/${owner}/${repo}`, '{stars: .stargazers_count, archived: .archived, pushed: .pushed_at}');
+  const repoJson = await gh(
+    `/repos/${owner}/${repo}`,
+    '{stars: .stargazers_count, archived: .archived, pushed: .pushed_at}'
+  );
   if (!repoJson) return null;
   let info;
   try {
@@ -247,11 +250,20 @@ async function main() {
   const results = [];
   for (let i = 0; i < files.length; i += CONCURRENCY) {
     const batch = files.slice(i, i + CONCURRENCY);
-    const batchResults = await Promise.all(batch.map((f) => processFile(f).catch((e) => ({ file: f, status: 'excepcion', error: String(e) }))));
+    const batchResults = await Promise.all(
+      batch.map((f) => processFile(f).catch((e) => ({ file: f, status: 'excepcion', error: String(e) })))
+    );
     for (const r of batchResults) {
       results.push(r);
       if (r.status === 'ok') {
-        const flags = [r.stars != null ? `★${r.stars}` : '', r.version || '', r.archived ? 'ARCHIVADO' : '', r.inactive ? 'INACTIVO' : ''].filter(Boolean).join(' ');
+        const flags = [
+          r.stars != null ? `★${r.stars}` : '',
+          r.version || '',
+          r.archived ? 'ARCHIVADO' : '',
+          r.inactive ? 'INACTIVO' : '',
+        ]
+          .filter(Boolean)
+          .join(' ');
         console.log(`✓ ${r.file.padEnd(14)} ${r.repo} ${flags}`);
       } else if (r.status === 'omitido') {
         console.log(`· ${r.file.padEnd(14)} omitido (${r.reason})`);

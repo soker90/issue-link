@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @plugin "@tailwindcss/typography";
 
 /* ── Design tokens ── */
@@ -31,8 +31,8 @@
 
   /* Fonts */
   --font-sans: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-  --font-mono: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --font-mono: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
   --font-heading: Inter, system-ui, -apple-system, sans-serif;
 
   /* Border radius */
@@ -94,7 +94,11 @@
   body {
     background-color: var(--color-canvas);
     color: var(--color-ink);
-    font-family: Inter, system-ui, -apple-system, sans-serif;
+    font-family:
+      Inter,
+      system-ui,
+      -apple-system,
+      sans-serif;
   }
   a {
     color: var(--color-ink);
