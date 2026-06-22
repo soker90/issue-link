@@ -4,7 +4,7 @@ Reescritura de los posts plantilla de DevLinks con contenido real, verificado y 
 (qué es / para qué / cuándo / ejemplo / puntos clave / limitaciones / enlaces) + metadatos de
 GitHub (estrellas, último commit, versión, archivado).
 
-**Estado:** 34 revisados · 131 pendientes · 165 plantilla en total (de 219 posts).
+**Estado:** 49 revisados · 116 pendientes · 165 plantilla en total (de 219 posts).
 
 ## Cómo retomar
 
@@ -13,8 +13,23 @@ GitHub (estrellas, último commit, versión, archivado).
 3. Tras escribir, ejecutar `node scripts/refresh-github.mjs <n>.md ...` para rellenar estrellas/commit/versión/archivado.
 4. `npx astro build` para validar. Marcar como hecho aquí.
 
-## Ya revisados (34)
+## Ya revisados (49)
 
+- [x] 53 Wallos
+- [x] 55 GitHub MCP Server
+- [x] 56 Magisk
+- [x] 57 Betterfox
+- [x] 58 React Scan
+- [x] 59 @behold/preact
+- [x] 60 eslint-plugin-check-file
+- [x] 61 Bolt.new
+- [x] 62 react-swipeable
+- [x] 63 react-medium-image-zoom
+- [x] 64 lite-youtube
+- [x] 65 OpenStove
+- [x] 66 astro-auto-import
+- [x] 67 RiMusic (archivado)
+- [x] 68 @mswjs/source
 - [x] 43 legalize-es
 - [x] 44 Web Quality Skills
 - [x] 45 Portless
@@ -54,21 +69,6 @@ GitHub (estrellas, último commit, versión, archivado).
 
 | # | Título | Enlace |
 |---|---|---|
-| 53 | Wallos | https://github.com/ellite/Wallos |
-| 55 | Github Mcp Server | https://github.com/github/github-mcp-server |
-| 56 | Magisk | https://github.com/topjohnwu/Magisk |
-| 57 | Betterfox | https://github.com/yokoffing/Betterfox |
-| 58 | React Scan | https://github.com/aidenybai/react-scan |
-| 59 | Behold Preact | https://github.com/BeholdSocial/behold-preact |
-| 60 | Eslint Plugin Check File | https://github.com/dukeluo/eslint-plugin-check-file |
-| 61 | Bolt.New | https://github.com/stackblitz/bolt.new |
-| 62 | React Swipeable | https://github.com/FormidableLabs/react-swipeable |
-| 63 | React Medium Image Zoom | https://github.com/rpearce/react-medium-image-zoom |
-| 64 | Lite Youtube | https://github.com/justinribeiro/lite-youtube |
-| 65 | Openstove | https://github.com/mearashadowfax/OpenStove |
-| 66 | Astro Auto Import | https://github.com/delucis/astro-auto-import |
-| 67 | Rimusic | https://github.com/fast4x/RiMusic |
-| 68 | Source | https://github.com/mswjs/source |
 | 71 | Farm | https://github.com/farm-fe/farm |
 | 72 | Rss Bridge | https://github.com/RSS-Bridge/rss-bridge |
 | 73 | Astro Matomo | https://github.com/felix-berlin/astro-matomo |
