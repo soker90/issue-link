@@ -206,7 +206,8 @@ const metadata = {
                 <option value="alpha-desc">Nombre Z → A</option>
                 <option value="date-desc">Mas recientes</option>
                 <option value="date-asc">Mas antiguos</option>
-                <option value="featured">Destacados primero</option>
+                <option value="stars-desc">Mas estrellas</option>
+                <option value="commit-desc">Ultima actualizacion</option>
               </select>
             </div>
             <div class="mt-4 flex flex-wrap gap-2" data-tag-filter-list>
@@ -324,14 +325,20 @@ const metadata = {
             case 'alpha-desc':
               return arr.sort((a, b) => (b.dataset.title || '').localeCompare(a.dataset.title || ''));
             case 'date-desc':
-              return arr.sort((a, b) => (b.dataset.date || '').localeCompare(a.dataset.date || ''));
+              return arr.sort((a, b) => (b.dataset.date || '').localeCompare(b.dataset.date || ''));
             case 'date-asc':
               return arr.sort((a, b) => (a.dataset.date || '').localeCompare(b.dataset.date || ''));
-            case 'featured':
+            case 'stars-desc':
               return arr.sort((a, b) => {
-                const af = a.dataset.featured === 'true' ? 0 : 1;
-                const bf = b.dataset.featured === 'true' ? 0 : 1;
-                return af - bf;
+                const aStars = parseInt(a.dataset.stars || '0', 10);
+                const bStars = parseInt(b.dataset.stars || '0', 10);
+                return bStars - aStars;
+              });
+            case 'commit-desc':
+              return arr.sort((a, b) => {
+                const aCommit = a.dataset.commit || '';
+                const bCommit = b.dataset.commit || '';
+                return bCommit.localeCompare(aCommit);
               });
             default:
               return arr;

@@ -47,6 +47,8 @@ const lastCommitLabel = post.lastCommit
     )
   : null;
 
+const lastCommitStr = post.lastCommit ? new Date(post.lastCommit).toISOString().split('T')[0] : '';
+
 // Evitar repetir como etiqueta lo que ya se muestra en el stack
 const stackSet = new Set((post.stack || []).map((s) => s.toLowerCase()));
 const visibleTags = (post.tags || []).filter((tag) => !stackSet.has(tag.toLowerCase()));
@@ -63,6 +65,8 @@ const visibleTags = (post.tags || []).filter((tag) => !stackSet.has(tag.toLowerC
   data-title={post.title?.toLowerCase() || ''}
   data-date={publishDateStr}
   data-featured={post.featured ? 'true' : 'false'}
+  data-stars={post.stars || 0}
+  data-commit={lastCommitStr}
 >
   <div class="mb-4 flex items-start justify-between gap-3">
     <div class="flex flex-wrap items-center gap-2">
