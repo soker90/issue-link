@@ -4,7 +4,7 @@ Reescritura de los posts plantilla de DevLinks con contenido real, verificado y 
 (qué es / para qué / cuándo / ejemplo / puntos clave / limitaciones / enlaces) + metadatos de
 GitHub (estrellas, último commit, versión, archivado).
 
-**Estado:** 13 revisados · 152 pendientes · 165 plantilla en total (de 219 posts).
+**Estado:** 34 revisados · 131 pendientes · 165 plantilla en total (de 219 posts).
 
 ## Cómo retomar
 
@@ -13,8 +13,29 @@ GitHub (estrellas, último commit, versión, archivado).
 3. Tras escribir, ejecutar `node scripts/refresh-github.mjs <n>.md ...` para rellenar estrellas/commit/versión/archivado.
 4. `npx astro build` para validar. Marcar como hecho aquí.
 
-## Ya revisados (13)
+## Ya revisados (34)
 
+- [x] 43 legalize-es
+- [x] 44 Web Quality Skills
+- [x] 45 Portless
+- [x] 46 React Doctor
+- [x] 47 Summarize
+- [x] 48 KOReader
+- [x] 49 Ryot
+- [x] 50 Yamtrack
+- [x] 51 licitaciones-espana
+- [x] 52 I-Licitaciones
+- [x] 105 OpenStatus
+- [x] 32 ToolHive Studio
+- [x] 33 Modern Web Guidance
+- [x] 34 Agents Towards Production
+- [x] 35 Floci
+- [x] 36 Spec Kit
+- [x] 37 Frigate
+- [x] 38 BillionMail
+- [x] 40 pdf-inspector
+- [x] 41 awesome-design-md
+- [x] 42 Autoskills
 - [x] 93 Tauri
 - [x] 98 Mantine
 - [x] 69 es-toolkit
@@ -33,26 +54,6 @@ GitHub (estrellas, último commit, versión, archivado).
 
 | # | Título | Enlace |
 |---|---|---|
-| 32 | Toolhive Studio | https://github.com/stacklok/toolhive-studio |
-| 33 | Modern Web Guidance Src | https://github.com/GoogleChrome/modern-web-guidance-src |
-| 34 | Agents Towards Production | https://github.com/NirDiamant/agents-towards-production |
-| 35 | Floci | https://github.com/floci-io/floci |
-| 36 | Spec Kit | https://github.com/github/spec-kit |
-| 37 | Frigate | https://github.com/blakeblackshear/frigate |
-| 38 | Billionmail | https://github.com/Billionmail/BillionMail |
-| 40 | Pdf Inspector | https://github.com/firecrawl/pdf-inspector |
-| 41 | Awesome Design Md | https://github.com/VoltAgent/awesome-design-md |
-| 42 | Autoskills | https://github.com/midudev/autoskills |
-| 43 | Legalize Es | https://github.com/legalize-dev/legalize-es |
-| 44 | Web Quality Skills | https://github.com/addyosmani/web-quality-skills |
-| 45 | Portless | https://github.com/vercel-labs/portless |
-| 46 | React Doctor | https://github.com/millionco/react-doctor |
-| 47 | Summarize | https://github.com/steipete/summarize |
-| 48 | Koreader | https://github.com/koreader/koreader |
-| 49 | Ryot | https://github.com/IgnisDa/ryot |
-| 50 | Yamtrack | https://github.com/FuzzyGrim/Yamtrack |
-| 51 | Licitaciones Espana | https://github.com/BquantFinance/licitaciones-espana |
-| 52 | Ilicitaciones | https://github.com/abrahampo1/ilicitaciones |
 | 53 | Wallos | https://github.com/ellite/Wallos |
 | 55 | Github Mcp Server | https://github.com/github/github-mcp-server |
 | 56 | Magisk | https://github.com/topjohnwu/Magisk |
@@ -98,7 +99,6 @@ GitHub (estrellas, último commit, versión, archivado).
 | 102 | Bigspring Light Astro | https://github.com/themefisher/bigspring-light-astro |
 | 103 | Stablo Astro | https://github.com/web3templates/stablo-astro |
 | 104 | Vite Plugin Css Export | https://github.com/shixuanhong/vite-plugin-css-export |
-| 105 | Openstatus | https://github.com/openstatusHQ/openstatus |
 | 106 | Valibot | https://github.com/open-circle/valibot |
 | 107 | Laravel | https://github.com/NativePHP/laravel |
 | 108 | View Transitions Api Books Demo | https://github.com/midudev/view-transitions-api-books-demo |
