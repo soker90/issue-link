@@ -4,7 +4,7 @@ Reescritura de los posts plantilla de DevLinks con contenido real, verificado y 
 (qué es / para qué / cuándo / ejemplo / puntos clave / limitaciones / enlaces) + metadatos de
 GitHub (estrellas, último commit, versión, archivado).
 
-**Estado:** 49 revisados · 116 pendientes · 165 plantilla en total (de 219 posts).
+**Estado:** 79 revisados · 86 pendientes · 165 plantilla en total (de 219 posts).
 
 ## Cómo retomar
 
@@ -13,8 +13,38 @@ GitHub (estrellas, último commit, versión, archivado).
 3. Tras escribir, ejecutar `node scripts/refresh-github.mjs <n>.md ...` para rellenar estrellas/commit/versión/archivado.
 4. `npx astro build` para validar. Marcar como hecho aquí.
 
-## Ya revisados (49)
+## Ya revisados (79)
 
+- [x] 87 tina-astro
+- [x] 88 tsconfig/bases
+- [x] 89 Zed
+- [x] 90 Tinybench
+- [x] 91 Radix Themes
+- [x] 92 Park UI
+- [x] 94 Maybe (archivado)
+- [x] 95 Bookworm Light Astro
+- [x] 96 ls-lint
+- [x] 97 Astro Portfolio Template
+- [x] 100 ts-pattern
+- [x] 101 shadcn/ui
+- [x] 102 Bigspring Light Astro
+- [x] 103 Stablo Astro
+- [x] 104 vite-plugin-css-export
+- [x] 71 Farm
+- [x] 72 RSS-Bridge
+- [x] 73 Astro Matomo
+- [x] 74 RSS to Telegram Bot (BoKKeR)
+- [x] 75 RSS to Telegram Bot (Rongronggg9)
+- [x] 76 facebook-scraper
+- [x] 78 React Spreadsheet
+- [x] 79 Fontsource
+- [x] 80 tailwindcss-animate
+- [x] 81 Tailwind Animations
+- [x] 82 EsJS
+- [x] 83 twitter-together
+- [x] 84 playwright-test-coverage
+- [x] 85 vite-plugin-istanbul
+- [x] 86 TypeSpec
 - [x] 53 Wallos
 - [x] 55 GitHub MCP Server
 - [x] 56 Magisk
@@ -69,36 +99,6 @@ GitHub (estrellas, último commit, versión, archivado).
 
 | # | Título | Enlace |
 |---|---|---|
-| 71 | Farm | https://github.com/farm-fe/farm |
-| 72 | Rss Bridge | https://github.com/RSS-Bridge/rss-bridge |
-| 73 | Astro Matomo | https://github.com/felix-berlin/astro-matomo |
-| 74 | Rss To Telegram Bot | https://github.com/BoKKeR/RSS-to-Telegram-Bot |
-| 75 | Rss To Telegram Bot | https://github.com/Rongronggg9/RSS-to-Telegram-Bot |
-| 76 | Facebook Scraper | https://github.com/kevinzg/facebook-scraper |
-| 78 | React Spreadsheet | https://github.com/iddan/react-spreadsheet |
-| 79 | Fontsource | https://github.com/fontsource/fontsource |
-| 80 | Tailwindcss Animate | https://github.com/jamiebuilds/tailwindcss-animate |
-| 81 | Tailwind Animations | https://github.com/midudev/tailwind-animations |
-| 82 | Esjs | https://github.com/es-js/esjs |
-| 83 | Action | https://github.com/twitter-together/action |
-| 84 | Playwright Test Coverage | https://github.com/anishkny/playwright-test-coverage |
-| 85 | Vite Plugin Istanbul | https://github.com/iFaxity/vite-plugin-istanbul |
-| 86 | Typespec | https://github.com/microsoft/typespec |
-| 87 | Tina Astro | https://github.com/dawaltconley/tina-astro |
-| 88 | Bases | https://github.com/tsconfig/bases |
-| 89 | Zed | https://github.com/zed-industries/zed |
-| 90 | Tinybench | https://github.com/tinylibs/tinybench |
-| 91 | Themes | https://github.com/radix-ui/themes |
-| 92 | Park Ui | https://github.com/chakra-ui/park-ui |
-| 94 | Maybe | https://github.com/maybe-finance/maybe |
-| 95 | Bookworm Light Astro | https://github.com/themefisher/bookworm-light-astro |
-| 96 | Ls Lint | https://github.com/loeffel-io/ls-lint |
-| 97 | Astro Portfolio Template | https://github.com/MaeWolff/astro-portfolio-template |
-| 100 | Ts Pattern | https://github.com/gvergnaud/ts-pattern |
-| 101 | Ui | https://github.com/shadcn-ui/ui |
-| 102 | Bigspring Light Astro | https://github.com/themefisher/bigspring-light-astro |
-| 103 | Stablo Astro | https://github.com/web3templates/stablo-astro |
-| 104 | Vite Plugin Css Export | https://github.com/shixuanhong/vite-plugin-css-export |
 | 106 | Valibot | https://github.com/open-circle/valibot |
 | 107 | Laravel | https://github.com/NativePHP/laravel |
 | 108 | View Transitions Api Books Demo | https://github.com/midudev/view-transitions-api-books-demo |
