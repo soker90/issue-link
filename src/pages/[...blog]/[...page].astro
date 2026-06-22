@@ -419,7 +419,19 @@ const metadata = {
     function goToPage(n: number) {
       currentPage = n;
       renderPage();
-      const top = (resourceList?.getBoundingClientRect().top ?? 0) + window.scrollY - 140;
+
+      const stickyBox = document.querySelector('.sticky.top-16') as HTMLElement;
+      let stickyTop = 64;
+      if (stickyBox) {
+        const computedTop = window.getComputedStyle(stickyBox).top;
+        if (computedTop.endsWith('px')) {
+          stickyTop = parseFloat(computedTop);
+        }
+      }
+      const stickyBoxHeight = stickyBox ? stickyBox.getBoundingClientRect().height : 120;
+      const offset = stickyTop + stickyBoxHeight + 24;
+
+      const top = (resourceList?.getBoundingClientRect().top ?? 0) + window.scrollY - offset;
       window.scrollTo({ top: top < 0 ? 0 : top, behavior: 'smooth' });
     }
 
