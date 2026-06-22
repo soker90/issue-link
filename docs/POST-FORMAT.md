@@ -19,7 +19,7 @@ excerpt: "<1 frase en español, máx ~150 caracteres, que diga qué es. NADA en 
 type: <repository | tool | service | library | framework | cli | template | github-action | desktop-app | ai-tool | component-library | package-registry>
 useCase: "<Para qué sirve, 1 frase práctica en español, empieza por verbo: 'Para ...'>"
 pricing: <free | freemium | paid>
-status: <active | archived | deprecated>
+status: <active | archived | deprecated | inactive — lo gestiona el script (ver abajo)>
 featured: <true solo si es muy conocido y útil (+10k estrellas); si no, omitir o false>
 stack:
   - <tecnologías reales en minúsculas: react, typescript, node, rust...>
@@ -36,6 +36,14 @@ aditional:
 - `docs` y `aditional` solo si aportan; si no, se omiten.
 - **NO escribir nunca a mano** los campos `stars`, `lastCommit`, `version` ni
   `archived`: los rellena el script `scripts/refresh-github.mjs`. Si existieran, dejarlos como están (el script los actualiza).
+- **`status` lo gestiona el script** (no lo fuerces a mano salvo `deprecated`):
+  - Repo archivado en GitHub → `status: archived` + `archived: true`.
+  - Repo **inactivo** (sin commits desde hace más de 2 años) → `status: inactive`.
+  - En ambos casos el id se añade automáticamente a `src/historico.ts`, así que el
+    recurso desaparece de home/búsqueda/tags/RSS y solo queda en `/historico`.
+- **`keepActive: true`** (opcional): marca un recurso para que NUNCA se considere
+  inactivo por antigüedad. Úsalo en librerías estables "terminadas" que apenas
+  reciben commits pero siguen siendo la opción vigente (p. ej. `clsx`, `just`).
 
 ## Cuerpo
 

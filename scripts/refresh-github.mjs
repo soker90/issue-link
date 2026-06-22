@@ -6,6 +6,12 @@
  *   - version     → última release publicada (si tiene)
  *   - archived    → true si el repo está archivado (además fija status: archived)
  *
+ * Además mueve al histórico (src/historico.ts) los recursos que considera muertos:
+ *   - Archivados en GitHub (archived: true), o
+ *   - Inactivos: sin commits desde hace más de INACTIVE_YEARS años (fija status: inactive).
+ * Un recurso con `keepActive: true` en el frontmatter NUNCA se marca como inactivo
+ * (para librerías estables "terminadas" que apenas commitean pero siguen vigentes).
+ *
  * Usa la CLI de GitHub (`gh api`), por lo que aprovecha tu sesión autenticada
  * y su límite de 5000 peticiones/hora. Las ediciones del frontmatter son
  * puntuales (línea a línea) para mantener los diffs pequeños.
@@ -23,6 +29,19 @@ const execFileAsync = promisify(execFile);
 const POST_DIR = path.join(process.cwd(), 'src/content/post');
 const HISTORICO_FILE = path.join(process.cwd(), 'src/historico.ts');
 const CONCURRENCY = 6;
+
+// Un repo sin commits desde hace más de estos años se considera inactivo y se
+// mueve al histórico (salvo que tenga `keepActive: true` en el frontmatter).
+const INACTIVE_YEARS = 2;
+const INACTIVE_MS = INACTIVE_YEARS * 365 * 24 * 60 * 60 * 1000;
+
+/** ¿La fecha del último commit (YYYY-MM-DD) supera el umbral de inactividad? */
+function isInactiveSince(lastCommit) {
+  if (!lastCommit) return false; // sin dato fiable → no marcar
+  const t = Date.parse(`${lastCommit}T00:00:00Z`);
+  if (Number.isNaN(t)) return false;
+  return Date.now() - t > INACTIVE_MS;
+}
 
 // Ids actualmente en el histórico (se carga al inicio de main()).
 let historicalSet = new Set();
@@ -186,12 +205,24 @@ async function processFile(file) {
   if (meta.version) fm = setField(fm, 'version', JSON.stringify(meta.version));
   else fm = removeField(fm, 'version');
 
+  // Inactividad: sin commits desde hace > INACTIVE_YEARS años. No aplica a repos
+  // archivados (esos van por su propia vía) ni a los marcados con keepActive: true.
+  const keepActive = getField(parts.fm, 'keepActive') === 'true';
+  const inactive = !meta.archived && !keepActive && isInactiveSince(meta.lastCommit);
+
   if (meta.archived) {
     fm = setField(fm, 'archived', 'true');
     fm = setField(fm, 'status', 'archived');
   } else {
     fm = removeField(fm, 'archived');
     if (getField(fm, 'status') === 'archived') fm = setField(fm, 'status', 'active');
+  }
+
+  if (inactive) {
+    fm = setField(fm, 'status', 'inactive');
+  } else if (!meta.archived && getField(fm, 'status') === 'inactive') {
+    // Revivió (o se le puso keepActive): vuelve a activo.
+    fm = setField(fm, 'status', 'active');
   }
 
   const newContent = `---\n${fm}\n---\n${parts.rest}`;
@@ -203,6 +234,7 @@ async function processFile(file) {
     stars: meta.stars,
     version: meta.version,
     archived: meta.archived,
+    inactive,
   };
 }
 
@@ -219,7 +251,7 @@ async function main() {
     for (const r of batchResults) {
       results.push(r);
       if (r.status === 'ok') {
-        const flags = [r.stars != null ? `★${r.stars}` : '', r.version || '', r.archived ? 'ARCHIVADO' : ''].filter(Boolean).join(' ');
+        const flags = [r.stars != null ? `★${r.stars}` : '', r.version || '', r.archived ? 'ARCHIVADO' : '', r.inactive ? 'INACTIVO' : ''].filter(Boolean).join(' ');
         console.log(`✓ ${r.file.padEnd(14)} ${r.repo} ${flags}`);
       } else if (r.status === 'omitido') {
         console.log(`· ${r.file.padEnd(14)} omitido (${r.reason})`);
@@ -229,9 +261,9 @@ async function main() {
     }
   }
 
-  // Los repos detectados como archivados en esta pasada se añaden al histórico.
-  const archivedIds = results.filter((r) => r.archived).map((r) => r.file.replace(/\.md$/, ''));
-  const added = await addToHistorico(archivedIds);
+  // Los repos detectados como archivados o inactivos en esta pasada se añaden al histórico.
+  const historicoIds = results.filter((r) => r.archived || r.inactive).map((r) => r.file.replace(/\.md$/, ''));
+  const added = await addToHistorico(historicoIds);
   if (added.length) {
     console.log(`\n📁 Añadidos al histórico (src/historico.ts): ${added.join(', ')}`);
   }
@@ -240,7 +272,7 @@ async function main() {
   console.log(
     `\nResumen: ${by('ok')} actualizados · ${by('omitido')} omitidos (historico/archivado) · ${by('sin-repo')} sin repo · ` +
       `${by('repo-no-github')} repo no-GitHub · ${by('error-api') + by('excepcion')} con error · ` +
-      `${results.filter((r) => r.archived).length} archivados`
+      `${results.filter((r) => r.archived).length} archivados · ${results.filter((r) => r.inactive).length} inactivos`
   );
 }
 

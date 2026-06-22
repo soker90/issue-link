@@ -67,6 +67,9 @@ const postCollection = defineCollection({
     lastCommit: z.coerce.date().optional(),
     version: z.string().optional(),
     archived: z.boolean().optional(),
+    // Override manual: si es true, el recurso nunca se marca como inactivo por
+    // antigüedad del último commit (para librerías estables "terminadas").
+    keepActive: z.boolean().optional(),
 
     title: z.string(),
     excerpt: z.string().optional(),

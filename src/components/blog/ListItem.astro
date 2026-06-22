@@ -52,7 +52,7 @@ const visibleTags = (post.tags || []).filter((tag) => !stackSet.has(tag.toLowerC
 
 <article
   class="group relative flex h-full flex-col rounded-md transition"
-  style={`background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline); padding: 24px;${post.archived ? ' opacity: 0.6;' : ''}`}
+  style={`background-color: var(--color-canvas-soft); border: 1px solid var(--color-hairline); padding: 24px;${post.archived || post.status === 'inactive' ? ' opacity: 0.6;' : ''}`}
   data-resource-card
   data-search={search}
   data-type={post.type || ''}
@@ -75,6 +75,11 @@ const visibleTags = (post.tags || []).filter((tag) => !stackSet.has(tag.toLowerC
       {post.archived && (
         <span class="rounded-xs px-1.5 py-0.5 text-caption font-medium uppercase tracking-wider" style="background-color: var(--color-warning, #c2410c); color: #fff;">
           archivado
+        </span>
+      )}
+      {!post.archived && post.status === 'inactive' && (
+        <span class="rounded-xs px-1.5 py-0.5 text-caption font-medium uppercase tracking-wider" style="background-color: var(--color-mute, #6b7280); color: #fff;">
+          inactivo
         </span>
       )}
     </div>
