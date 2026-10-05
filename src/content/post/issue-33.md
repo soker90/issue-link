@@ -16,8 +16,8 @@ tags:
   - rendimiento
   - npm
   - open-source
-stars: 6388
-lastCommit: 2026-06-27
+stars: 6391
+lastCommit: 2026-10-03
 ---
 
 ## Qué es
