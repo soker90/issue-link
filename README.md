@@ -55,6 +55,10 @@ node scripts/refresh-github.mjs 93.md 98.md   # solo algunos
 Ademas, el workflow `.github/workflows/refresh-github.yml` los refresca cada
 semana de forma automatica.
 
+### Enriquecimiento editorial manual
+
+La guía editorial canónica está en [`docs/POST-FORMAT.md`](docs/POST-FORMAT.md). Cuando se solicite completar recursos nuevos, sigue el procedimiento de [`docs/COMPLETE-NEW-POSTS.md`](docs/COMPLETE-NEW-POSTS.md), que contempla tanto los enlaces recibidos por GitHub Issues como los repositorios marcados con estrella por `soker90`. Este proceso se ejecuta manualmente bajo petición; no hay enriquecimiento automático mediante IA.
+
 ### Anadir un recurso
 
 1. Abrir un [nuevo issue](../../issues/new/choose) usando la plantilla **Nuevo enlace**.
